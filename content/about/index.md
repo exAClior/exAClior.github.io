@@ -32,16 +32,7 @@ I enjoy attending Hackathons. I have competed in the following ones.
 * IBM Quantum Challenge Fall 2021 [Rank
   9](https://github.com/qiskit-community/ibm-quantum-challenge-fall-2021/blob/main/leaderboard.md)
 * CCF "Compass Cup" [Third Prize Winner](https://www.163.com/dy/article/HDHUCRN905385VQN.html)
-
-# Other Interests
-
-I enjoy [Linux
-ricing](https://www.quora.com/What-is-the-meaning-of-Linux-ricing?share=1) and
-Water Rowing.
-
-I used to enjoy ricing my [Emacs](https://www.gnu.org/software/emacs/)
-configuration. Currently, I found [Doom
-Emacs](https://github.com/doomemacs/doomemacs) satisfying all my needs.
+* [QHack 2021 QML Challenges](https://github.com/XanaduAI/QHack2021/tree/main/QML_Challenges)
 
 # Peripherals
 
@@ -55,3 +46,16 @@ Ergo](https://www.logitech.com/en-us/products/mice/mx-ergo-wireless-trackball-mo
 
 I have used [HHKB](https://hhkeyboard.us/) previously until my wrist starts to
 hurt due to the small size of that keyboard forcing me to an awkward poise.
+
+# Misc 
+
+I enjoy [Linux
+ricing](https://www.quora.com/What-is-the-meaning-of-Linux-ricing?share=1) and
+Water Rowing.
+
+I used to enjoy ricing my [Emacs](https://www.gnu.org/software/emacs/)
+configuration. Currently, I found [Doom
+Emacs](https://github.com/doomemacs/doomemacs) satisfying all my needs.
+
+I use [Xmonad](https://xmonad.org/) to manage my windows on my Linux
+workstation.

@@ -1,0 +1,18 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>A Commonplace Book</title>
+        <link>https://exAClior.github.io/</link>
+        <description>Yusheng Zhao&#39;s Commonplace Book</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>yushengzhao2020@outlook.com (Yusheng Zhao)</managingEditor>
+            <webMaster>yushengzhao2020@outlook.com (Yusheng Zhao)</webMaster><lastBuildDate>Fri, 05 Aug 2022 18:49:34 &#43;0800</lastBuildDate>
+            <atom:link href="https://exAClior.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>Introduction</title>
+    <link>https://exAClior.github.io/posts/introduction/</link>
+    <pubDate>Fri, 05 Aug 2022 18:49:34 &#43;0800</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/introduction/</guid>
+    <description><![CDATA[Introduction Hello everyone , this is a very short introduction]]></description>
+</item>
+</channel>
+</rss>
