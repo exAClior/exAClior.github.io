@@ -229,7 +229,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       # title shown in home page (HTML format is supported)
       title = "Yusheng's Commonplace Book"
       # subtitle shown in home page (HTML format is supported)
-      subtitle = "Quantum Computation, Emacs, etc"
+      subtitle = "while(1){ learn(); }"
       # whether to use typeit animation for subtitle
       typeit = true
       # whether to show social links
