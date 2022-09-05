@@ -32,3 +32,4 @@ draft: false
 # List of interesting blogs
 * [CS DIY Wiki](https://csdiy.wiki/) is a nice guide for self-learning Computer Science
 * [Peter Bloem had a great post on SVD](https://peterbloem.nl/)
+* [John Baez's blog](https://math.ucr.edu/home/baez/README.html) gives good advices for physics and math students and teaches fun stuff!
