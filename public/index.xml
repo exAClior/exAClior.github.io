@@ -1,18 +1,65 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>A Commonplace Book</title>
-        <link>https://exAClior.github.io/</link>
-        <description>Yusheng Zhao&#39;s Commonplace Book</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>yushengzhao2020@outlook.com (Yusheng Zhao)</managingEditor>
-            <webMaster>yushengzhao2020@outlook.com (Yusheng Zhao)</webMaster><lastBuildDate>Fri, 05 Aug 2022 18:49:34 &#43;0800</lastBuildDate>
-            <atom:link href="https://exAClior.github.io/index.xml" rel="self" type="application/rss+xml" />
-        <item>
-    <title>Introduction</title>
-    <link>https://exAClior.github.io/posts/introduction/</link>
-    <pubDate>Fri, 05 Aug 2022 18:49:34 &#43;0800</pubDate>
-    <author>Yusheng Zhao</author>
-    <guid>https://exAClior.github.io/posts/introduction/</guid>
-    <description><![CDATA[Introduction Hello everyone , this is a very short introduction]]></description>
-</item>
-</channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>A Commonplace Book</title>
+    <link>https://exAClior.github.io/</link>
+    <description>Recent content on A Commonplace Book</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>yushengzhao2020@outlook.com (Yusheng Zhao)</managingEditor>
+    <webMaster>yushengzhao2020@outlook.com (Yusheng Zhao)</webMaster>
+    <lastBuildDate>Fri, 05 Aug 2022 18:49:34 +0800</lastBuildDate><atom:link href="https://exAClior.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hackathons</title>
+      <link>https://exAClior.github.io/hackathons/</link>
+      <pubDate>Tue, 09 Aug 2022 16:08:49 +0800</pubDate>
+      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
+      <guid>https://exAClior.github.io/hackathons/</guid>
+      <description>Repos to Hackathon Projects IBM Spring Challenge 2022 IBM Spring Challenge 2021 </description>
+    </item>
+    
+    <item>
+      <title>Resources</title>
+      <link>https://exAClior.github.io/resources/</link>
+      <pubDate>Mon, 08 Aug 2022 09:22:32 +0800</pubDate>
+      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
+      <guid>https://exAClior.github.io/resources/</guid>
+      <description>List of Online Course and Lecture Notes Physics David Tong lecture notes are awesome for theoretical physics self-study. Computer Science Missing Semester is great for applying programming knowledge in real life.
+Introductory C Programming Specialization is great for learning / reviewing C.
+List of Yt Channels Mike Zamansky taught me a lot about using Emacs.
+Distrotube is a great place to learn about tiling window manager.
+Ali Abdaal has a lot of great tips on learning and managing your life.</description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>https://exAClior.github.io/projs/</link>
+      <pubDate>Sat, 06 Aug 2022 15:51:50 +0800</pubDate>
+      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
+      <guid>https://exAClior.github.io/projs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://exAClior.github.io/about/</link>
+      <pubDate>Fri, 05 Aug 2022 19:30:20 +0800</pubDate>
+      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
+      <guid>https://exAClior.github.io/about/</guid>
+      <description>Greetings! Hello, my name is Yusheng Zhao. I come from Shanghai, China.
+Research Interests I am mainly interested in Quantum Computation. More concretely in the fields of
+Quantum Simulation Quantum Error Correction and Mitigation Quantum Optimal Pulse Control Quantum Software development Background I received my Master&amp;rsquo;s degree in Physics from Stony Brook University under the supervision of Prof. Tzu-chieh Wei.
+I received my B.A in Physics and Computer Science from New York University</description>
+    </item>
+    
+    <item>
+      <title>Introduction</title>
+      <link>https://exAClior.github.io/posts/introduction/</link>
+      <pubDate>Fri, 05 Aug 2022 18:49:34 +0800</pubDate>
+      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
+      <guid>https://exAClior.github.io/posts/introduction/</guid>
+      <description>Introduction Hello everyone , this is a very short introduction</description>
+    </item>
+    
+  </channel>
 </rss>
