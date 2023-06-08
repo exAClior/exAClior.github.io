@@ -1,7 +1,7 @@
 ---
 title: "Juliabeginner"
 date: 2023-06-07T21:43:39+08:00
-draft: true
+draft: false 
 ---
 # Purpose
 In this blog, I have collected some tutorials that I found useful while learning Julia. I will also provide a tool-chain that I like to use while coding in Julia. I hope this will speed up your process of learning Julia.
@@ -24,4 +24,6 @@ A good editor can make your development process much more enjoyable. Personally,
   2022](https://www.youtube.com/watch?v=uiQpwMQZBTA)
 - [HKUST(GZ) First Coding Club Julia
   Tutorial](https://github.com/CodingThrust/CodingClub/tree/main/julia)
-- 
+
+# Where to find resources
+- [Package searching](https://juliahub.com/)

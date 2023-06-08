@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://exAClior.github.io/</loc>
+    <lastmod>2023-06-07T21:43:39+08:00</lastmod>
+  </url><url>
+    <loc>https://exAClior.github.io/posts/juliabeginner/</loc>
+    <lastmod>2023-06-07T21:43:39+08:00</lastmod>
+  </url><url>
+    <loc>https://exAClior.github.io/posts/</loc>
+    <lastmod>2023-06-07T21:43:39+08:00</lastmod>
+  </url><url>
     <loc>https://exAClior.github.io/hackathons/</loc>
     <lastmod>2022-08-09T16:08:49+08:00</lastmod>
   </url><url>
@@ -14,13 +23,7 @@
     <loc>https://exAClior.github.io/about/</loc>
     <lastmod>2022-08-05T19:30:20+08:00</lastmod>
   </url><url>
-    <loc>https://exAClior.github.io/</loc>
-    <lastmod>2022-08-05T18:49:34+08:00</lastmod>
-  </url><url>
     <loc>https://exAClior.github.io/posts/introduction/</loc>
-    <lastmod>2022-08-05T18:49:34+08:00</lastmod>
-  </url><url>
-    <loc>https://exAClior.github.io/posts/</loc>
     <lastmod>2022-08-05T18:49:34+08:00</lastmod>
   </url><url>
     <loc>https://exAClior.github.io/categories/</loc>
