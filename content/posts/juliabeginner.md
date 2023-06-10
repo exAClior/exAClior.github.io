@@ -24,6 +24,11 @@ version of Julia.
 
 A good tool for managing your Julia versions is
 [Juliaup](https://github.com/JuliaLang/juliaup).
+## Caveats
+If you found yourself unable to access `Juliaup` server for some mysterious
+reasons. Try to use the `Tuna` mirror by running `export
+JULIAUP_SERVER=https://mirrors.tuna.tsinghua.edu.cn/julia-releases` before
+installing `Juliaup`.
 
 # Package Development
 As I was taught and proven by my own experience, the best way to learn Julia is
