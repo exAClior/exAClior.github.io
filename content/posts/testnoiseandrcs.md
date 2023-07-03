@@ -1,0 +1,44 @@
+---
+title : "Noise on Random Circuit Sampling"
+author : ["Yusheng Zhao"]
+draft : false
+---
+
+## What is the importance of random circuit sampling {#what-is-the-importance-of-random-circuit-sampling}
+
+Quantum supermacy, the quest for looking for a task that can be proven to be
+prohibitively hard for classical computer but easy for quantum computer, is the
+goal for many quantum information scientist.
+
+To prove quantum supermacy, there are in general two categories of proposals.
+The first category is ones that can be proven to be hard complexity wise but
+challenging experiment-wise (need to look at Aaronson paper). The prime example
+being Bonson Sampling task proposed by Aaronson.
+
+The other type being the ones which is not weaker in the complexity sense but
+easier to implement experimentally. The prime example of this category of
+experiments is Random Circuit Sampling.
+
+Random circuit sampling is the task of sampling for the probability distribution
+of computational basis state from a parameterized circuit. Such family of
+parameterized circuits will have a certain structure. For example, they can be
+layered circuit with two qubit gates on pairs of qubits on the odd layers and
+single qubit gates on the even layers. They are parameterized in the sense that
+the two qubit and single qubit gates are paramterized by some variables. For
+example, single qubit gate can be \\(Rx(\theta)\\) where \\(\theta\\) is the
+parameterizing variable.
+
+In the paper by Bouland et. al, it is proven that such RCS protocal is
+theoretically well based to prove.
+
+
+## What is counter intuitive about result of noisy simulation? {#what-is-counter-intuitive-about-result-of-noisy-simulation}
+
+-   Little non-unital noise dominates the effect of pushing circuit result to
+    concentraional.
+
+
+## References {#references}
+
+-   [Anchor](<https://arxiv.org/abs/2306.16659>)
+-   [Establish RCS as theoretically sound method](<https://www.nature.com/articles/s41567-018-0318-2>)
