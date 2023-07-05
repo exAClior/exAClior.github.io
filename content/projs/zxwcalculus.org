@@ -1,0 +1,16 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: projs
+#+TITLE: ZXW Calculus
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2023-07-04 Tue>
+
+
+* Why do we need W state?
+Since ZX Calculus is complete, any linear map can be expressed into them. But
+the problem is how to express into it efficiently.
+
+By efficiently, I mean using as little spider as possible. Because essentially,
+we would like to contract it and convert everything to a single number.
+
+Normally, you could add up the contraction result of different ? Is this saving
+time? Yes, if you are adding up large number of ZX Diagrams.

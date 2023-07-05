@@ -1,7 +1,7 @@
 ---
 title : "Noise on Random Circuit Sampling"
 author : ["Yusheng Zhao"]
-draft : false
+draft : true 
 ---
 
 ## What is the importance of random circuit sampling {#what-is-the-importance-of-random-circuit-sampling}
