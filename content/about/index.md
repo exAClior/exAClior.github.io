@@ -49,9 +49,9 @@ hurt due to the small size of that keyboard forcing me to an awkward poise.
 
 # Misc 
 
-I enjoy [Linux
-ricing](https://www.quora.com/What-is-the-meaning-of-Linux-ricing?share=1) and
-Water Rowing.
+I have a wide variety of interests. They include [Linux
+ricing](https://www.quora.com/What-is-the-meaning-of-Linux-ricing?share=1),
+jogging (PR: 10k at 5:21), swimming, tennis, and Water Rowing.
 
 I used to enjoy ricing my [Emacs](https://www.gnu.org/software/emacs/)
 configuration. Currently, I found [Doom
