@@ -1,0 +1,28 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Algebraic Data Type Again
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2023-07-04 Tue>
+
+* Motivation
+Last time, I went over the basics of Algebraic Data Types. In this short post, I
+want to explore more details and fundamental reasons why they exist.
+
+* Compiler perspective
+- This relates to multi-dispatch of a function. If there's no algebraic data
+  type or something similar, the compiler will not be able to iterate through
+  all possible variants of a data type. Hence, it will not be able to perform
+  checking to see if the program has bugs at compile time. Hence the saying "if
+  it compiles, it runs"
+
+* Functional programming perspective
+- Defining ADT allows for machine creatable types in general. It's an important
+  property for meta programming. Without this feature, machine will only be able
+  to represent what we initially set it to represent. I.e the types that we
+  create before hand. Which will in evitably be finite and thus limit the
+  possibilities to which the program can achieve.
+
+* Reference
+- [[https://stackoverflow.com/q/31759736]]
+- [[https://softwareengineering.stackexchange.com/questions/287461/what-problem-do-algebraic-data-types-solve]]
+- [[https://en.wikipedia.org/wiki/Expression_problem]]
