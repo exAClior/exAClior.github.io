@@ -3,12 +3,12 @@
 #+TITLE: Quantum Error Mitigation
 #+SUBTITLE: Zero Noise Extrapolation and Improvement based on Pauli-Lindblad Noise Model
 #+AUTHOR: Yusheng Zhao
-#+DATE: <2023-07-11 Tue>
+#+DATE: <2023-07-08 Sat>
 
 * Motivation
 IBM recently published a paper that carried out the Trotterized time evolution
-of a transverse-field Ising model Hamiltonian \(H = -J \sum_{<i,j>}Z_{i}Z_{j} +
-h \sum_{i}X_{i}\) on 127 qubits. The quantum circuit used for time evolution
+of a transverse-field Ising model Hamiltonian $H = -J \sum_{<i,j>}Z_{i}Z_{j} + h
+\sum_{i}X_{i}$ on 127 qubits. The quantum circuit used for time evolution
 consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT
 gates"[1]. This is a significant experiment due to the relatively low quality of
 CNOT gates across all currently available quantum computing platforms. The
