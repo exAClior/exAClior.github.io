@@ -10,7 +10,7 @@ IBM recently published a paper that carried out the Trotterized time evolution
 of a transverse-field Ising model Hamiltonian $H = -J \sum_{<i,j>}Z_{i}Z_{j} + h
 \sum_{i}X_{i}$ on 127 qubits. The quantum circuit used for time evolution
 consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT
-gates"[1]. This is a significant experiment due to the relatively low quality of
+gates" [1]. This is a significant experiment due to the relatively low quality of
 CNOT gates across all currently available quantum computing platforms. The
 number and layers of CNOT gates involved generally can lead to meaningless
 results due to noise. A brute-force classical simulation of such a quantum
@@ -45,6 +45,50 @@ the basic Zero Noise Extrapolation with the Pauli-Lindblad noise model to
 achieve promising experimental results on 127 qubits.
 
 * Achilles Heel of Quantum Computer: Noise
+One of the most deadly problem with quantum computer is the noise. It is well
+known that quantum algorithms provide speed up with respect to their classical
+counter parts in solving important problems. For example, the security of our
+daily communication, web browsing, and bank transaction is guaranteed by
+public-key encryption methods like RSA and Diffie-Hellman methods. They in turn
+relies on the fact that period finding is hard [3]. Shor's algorithm solves the
+period finding problem with exponential speed up compare to the classical
+method. Nevertheless, noise renders the result of Shor's algorithm useless. Ever
+since the Shor's Algorithm was used to factor 15 on an NMR quantum computer [4]
+at 2012, only one other experiment has successfully pushed the limit to 21 using
+Shor's algorithm. Noise has made scaling of Shor's algorithm impossible.
+
+Ofcourse, smart people have realized this and propose a solution to solve the
+noise problem on quantum computers. Quantum Error correction is an algorithm
+that protects the information from noise and decoherence. The algorithm achieves
+the goal by the use of Quantum Error Correction code which encodes one qubit
+worth of information onto multiple, physically separated qubits. Noise and
+decoherence are the result of unwanted physical interactions. Due to the
+locality of physical interactions in our world, information encoded onto
+physically separated qubits are protected from noise.
+
+Nevertheless, an important problem with quantum error correction code is due to
+the threshold theorem. It states "states that a quantum computer with a physical
+error rate below a certain threshold can, through application of quantum error
+correction schemes, suppress the logical error rate to arbitrarily low levels"
+[6]. The state of the art physical qubits can barely break even in terms of
+logical error rate when implementing a quantum error correction code comparing
+with naive repetition code [7]. In conclusion, quantum error correction can not
+help to remove the noise in quantum computer.
+
+With such inherent noise accompanying everything we do with quantum computer and
+the limitation in the number of qubits of a physical quantum comptuer, we are
+currently in an era called Noisy Intermediate Scale Quantum Era coined by John
+Preskill [8]. A set of methods are proposed to make quantum computer more useful
+in the presence of noise. These set of methods are collectively referred to as
+Quantum Error Mitigation methods. Simply put, they are a set of techniques that
+are each targeted towards a single type of noise. With the targeted type of
+noise in mind, logical quantum circuits are modified and post-processing of
+results are done on quantum circuit results in order to alleviate the effect of
+noise on quantum circuit results. Well known QEM techniques are Dynamical
+Decoupling, Measurement Mitigation, Pauli Twirling and Zero Noise Extrapolation.
+The rest of this blog will be devoted to the explaination of one of such
+technique called Zero Noise Extrapolation. It is a widely used technique
+developed by Abniev Kandla [9].
 
 * Zero Noise Extrapolation
 
@@ -77,3 +121,13 @@ This blog is written with love using Emacs and Org Mode.
 * Reference
 1) [[https://www.nature.com/articles/s41586-023-06096-3][Evidence for the utility of quantum computing before fault tolerance]]
 2) [[https://arxiv.org/abs/2306.14887][Efficient tensor network simulation of IBM's kicked Ising experiment]]
+3) [[https://www.scottaaronson.com/qclec/19.pdf][Scot Aaronson's Lecture notes]]
+4) [[https://www.nature.com/articles/414883a][Experimental realization of Shor's quantum factoring algorithm using nuclear magnetic resonance]]
+5) [[https://arxiv.org/abs/1111.4147][Experimental realisation of Shor's quantum factoring algorithm using qubit recycling]]
+6) [[https://en.wikipedia.org/wiki/Threshold_theorem][Threshold Theorem Wikipedia]]
+7) [[https://www.nature.com/articles/s41586-022-05434-1][Suppressing quantum errors by scaling a surface code logical qubit]]
+8) [[https://arxiv.org/abs/1801.00862][Quantum Computing in the NISQ era and beyond]]
+9) [[https://www.nature.com/articles/s41586-019-1040-7][Error mitigation extends the computational reach of a noisy quantum processor]]
+
+
+*
