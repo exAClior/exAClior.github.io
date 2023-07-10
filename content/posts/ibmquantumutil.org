@@ -7,14 +7,14 @@
 
 * Motivation
 IBM recently published a paper that carried out the Trotterized time evolution
-of a transverse-field Ising model Hamiltonian $H = -J \sum_{<i,j>}Z_{i}Z_{j} + h
-\sum_{i}X_{i}$ on 127 qubits. The quantum circuit used for time evolution
-consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT
-gates" [1]. This is a significant experiment due to the relatively low quality of
-CNOT gates across all currently available quantum computing platforms. The
-number and layers of CNOT gates involved generally can lead to meaningless
-results due to noise. A brute-force classical simulation of such a quantum
-circuit is definitely out of reach for even the most powerful supercomputers.
+of a transverse-field Ising model Hamiltonian \(H = -J \sum_{<i,j>}Z_{i}Z_{j} +
+h \sum_{i}X_{i}\) on 127 qubits. The quantum circuit used for time evolution
+consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT gates"
+[1]. This is a significant experiment due to the relatively low quality of CNOT
+gates across all currently available quantum computing platforms. The number and
+layers of CNOT gates involved generally can lead to meaningless results due to
+noise. A brute-force classical simulation of such a quantum circuit is
+definitely out of reach for even the most powerful supercomputers.
 
 The wording of their title, suggesting that their experiment demonstrates
 quantum utility (a weaker version of quantum advantage), received mixed reviews
@@ -114,38 +114,38 @@ Mitigation.
 To comprehend the simplified noise model and its implication on how it
 influences the expectation value of an operator for the state prepared by a
 quantum circuit, we need to introduce a few notations. First, denote locations
-marked by indices $i$, ranging from $0$ to $n$, in a quantum circuit where
-*independent* Pauli errors could occur. At each location $i$, the probability of
-a Pauli error occurring is $p_i$. The sum of all probabilities is $\lambda
-\equiv \sum_{i=0}^{n}p_i$. This can be understood as a noise parameter
-characterizing how noisy the circuit is. When $n$ is large, Le Cam's inequality
-suggests that the probability of $k$ errors occurring in a noisy circuit is $P_k
-\approx e^{-\lambda}\lambda^{k}/k!$ [11], i.e., it is approximated by a Poisson
-distribution. We then model the erroneous expectation value, $\left\langle
-O_\lambda\right\rangle$ as the weighted sum of operator expectation values with
-$k$ number of errors occurring during the quantum circuit, $\left\langle
-O_{|\mathbb{L}|=k}\right\rangle$. Specifically, $\left\langle
-O_\lambda\right\rangle=\sum_{k=0}^{\infty} P_k\left\langle
+marked by indices \(i\), ranging from \(0\) to \(n\), in a quantum circuit where
+*independent* Pauli errors could occur. At each location \(i\), the probability
+of a Pauli error occurring is \(p_{i}\). The sum of all probabilities is
+\(\lambda \equiv \sum_{i=0}^{n}p_i\). This can be understood as a noise
+parameter characterizing how noisy the circuit is. When \(n\) is large, Le Cam's
+inequality suggests that the probability of \(k\) errors occurring in a noisy
+circuit is \(P_k \approx e^{-\lambda}\lambda^{k}/k!\) [11], i.e., it is
+approximated by a Poisson distribution. We then model the erroneous expectation
+value, \(\left\langle O_\lambda\right\rangle\) as the weighted sum of operator
+expectation values with \(k\) number of errors occurring during the quantum
+circuit, \(\left\langle O_{|\mathbb{L}|=k}\right\rangle\). Specifically,
+\( \left\langle O_\lambda\right\rangle=\sum_{k=0}^{\infty} P_k\left\langle
 O_{|\mathbb{L}|=k}\right\rangle=e^{-\lambda} \sum_{k=0}^{\infty}
-\frac{\lambda^k}{k !}\left\langle O_{|\mathbb{L}|=k}\right\rangle$.
+\frac{\lambda^k}{k !}\left\langle O_{|\mathbb{L}|=k}\right\rangle \).
 
-By focusing on the noise parameter $\lambda$, we observe that the expectation
+By focusing on the noise parameter \( \lambda \), we observe that the expectation
 value of the operator follows an exponential decay. Methods like
 pulse-stretching or unitary-folding [10] could be employed to manually increase
 the noise level and obtain a noisier expectation value for the operator
-$\hat{O}$. After obtaining different $\hat{O}$, we could use an exponential
-fitting to achieve the noiseless estimation of $\hat{O}$."
+\( \hat{O} \). After obtaining different \( \hat{O} \), we could use an exponential
+fitting to achieve the noiseless estimation of \( \hat{O} \)."
 
 ** Two level Defect
 While Zero Noise Extrapolation is a readily implementable technique for quantum
 error mitigation, it has its own shortcomings. The exponential fitting used to
 extrapolate the noiseless expectation value requires that different circuits
-have similar noise parameters, $\lambda$. Often, on a cloud-based
+have similar noise parameters, \( \lambda \). Often, on a cloud-based
 superconducting quantum computer, this is violated at the physical level due to
 a phenomenon known as Two-Level Defects (TLS).
 
 In simple terms, the Josephson Junction in the superconducting transmon requires
-an amorphous $AlO_x$​ layer between the aluminium electrodes. At low
+an amorphous \( AlO_x \)​ layer between the aluminium electrodes. At low
 temperatures, TLS is formed around this amorphous layer by tunneling atoms,
 dangling bonds, and trapped charges. Consequently, TLS induces noise parameter
 fluctuations on an hourly scale. This destroys the extrapolatability of

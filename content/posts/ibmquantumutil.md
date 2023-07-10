@@ -8,14 +8,14 @@ draft = false
 ## Motivation {#motivation}
 
 IBM recently published a paper that carried out the Trotterized time evolution
-of a transverse-field Ising model Hamiltonian \\(H = -J \sum\_{<i,j>}Z\_{i}Z\_{j} + h
-\sum\_{i}X\_{i}\\) on 127 qubits. The quantum circuit used for time evolution
-consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT
-gates" [1]. This is a significant experiment due to the relatively low quality of
-CNOT gates across all currently available quantum computing platforms. The
-number and layers of CNOT gates involved generally can lead to meaningless
-results due to noise. A brute-force classical simulation of such a quantum
-circuit is definitely out of reach for even the most powerful supercomputers.
+of a transverse-field Ising model Hamiltonian \(H = -J \sum\_{<i,j>}Z\_{i}Z\_{j} +
+h \sum\_{i}X\_{i}\) on 127 qubits. The quantum circuit used for time evolution
+consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT gates"
+[1]. This is a significant experiment due to the relatively low quality of CNOT
+gates across all currently available quantum computing platforms. The number and
+layers of CNOT gates involved generally can lead to meaningless results due to
+noise. A brute-force classical simulation of such a quantum circuit is
+definitely out of reach for even the most powerful supercomputers.
 
 The wording of their title, suggesting that their experiment demonstrates
 quantum utility (a weaker version of quantum advantage), received mixed reviews
@@ -48,59 +48,125 @@ achieve promising experimental results on 127 qubits.
 
 ## Achilles Heel of Quantum Computer: Noise {#achilles-heel-of-quantum-computer-noise}
 
-One of the most deadly problem with quantum computer is the noise. It is well
-known that quantum algorithms provide speed up with respect to their classical
-counter parts in solving important problems. For example, the security of our
-daily communication, web browsing, and bank transaction is guaranteed by
-public-key encryption methods like RSA and Diffie-Hellman methods. They in turn
-relies on the fact that period finding is hard [3]. Shor's algorithm solves the
-period finding problem with exponential speed up compare to the classical
-method. Nevertheless, noise renders the result of Shor's algorithm useless. Ever
-since the Shor's Algorithm was used to factor 15 on an NMR quantum computer [4]
-at 2012, only one other experiment has successfully pushed the limit to 21 using
-Shor's algorithm. Noise has made scaling of Shor's algorithm impossible.
+One of the most formidable challenges faced by quantum computers is noise. It's
+widely recognized that quantum algorithms can outperform their classical
+counterparts in solving critical problems. For instance, our daily
+communication, web browsing, and bank transactions are safeguarded by public-key
+encryption methods such as RSA and Diffie-Hellman techniques. These methods
+hinge on the difficulty of period finding [3]. Shor's algorithm solves the
+period finding problem exponentially faster than classical methods. However,
+noise renders the results of Shor's algorithm useless on real quantum computers.
+Since Shor's algorithm was used to factor 15 on an NMR quantum computer in 2012
+[4], only one other experiment has successfully pushed this limit to 21 using
+Shor's algorithm [5]. Noise has made it impossible to scale Shor's algorithm
+further.
 
-Ofcourse, smart people have realized this and propose a solution to solve the
-noise problem on quantum computers. Quantum Error correction is an algorithm
-that protects the information from noise and decoherence. The algorithm achieves
-the goal by the use of Quantum Error Correction code which encodes one qubit
-worth of information onto multiple, physically separated qubits. Noise and
-decoherence are the result of unwanted physical interactions. Due to the
-locality of physical interactions in our world, information encoded onto
-physically separated qubits are protected from noise.
+Of course, solutions have been proposed to tackle the noise problem on quantum
+computers. Quantum Error Correction—an algorithm that shields information from
+noise and decoherence—has been considered. This algorithm accomplishes its goal
+using Quantum Error Correction codes, which encode one qubit's worth of
+information onto multiple, physically separated qubits. As noise and decoherence
+result from undesirable physical interactions, information encoded onto
+physically separated qubits is safeguarded from noise. This protection is based
+on the fact that our world predominantly supports local physical interactions.
+To interfere with information that is physically separated, one would need
+non-local interaction, which is typically unlikely.
 
-Nevertheless, an important problem with quantum error correction code is due to
-the threshold theorem. It states "states that a quantum computer with a physical
-error rate below a certain threshold can, through application of quantum error
-correction schemes, suppress the logical error rate to arbitrarily low levels"
-[6]. The state of the art physical qubits can barely break even in terms of
-logical error rate when implementing a quantum error correction code comparing
-with naive repetition code [7]. In conclusion, quantum error correction can not
-help to remove the noise in quantum computer.
+However, a significant challenge with implementing Quantum Error Correction
+codes is posed by the threshold theorem. This theorem proposes that "a quantum
+computer with a physical error rate below a certain threshold can reduce the
+logical error rate to arbitrarily low levels" through the application of Quantum
+Error Correction schemes [6]. Today's most advanced physical qubits can barely
+achieve parity in terms of logical error rate when implementing a Quantum Error
+Correction code as compared to a basic repetition code [7]. Consequently, with
+current engineering techniques, Quantum Error Correction cannot eliminate the
+noise in quantum computers to arbitrary level.
 
-With such inherent noise accompanying everything we do with quantum computer and
-the limitation in the number of qubits of a physical quantum comptuer, we are
-currently in an era called Noisy Intermediate Scale Quantum Era coined by John
-Preskill [8]. A set of methods are proposed to make quantum computer more useful
-in the presence of noise. These set of methods are collectively referred to as
-Quantum Error Mitigation methods. Simply put, they are a set of techniques that
-are each targeted towards a single type of noise. With the targeted type of
-noise in mind, logical quantum circuits are modified and post-processing of
-results are done on quantum circuit results in order to alleviate the effect of
-noise on quantum circuit results. Well known QEM techniques are Dynamical
-Decoupling, Measurement Mitigation, Pauli Twirling and Zero Noise Extrapolation.
-The rest of this blog will be devoted to the explaination of one of such
-technique called Zero Noise Extrapolation. It is a widely used technique
-developed by Abniev Kandla [9].
+Given the inherent noise accompanying all quantum computer operations and the
+restrictions on the number of a physical quantum computer's qubits, we find
+ourselves in the Noisy Intermediate Scale Quantum Era, a term coined by John
+Preskill [8]. Various methods have been proposed to enhance the usability of
+quantum computers in the face of noise. These methods, collectively known as
+Quantum Error Mitigation methods, each focus on a specific type of noise. With a
+particular type of noise in mind, logical quantum circuits are modified, and
+post-processing of results is executed on quantum circuit outputs to mitigate
+the noise's impact on these results. Notable Quantum Error Mitigation techniques
+include Dynamical Decoupling, Measurement Mitigation, Pauli Twirling, and Zero
+Noise Extrapolation. The remainder of this blog will be dedicated to explaining
+Zero Noise Extrapolation, given its straightforward nature and its simplistic
+assumptions about the underlying noise model of a quantum computer.
 
 
 ## Zero Noise Extrapolation {#zero-noise-extrapolation}
 
+Zero Noise Extrapolation refers to an "algorithmic scheme(s) that reduce the
+noise-induced bias in the expectation value by post-processing outputs from an
+ensemble of circuit runs, using circuits at the same noise level as the original
+unmitigated circuit or above" [9]. This technique was initially introduced by Li
+et al [11] and Temme et al [12] and later popularized by Kandala et al [10] to
+perform the variational optimization of molecular Hamiltonian of Hydrogen and
+Lithium hydride. One notable feature of Zero Noise Extrapolation is that it
+meets the requirement for a "reliable error mitigation method" as proposed by
+Cai et al [9]. Specifically, Zero Noise Extrapolation "requires few assumptions
+(or no assumptions) about the final state prepared by the computation" [9].
+Additionally, it places a simple constraint on the noise model and the effect
+ZNE could mitigate. Hence, Zero Noise Extrapolation stands as a broadly
+applicable and straightforward-to-implement technique in Quantum Error
+Mitigation.
+
+To comprehend the simplified noise model and its implication on how it
+influences the expectation value of an operator for the state prepared by a
+quantum circuit, we need to introduce a few notations. First, denote locations
+marked by indices \\(i\\), ranging from \\(0\\) to \\(n\\), in a quantum circuit where
+**independent** Pauli errors could occur. At each location \\(i\\), the probability
+of a Pauli error occurring is \\(p\_{i}\\). The sum of all probabilities is
+\\(\lambda \equiv \sum\_{i=0}^{n}p\_i\\). This can be understood as a noise
+parameter characterizing how noisy the circuit is. When \\(n\\) is large, Le Cam's
+inequality suggests that the probability of \\(k\\) errors occurring in a noisy
+circuit is \\(P\_k \approx e^{-\lambda}\lambda^{k}/k!\\) [11], i.e., it is
+approximated by a Poisson distribution. We then model the erroneous expectation
+value, \\(\left\langle O\_\lambda\right\rangle\\) as the weighted sum of operator
+expectation values with \\(k\\) number of errors occurring during the quantum
+circuit, \\(\left\langle O\_{|\mathbb{L}|=k}\right\rangle\\). Specifically,
+\\( \left\langle O\_\lambda\right\rangle=\sum\_{k=0}^{\infty} P\_k\left\langle
+O\_{|\mathbb{L}|=k}\right\rangle=e^{-\lambda} \sum\_{k=0}^{\infty}
+\frac{\lambda^k}{k !}\left\langle O\_{|\mathbb{L}|=k}\right\rangle \\).
+
+By focusing on the noise parameter \\( \lambda \\), we observe that the expectation
+value of the operator follows an exponential decay. Methods like
+pulse-stretching or unitary-folding [10] could be employed to manually increase
+the noise level and obtain a noisier expectation value for the operator
+\\( \hat{O} \\). After obtaining different \\( \hat{O} \\), we could use an exponential
+fitting to achieve the noiseless estimation of \\( \hat{O} \\)."
+
 
 ### Two level Defect {#two-level-defect}
 
+While Zero Noise Extrapolation is a readily implementable technique for quantum
+error mitigation, it has its own shortcomings. The exponential fitting used to
+extrapolate the noiseless expectation value requires that different circuits
+have similar noise parameters, \\( \lambda \\). Often, on a cloud-based
+superconducting quantum computer, this is violated at the physical level due to
+a phenomenon known as Two-Level Defects (TLS).
+
+In simple terms, the Josephson Junction in the superconducting transmon requires
+an amorphous \\( AlO\_x \\)​ layer between the aluminium electrodes. At low
+temperatures, TLS is formed around this amorphous layer by tunneling atoms,
+dangling bonds, and trapped charges. Consequently, TLS induces noise parameter
+fluctuations on an hourly scale. This destroys the extrapolatability of
+expectation values obtained from multiple experiments [13].
+
 
 ## Pauli-Lindblad Noise Model {#pauli-lindblad-noise-model}
+
+
+### What is it? {#what-is-it}
+
+
+### How to efficiently model if through measurement {#how-to-efficiently-model-if-through-measurement}
+
+
+### How to combine it with ZNE {#how-to-combine-it-with-zne}
 
 
 ## Conclusion {#conclusion}
@@ -139,6 +205,9 @@ This blog is written with love using Emacs and Org Mode.
 6.  [Threshold Theorem Wikipedia](https://en.wikipedia.org/wiki/Threshold_theorem)
 7.  [Suppressing quantum errors by scaling a surface code logical qubit](https://www.nature.com/articles/s41586-022-05434-1)
 8.  [Quantum Computing in the NISQ era and beyond](https://arxiv.org/abs/1801.00862)
-9.  [Error mitigation extends the computational reach of a noisy quantum processor](https://www.nature.com/articles/s41586-019-1040-7)
-
-\*
+9.  [Quantum Error Mitigation](https://arxiv.org/pdf/2210.00921.pdf)
+10. [Error mitigation extends the computational reach of a noisy quantum processor](https://www.nature.com/articles/s41586-019-1040-7)
+11. [Le Cam's Inequality and Poisson Approximations](http://www-stat.wharton.upenn.edu/~steele/Papers/PDF/LIaPA.pdf)
+12. [Efficient Variational Quantum Simulator Incorporating Active Error Minimization](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.7.021050)
+13. [Error Mitigation for Short-Depth Quantum Circuits](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.119.180509)
+14. [Towards understanding two-level-systems in amorphous solids -- Insights from quantum circuits](https://arxiv.org/abs/1705.01108)
