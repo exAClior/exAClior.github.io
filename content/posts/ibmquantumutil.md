@@ -8,8 +8,8 @@ draft = false
 ## Motivation {#motivation}
 
 IBM recently published a paper that carried out the Trotterized time evolution
-of a transverse-field Ising model Hamiltonian \(H = -J \sum\_{<i,j>}Z\_{i}Z\_{j} +
-h \sum\_{i}X\_{i}\) on 127 qubits. The quantum circuit used for time evolution
+of a transverse-field Ising model Hamiltonian \\(H = -J \sum\_{<i,j>}Z\_{i}Z\_{j} +
+h \sum\_{i}X\_{i}\\) on 127 qubits. The quantum circuit used for time evolution
 consisted of "up to 60 layers of two-qubit gates, a total of 2880 CNOT gates"
 [1]. This is a significant experiment due to the relatively low quality of CNOT
 gates across all currently available quantum computing platforms. The number and
@@ -23,12 +23,12 @@ within the Quantum Computing community on Twitter. However, some positive
 results emerged from the discussions between proponents of this paper and
 others. For instance, Sels and colleagues [2] demonstrated a method to exploit
 the heavy-hexagon topology of IBM's superconducting quantum chip to speed up
-classical simulation of the quantum circuit with belief propagation tensor
-networks. This, although contradicting IBM's claim of demonstrating quantum
-utility, helps extend our understanding of classical simulation of quantum
-circuits. Unfortunately, an in-depth analysis of this topic is beyond the scope
-of this blog. Interested readers are encouraged to consult the reference below
-and investigate further on their own.
+classical simulation of the quantum circuit in IBM's paper with belief
+propagation tensor networks. This, although contradicting IBM's claim of
+demonstrating quantum utility, helps extend our understanding of classical
+simulation of quantum circuits. Unfortunately, an in-depth analysis of this
+topic is beyond the scope of this blog. Interested readers are encouraged to
+consult the reference below and investigate further on their own.
 
 Conversely, IBM clarifies that the essence of this paper is not quantum utility
 but two other crucial aspects. First, it demonstrates "advances in the coherence
@@ -40,9 +40,9 @@ primary focus of this post.
 This post will proceed as follows: First, I will discuss the importance of
 Quantum Error Mitigation by examining the effect of noise on quantum computers
 and why Quantum Error Correction is not a viable solution at present. Then, I
-will delve into the Quantum Error Mitigation technique used in IBM's paper -
-Zero Noise Extrapolation. Finally, I will conclude with how IBM improved upon
-the basic Zero Noise Extrapolation with the Pauli-Lindblad noise model to
+will delve into one of the Quantum Error Mitigation techniques used in IBM's
+paper - Zero Noise Extrapolation. Finally, I will conclude with how IBM improved
+upon the basic Zero Noise Extrapolation with the Pauli-Lindblad noise model to
 achieve promising experimental results on 127 qubits.
 
 
@@ -50,9 +50,9 @@ achieve promising experimental results on 127 qubits.
 
 One of the most formidable challenges faced by quantum computers is noise. It's
 widely recognized that quantum algorithms can outperform their classical
-counterparts in solving critical problems. For instance, our daily
+counterparts in solving a few critical problems. For instance, our daily
 communication, web browsing, and bank transactions are safeguarded by public-key
-encryption methods such as RSA and Diffie-Hellman techniques. These methods
+encryption schemes such as RSA and Diffie-Hellman schemes. These methods
 hinge on the difficulty of period finding [3]. Shor's algorithm solves the
 period finding problem exponentially faster than classical methods. However,
 noise renders the results of Shor's algorithm useless on real quantum computers.
@@ -88,13 +88,16 @@ ourselves in the Noisy Intermediate Scale Quantum Era, a term coined by John
 Preskill [8]. Various methods have been proposed to enhance the usability of
 quantum computers in the face of noise. These methods, collectively known as
 Quantum Error Mitigation methods, each focus on a specific type of noise. With a
-particular type of noise in mind, logical quantum circuits are modified, and
-post-processing of results is executed on quantum circuit outputs to mitigate
-the noise's impact on these results. Notable Quantum Error Mitigation techniques
-include Dynamical Decoupling, Measurement Mitigation, Pauli Twirling, and Zero
-Noise Extrapolation. The remainder of this blog will be dedicated to explaining
-Zero Noise Extrapolation, given its straightforward nature and its simplistic
-assumptions about the underlying noise model of a quantum computer.
+particular type of noise in mind, quantum circuits are modified to amplify or
+cancel the effect the noise has on their results, and post-processing of results
+is executed on quantum circuit outputs to mitigate the noise's impact on these
+results. Notable Quantum Error Mitigation techniques include Dynamical
+Decoupling, Measurement Mitigation, Pauli Twirling, and Zero Noise
+Extrapolation. The combined application of these techniques made it possible to
+obtain sensible quantum dynamics simulation results in IBM's paper [1]. The
+remainder of this blog will be dedicated to explaining Zero Noise Extrapolation,
+given its straightforward nature and its simplistic assumptions about the
+underlying noise model of a quantum computer.
 
 
 ## Zero Noise Extrapolation {#zero-noise-extrapolation}
@@ -121,69 +124,130 @@ marked by indices \\(i\\), ranging from \\(0\\) to \\(n\\), in a quantum circuit
 **independent** Pauli errors could occur. At each location \\(i\\), the probability
 of a Pauli error occurring is \\(p\_{i}\\). The sum of all probabilities is
 \\(\lambda \equiv \sum\_{i=0}^{n}p\_i\\). This can be understood as a noise
-parameter characterizing how noisy the circuit is. When \\(n\\) is large, Le Cam's
-inequality suggests that the probability of \\(k\\) errors occurring in a noisy
-circuit is \\(P\_k \approx e^{-\lambda}\lambda^{k}/k!\\) [11], i.e., it is
-approximated by a Poisson distribution. We then model the erroneous expectation
-value, \\(\left\langle O\_\lambda\right\rangle\\) as the weighted sum of operator
-expectation values with \\(k\\) number of errors occurring during the quantum
-circuit, \\(\left\langle O\_{|\mathbb{L}|=k}\right\rangle\\). Specifically,
-\\( \left\langle O\_\lambda\right\rangle=\sum\_{k=0}^{\infty} P\_k\left\langle
+parameter characterizing how noisy the circuit is. When \\(n\\) is large and
+\\(\lambda\\) is moderately sized, Le Cam's inequality suggests that the
+probability of \\(k\\) errors occurring in a noisy circuit is \\(P\_k \approx
+e^{-\lambda}\lambda^{k}/k!\\) [11], i.e., it is approximated by a Poisson
+distribution. We then model the erroneous expectation value, \\(\left\langle
+O\_\lambda\right\rangle\\) as the weighted sum of operator expectation values with
+\\(k\\) number of errors occurring during the quantum circuit, \\(\left\langle
+O\_{|\mathbb{L}|=k}\right\rangle\\). Specifically, \\( \left\langle
+O\_\lambda\right\rangle=\sum\_{k=0}^{\infty} P\_k\left\langle
 O\_{|\mathbb{L}|=k}\right\rangle=e^{-\lambda} \sum\_{k=0}^{\infty}
 \frac{\lambda^k}{k !}\left\langle O\_{|\mathbb{L}|=k}\right\rangle \\).
 
-By focusing on the noise parameter \\( \lambda \\), we observe that the expectation
-value of the operator follows an exponential decay. Methods like
+By focusing on the noise parameter \\( \lambda \\), we observe that the
+expectation value of the operator follows an exponential decay. Methods like
 pulse-stretching or unitary-folding [10] could be employed to manually increase
-the noise level and obtain a noisier expectation value for the operator
-\\( \hat{O} \\). After obtaining different \\( \hat{O} \\), we could use an exponential
-fitting to achieve the noiseless estimation of \\( \hat{O} \\)."
+the noise level, \\(\lambda\\), and obtain a noisier expectation value for the
+operator \\( \hat{O} \\). After obtaining a set of \\( \hat{O\_{\lambda}} \\), we
+could use an exponential fitting to achieve the noiseless estimation of \\(
+\hat{O} \\)."
+
+It's remarkable that such a straightforward technique can eliminate the effect
+of noise from a simple noise model on quantum circuit results. However, it's
+crucial not to overlook the costs and constraints associated with this
+technique. Firstly, we are performing an exponential extrapolation, so the
+accuracy of \\(\left \langle O\_{\lambda} \right \rangle\\) for each \\(\lambda\\)
+needs to be precise, necessitating a small variance. The variance of the
+estimation of \\(\left \langle O\_{\lambda} \right \rangle\\) is essentially an
+expectation value over the \\(N\_{sample}\\) of quantum circuit evaluations. This
+requires large number of sampling points which naturally leads to increased
+experimental time. Secondly, another challenge arises. Zero Noise Extrapolation
+essentially requires the noise model affecting the device to remain constant,
+and the only one who can adjust the noise level is the experimenter. This
+requirement is suggested to be violated in relation to a physical phenomenon
+known as Two-Level Defect.
 
 
 ### Two level Defect {#two-level-defect}
 
-While Zero Noise Extrapolation is a readily implementable technique for quantum
-error mitigation, it has its own shortcomings. The exponential fitting used to
-extrapolate the noiseless expectation value requires that different circuits
-have similar noise parameters, \\( \lambda \\). Often, on a cloud-based
-superconducting quantum computer, this is violated at the physical level due to
-a phenomenon known as Two-Level Defects (TLS).
+The Josephson Junction in the superconducting transmon requires an amorphous \\(
+AlO\_x\\) layer between the aluminium electrodes. At low temperatures, Two-Level
+Defects form in this amorphous layer. These defects can include tunneling atoms,
+dangling bonds, and trapped charges. As a result, it's proposed that the
+coupling of Two-Level Defects and qubits induces noise parameter fluctuations on
+an hourly scale [1].
 
-In simple terms, the Josephson Junction in the superconducting transmon requires
-an amorphous \\( AlO\_x \\)​ layer between the aluminium electrodes. At low
-temperatures, TLS is formed around this amorphous layer by tunneling atoms,
-dangling bonds, and trapped charges. Consequently, TLS induces noise parameter
-fluctuations on an hourly scale. This destroys the extrapolatability of
-expectation values obtained from multiple experiments [13].
+In IBM's paper, they demonstrated such correlation between the coupling of
+Two-Level Defects with qubits and device fluctuation [1]. In Figure S4 (b) and
+(c) of the supplementary information from IBM's Paper [1], a clear drop in the
+single qubit \\(X\\) operator's expectation value is observed around the \\(99\\) to
+\\(103\\) hour mark during the experiment. Around the same time, the \\(T\_{1}\\)
+time for the same qubit is observed to fluctuate, indicating a variation in the
+underlying noise model.
+
+This inference is further supported by the extrapolation of the expectation
+value of a single qubit X operator on a simulatable quantum circuit. When the
+data points observed during the fluctuation period are discarded, the
+extrapolation results align well with the ideal circuit simulation results
+performed on a classical computer, as reported in Figure S4 (d), (e), (f) of
+IBM's paper [1].
 
 
 ## Pauli-Lindblad Noise Model {#pauli-lindblad-noise-model}
 
+While the previous method successfully mitigates the effect of fluctuating noise
+parameters, it has a significant drawback. It requires discarding experimental
+data, which implies an algorithmic overhead. In larger or more unstable devices,
+this could eliminate the quantum algorithm's speed advantage.
 
-### What is it? {#what-is-it}
+To address this problem, we recognize that the essence of Zero Noise
+Extrapolation is to amplify the noise level to a desired amount and perform
+extrapolation. Device quality fluctuation will cause the underlying noise
+parameter to change from \\(\lambda\\) to \\(\alpha \lambda\\) with \\(\alpha > 1\\).
+When we naively amplify the noise with a target of \\(2 \lambda\\), we end up
+reaching \\(2 \alpha \lambda\\), hence misplacing the data point on the x-axis for
+extrapolation.
 
+To alleviate this without discarding experimental results, a solution is to
+efficiently characterize the device's noise parameter and then amplify
+accordingly. In IBM's paper, they employ the Pauli-Lindblad Noise Model [1]. The
+Pauli-Lindblad Noise model is a "noise channel \\(\Lambda\\) that arises from a
+sparse set of local interactions by a Lindblad generator," which yields
+\\(\mathcal{L}(\rho)=\sum\_{k \in \mathcal{K}} \lambda\_k\left(P\_k \rho
+P\_k^{\dagger}-\rho\right)\\) [15]. Note that \\(\mathcal{K}\\) is a
+\\(poly(n)\\)-sized subset of \\(4^n\\) Pauli operators on \\(n\\) qubits. You only
+need to consider a polynomial subset of all possible Pauli operators because of
+the topology of IBM's quantum computer. Weight two Pauli operators on
+non-neighboring qubits and higher weight Pauli operators will have no support.
+Their corresponding noise parameters will be zero. The noise channel is then
+modeled as \\(\Lambda(\rho)=\exp \mathcal{L}\\). It can be computed as
+\\(\Lambda(\rho)=\underset{k \in \mathcal{K}}{\bigcirc}\left(w\_k
+\cdot+\left(1-w\_k\right) P\_k \cdot P\_k^{\dagger}\right) \rho\\) where
+\\(w\_k=2^{-1}\left(1+\mathrm{e}^{-2 \lambda\_k}\right)\\)[15].
 
-### How to efficiently model if through measurement {#how-to-efficiently-model-if-through-measurement}
+To characterize the noise parameters \\(\lambda\_{b}\\), we measure \\(f\_b\\), the
+fidelity of Pauli operators \\(P\_b\\) with increasing layers of two-qubit gates.
+Since \\(f\_{b} = \frac{1}{2^{n}}Tr(P\_{b}^{\dagger} \Lambda(P\_{b})\\), we expect
+\\(log(f\_{b}) \propto \lambda\_{b} \* d\\) with \\(d\\) being the number of two-qubit
+gate layers. Since the supported Pauli operators have a \\(poly(n)\\) number, we
+can efficiently characterize them.
 
-
-### How to combine it with ZNE {#how-to-combine-it-with-zne}
+To amplify the noise, experimentalists can manually insert Pauli operators on
+the two-qubit gate layer of the quantum circuit to mimic the noise modeled in
+the Pauli-Lindblad noise model. A schematic sense of such amplification can be
+obtained by examining Fig 1 (d) of IBM's paper [1]. IBM's team compared the
+extrapolated result using such scheme to classical simulation result and
+confirmed the correctness of this method.
 
 
 ## Conclusion {#conclusion}
 
-Quantum error mitigation is itself fascinating in the way that by presenting a
-physically motivated reasonable noise model and probing the experiment platform
-to parameterize it, we could obtain result from non-error corrected circuits.
+Quantum error mitigation is fascinating in the sense that, by presenting a
+physically motivated and reasonable noise model and probing the experimental
+platform to parameterize it, we can obtain results from non-error corrected
+circuits.
 
-However, it is not clear to me whether such overhead of noise model probing will
-be scalable. I.e for industrial application that uses thousands of qubits, will
-such technique hold onto itself.
+However, it remains unclear to me whether the overhead of noise model probing
+will be scalable. In other words, will such a technique maintain its
+effectiveness when applied to industrial applications involving thousands of
+qubits?
 
-Nevertheless, a successful quantum error mitigation experiment necessarily
-indicates the validity of tomographic techniques about the noise model and the
-accuracy of such nosie model. In that sense, quantum error mitigation
-experiments are the touch stone to understanding the noise in currently NISQ
-devices.
+Regardless, a successful quantum error mitigation experiment does indicate the
+validity and accuracy of the target noise model's efficient characterization. In
+this regard, quantum error mitigation experiments serve as a touchstone for
+understanding the noise in current NISQ devices.
 
 
 ## Disclaimer {#disclaimer}
@@ -211,3 +275,4 @@ This blog is written with love using Emacs and Org Mode.
 12. [Efficient Variational Quantum Simulator Incorporating Active Error Minimization](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.7.021050)
 13. [Error Mitigation for Short-Depth Quantum Circuits](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.119.180509)
 14. [Towards understanding two-level-systems in amorphous solids -- Insights from quantum circuits](https://arxiv.org/abs/1705.01108)
+15. [Probabilistic error cancellation with sparse Pauli–Lindblad models on noisy quantum processors](https://www.nature.com/articles/s41567-023-02042-2)

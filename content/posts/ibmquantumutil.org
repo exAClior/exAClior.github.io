@@ -181,42 +181,65 @@ IBM's paper [1].
 
 * Pauli-Lindblad Noise Model
 
-To extend the previous method of detecting the fluctuation and discarding the
-values to a more rigorous method and combine it with Zero Noise Extrapolation,
-we notice the essentail point of it. That is detection of noise parameter change
-and adjust error mitigation technique accordingly. We could not afford to
-constantly throw away experiemnt results. Doing such will destroy the
-algorithmic advantage brought by quantum computer.
+While the previous method successfully mitigates the effect of fluctuating noise
+parameters, it has a significant drawback. It requires discarding experimental
+data, which implies an algorithmic overhead. In larger or more unstable devices,
+this could eliminate the quantum algorithm's speed advantage.
 
-The problem with vanilla Zero Noise Extrapolation is that it assumes constant
-error rate from machine and the only induced extra noise is from our side. I.e
-by pulse-stretching or untiary folding. Therefore, when the machine actually
-fluctuates and screws up our nosie scaling, we only need to measure the noise
-parameter efficiently and adjust our plan to induce more noise such that the
-overall noise on the system is again to our liking. This could be achieved by
-Pauli-Lindblad Noise Model.
-** What is it?
+To address this problem, we recognize that the essence of Zero Noise
+Extrapolation is to amplify the noise level to a desired amount and perform
+extrapolation. Device quality fluctuation will cause the underlying noise
+parameter to change from \(\lambda\) to \(\alpha \lambda\) with \(\alpha > 1\).
+When we naively amplify the noise with a target of \(2 \lambda\), we end up
+reaching \(2 \alpha \lambda\), hence misplacing the data point on the x-axis for
+extrapolation.
 
-** How to efficiently model if through measurement
+To alleviate this without discarding experimental results, a solution is to
+efficiently characterize the device's noise parameter and then amplify
+accordingly. In IBM's paper, they employ the Pauli-Lindblad Noise Model [1]. The
+Pauli-Lindblad Noise model is a "noise channel \(\Lambda\) that arises from a
+sparse set of local interactions by a Lindblad generator," which yields
+\(\mathcal{L}(\rho)=\sum_{k \in \mathcal{K}} \lambda_k\left(P_k \rho
+P_k^{\dagger}-\rho\right)\) [15]. Note that \(\mathcal{K}\) is a
+\(poly(n)\)-sized subset of \(4^n\) Pauli operators on \(n\) qubits. You only
+need to consider a polynomial subset of all possible Pauli operators because of
+the topology of IBM's quantum computer. Weight two Pauli operators on
+non-neighboring qubits and higher weight Pauli operators will have no support.
+Their corresponding noise parameters will be zero. The noise channel is then
+modeled as \(\Lambda(\rho)=\exp \mathcal{L}\). It can be computed as
+\(\Lambda(\rho)=\underset{k \in \mathcal{K}}{\bigcirc}\left(w_k
+\cdot+\left(1-w_k\right) P_k \cdot P_k^{\dagger}\right) \rho\) where
+\(w_k=2^{-1}\left(1+\mathrm{e}^{-2 \lambda_k}\right)\)[15].
 
-** How to combine it with ZNE
-Need to point out that it also decays exponentially, need to point out how to do
-error enlargement based on noise parameter.
+To characterize the noise parameters \(\lambda_{b}\), we measure \(f_b\), the
+fidelity of Pauli operators \(P_b\) with increasing layers of two-qubit gates.
+Since \(f_{b} = \frac{1}{2^{n}}Tr(P_{b}^{\dagger} \Lambda(P_{b})\), we expect
+\(log(f_{b}) \propto \lambda_{b} * d\) with \(d\) being the number of two-qubit
+gate layers. Since the supported Pauli operators have a \(poly(n)\) number, we
+can efficiently characterize them.
+
+To amplify the noise, experimentalists can manually insert Pauli operators on
+the two-qubit gate layer of the quantum circuit to mimic the noise modeled in
+the Pauli-Lindblad noise model. A schematic sense of such amplification can be
+obtained by examining Fig 1 (d) of IBM's paper [1]. IBM's team compared the
+extrapolated result using such scheme to classical simulation result and
+confirmed the correctness of this method.
 
 * Conclusion
-Quantum error mitigation is itself fascinating in the way that by presenting a
-physically motivated reasonable noise model and probing the experiment platform
-to parameterize it, we could obtain result from non-error corrected circuits.
+Quantum error mitigation is fascinating in the sense that, by presenting a
+physically motivated and reasonable noise model and probing the experimental
+platform to parameterize it, we can obtain results from non-error corrected
+circuits.
 
-However, it is not clear to me whether such overhead of noise model probing will
-be scalable. I.e for industrial application that uses thousands of qubits, will
-such technique hold onto itself.
+However, it remains unclear to me whether the overhead of noise model probing
+will be scalable. In other words, will such a technique maintain its
+effectiveness when applied to industrial applications involving thousands of
+qubits?
 
-Nevertheless, a successful quantum error mitigation experiment necessarily
-indicates the validity of tomographic techniques about the noise model and the
-accuracy of such nosie model. In that sense, quantum error mitigation
-experiments are the touch stone to understanding the noise in currently NISQ
-devices.
+Regardless, a successful quantum error mitigation experiment does indicate the
+validity and accuracy of the target noise model's efficient characterization. In
+this regard, quantum error mitigation experiments serve as a touchstone for
+understanding the noise in current NISQ devices.
 
 * Disclaimer
 I have also done some [[https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.5.013183][work]] in quantum error mitigation. I found the idea of
@@ -240,3 +263,4 @@ This blog is written with love using Emacs and Org Mode.
 12) [[https://journals.aps.org/prx/abstract/10.1103/PhysRevX.7.021050][Efficient Variational Quantum Simulator Incorporating Active Error Minimization]]
 13) [[https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.119.180509][Error Mitigation for Short-Depth Quantum Circuits]]
 14) [[https://arxiv.org/abs/1705.01108][Towards understanding two-level-systems in amorphous solids -- Insights from quantum circuits]]
+15) [[https://www.nature.com/articles/s41567-023-02042-2][Probabilistic error cancellation with sparse Pauli–Lindblad models on noisy quantum processors]]
