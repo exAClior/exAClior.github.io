@@ -1,0 +1,17 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Julia - Tag - A Commonplace Book</title>
+        <link>https://exAClior.github.io/tags/julia/</link>
+        <description>Julia - Tag - A Commonplace Book</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>yushengzhao2020@outlook.com (Yusheng Zhao)</managingEditor>
+            <webMaster>yushengzhao2020@outlook.com (Yusheng Zhao)</webMaster><lastBuildDate>Wed, 07 Jun 2023 21:43:39 &#43;0800</lastBuildDate><atom:link href="https://exAClior.github.io/tags/julia/" rel="self" type="application/rss+xml" /><item>
+    <title>Juliabeginner</title>
+    <link>https://exAClior.github.io/posts/juliabeginner/</link>
+    <pubDate>Wed, 07 Jun 2023 21:43:39 &#43;0800</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/juliabeginner/</guid>
+    <description><![CDATA[Purpose In this blog, I have collected some tutorials that I found useful while learning Julia. I will also provide a tool-chain that I like to use while coding in Julia. I hope this will speed up your process of learning Julia.
+Operating System This is not intended to be a cynical view or criticism against Windows users. However, it&rsquo;s worth considering the benefits of using Linux or macOS for your programming needs, especially when working with Julia.]]></description>
+</item>
+</channel>
+</rss>

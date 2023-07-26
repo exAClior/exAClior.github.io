@@ -1,75 +1,69 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>A Commonplace Book</title>
-    <link>https://exAClior.github.io/</link>
-    <description>Recent content on A Commonplace Book</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <managingEditor>yushengzhao2020@outlook.com (Yusheng Zhao)</managingEditor>
-    <webMaster>yushengzhao2020@outlook.com (Yusheng Zhao)</webMaster>
-    <lastBuildDate>Wed, 07 Jun 2023 21:43:39 +0800</lastBuildDate><atom:link href="https://exAClior.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Juliabeginner</title>
-      <link>https://exAClior.github.io/posts/juliabeginner/</link>
-      <pubDate>Wed, 07 Jun 2023 21:43:39 +0800</pubDate>
-      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
-      <guid>https://exAClior.github.io/posts/juliabeginner/</guid>
-      <description>Purpose In this blog, I have collected some tutorials that I found useful while learning Julia. I will also provide a tool-chain that I like to use while coding in Julia. I hope this will speed up your process of learning Julia.
-Julia Installation Sometimes it&amp;rsquo;s necessary to have multiple versions of Julia on your machine. For example, you might need to test a package whose dependency relies on an earlier version of Julia.</description>
-    </item>
-    
-    <item>
-      <title>Hackathons</title>
-      <link>https://exAClior.github.io/hackathons/</link>
-      <pubDate>Tue, 09 Aug 2022 16:08:49 +0800</pubDate>
-      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
-      <guid>https://exAClior.github.io/hackathons/</guid>
-      <description>Repos to Hackathon Projects IBM Spring Challenge 2022 IBM Spring Challenge 2021 </description>
-    </item>
-    
-    <item>
-      <title>Resources</title>
-      <link>https://exAClior.github.io/resources/</link>
-      <pubDate>Mon, 08 Aug 2022 09:22:32 +0800</pubDate>
-      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
-      <guid>https://exAClior.github.io/resources/</guid>
-      <description>List of Online Course and Lecture Notes Physics David Tong lecture notes are awesome for theoretical physics self-study. Computer Science Missing Semester is great for applying programming knowledge in real life.
-Introductory C Programming Specialization is great for learning / reviewing C.
-List of Yt Channels Mike Zamansky taught me a lot about using Emacs.
-Distrotube is a great place to learn about tiling window manager.
-Ali Abdaal has a lot of great tips on learning and managing your life.</description>
-    </item>
-    
-    <item>
-      <title>Projects</title>
-      <link>https://exAClior.github.io/projs/</link>
-      <pubDate>Sat, 06 Aug 2022 15:51:50 +0800</pubDate>
-      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
-      <guid>https://exAClior.github.io/projs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
-      <link>https://exAClior.github.io/about/</link>
-      <pubDate>Fri, 05 Aug 2022 19:30:20 +0800</pubDate>
-      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
-      <guid>https://exAClior.github.io/about/</guid>
-      <description>Greetings! Hello, my name is Yusheng Zhao. I come from Shanghai, China.
-Research Interests I am mainly interested in Quantum Computation. More concretely in the fields of
-Quantum Simulation Quantum Error Correction and Mitigation Quantum Optimal Pulse Control Quantum Software development Background I received my Master&amp;rsquo;s degree in Physics from Stony Brook University under the supervision of Prof. Tzu-chieh Wei.
-I received my B.A in Physics and Computer Science from New York University</description>
-    </item>
-    
-    <item>
-      <title>Introduction</title>
-      <link>https://exAClior.github.io/posts/introduction/</link>
-      <pubDate>Fri, 05 Aug 2022 18:49:34 +0800</pubDate>
-      <author>yushengzhao2020@outlook.com (Yusheng Zhao)</author>
-      <guid>https://exAClior.github.io/posts/introduction/</guid>
-      <description>Introduction Hello everyone , this is a very short introduction</description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>A Commonplace Book</title>
+        <link>https://exAClior.github.io/</link>
+        <description>Yusheng Zhao&#39;s Commonplace Book</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>yushengzhao2020@outlook.com (Yusheng Zhao)</managingEditor>
+            <webMaster>yushengzhao2020@outlook.com (Yusheng Zhao)</webMaster><lastBuildDate>Sat, 08 Jul 2023 00:00:00 &#43;0000</lastBuildDate>
+            <atom:link href="https://exAClior.github.io/index.xml" rel="self" type="application/rss+xml" />
+        <item>
+    <title>Quantum Error Mitigation</title>
+    <link>https://exAClior.github.io/posts/ibmquantumutil/</link>
+    <pubDate>Sat, 08 Jul 2023 00:00:00 &#43;0000</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/ibmquantumutil/</guid>
+    <description><![CDATA[Motivation IBM recently published a paper that carried out the Trotterized time evolution of a transverse-field Ising model Hamiltonian \(H = -J \sum_{&lt;i,j&gt;}Z_{i}Z_{j} + h \sum_{i}X_{i}\) on 127 qubits. The quantum circuit used for time evolution consisted of &#34;up to 60 layers of two-qubit gates, a total of 2880 CNOT gates&#34; [1]. This is a significant experiment due to the relatively low quality of CNOT gates across all currently available quantum computing platforms.]]></description>
+</item>
+<item>
+    <title>Algebraic Data Type</title>
+    <link>https://exAClior.github.io/posts/adt/</link>
+    <pubDate>Tue, 04 Jul 2023 00:00:00 &#43;0000</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/adt/</guid>
+    <description><![CDATA[Motivation In my ongoing project on ZX Calculus, I found myself needing an elegant and efficient way to handle objects of specific types and perform operations on their values. Enter Algebraic Data Types (ADTs) - a powerful concept from functional programming. ADTs, coupled with pattern matching, provide a solution that is not only efficient but also expressive, allowing for cleaner, more readable code when dealing with complex data structures.]]></description>
+</item>
+<item>
+    <title>Algebraic Data Type Again</title>
+    <link>https://exAClior.github.io/posts/adt2/</link>
+    <pubDate>Tue, 04 Jul 2023 00:00:00 &#43;0000</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/adt2/</guid>
+    <description><![CDATA[Motivation Last time, I went over the basics of Algebraic Data Types. In this short post, I want to explore more details and fundamental reasons why they exist.
+Compiler perspective This relates to multi-dispatch of a function. If there&#39;s no algebraic data type or something similar, the compiler will not be able to iterate through all possible variants of a data type. Hence, it will not be able to perform checking to see if the program has bugs at compile time.]]></description>
+</item>
+<item>
+    <title>Juliabeginner</title>
+    <link>https://exAClior.github.io/posts/juliabeginner/</link>
+    <pubDate>Wed, 07 Jun 2023 21:43:39 &#43;0800</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/juliabeginner/</guid>
+    <description><![CDATA[Purpose In this blog, I have collected some tutorials that I found useful while learning Julia. I will also provide a tool-chain that I like to use while coding in Julia. I hope this will speed up your process of learning Julia.
+Operating System This is not intended to be a cynical view or criticism against Windows users. However, it&rsquo;s worth considering the benefits of using Linux or macOS for your programming needs, especially when working with Julia.]]></description>
+</item>
+<item>
+    <title>Introduction</title>
+    <link>https://exAClior.github.io/posts/introduction/</link>
+    <pubDate>Fri, 05 Aug 2022 18:49:34 &#43;0800</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/introduction/</guid>
+    <description><![CDATA[Introduction Hello everyone , this is a very short introduction]]></description>
+</item>
+<item>
+    <title></title>
+    <link>https://exAClior.github.io/posts/collatz/</link>
+    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/collatz/</guid>
+    <description><![CDATA[Statement Remember one of the problems in HW denoted as `3n+1` problem. It has another name as [Collatz Conjecture]]]></description>
+</item>
+<item>
+    <title>Noise on Random Circuit Sampling</title>
+    <link>https://exAClior.github.io/posts/testnoiseandrcs/</link>
+    <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+    <author>Yusheng Zhao</author>
+    <guid>https://exAClior.github.io/posts/testnoiseandrcs/</guid>
+    <description><![CDATA[What is the importance of random circuit sampling Quantum supermacy, the quest for looking for a task that can be proven to be prohibitively hard for classical computer but easy for quantum computer, is the goal for many quantum information scientist.
+To prove quantum supermacy, there are in general two categories of proposals. The first category is ones that can be proven to be hard complexity wise but challenging experiment-wise (need to look at Aaronson paper).]]></description>
+</item>
+</channel>
 </rss>

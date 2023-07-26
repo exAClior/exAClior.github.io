@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Quantum Error Mitigation - A Commonplace Book</title><meta name="Description" content="Yusheng Zhao&#39;s Commonplace Book"><meta property="og:title" content="Quantum Error Mitigation" />
+<meta property="og:description" content="Motivation IBM recently published a paper that carried out the Trotterized time evolution of a transverse-field Ising model Hamiltonian \(H = -J \sum_{&lt;i,j&gt;}Z_{i}Z_{j} &#43; h \sum_{i}X_{i}\) on 127 qubits. The quantum circuit used for time evolution consisted of &#34;up to 60 layers of two-qubit gates, a total of 2880 CNOT gates&#34; [1]. This is a significant experiment due to the relatively low quality of CNOT gates across all currently available quantum computing platforms." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://exAClior.github.io/posts/ibmquantumutil/" /><meta property="og:image" content="https://exAClior.github.io/assets/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-08T00:00:00+00:00" /><meta property="og:site_name" content="A Commonplace Book" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://exAClior.github.io/assets/images/logo.png"/>
+
+<meta name="twitter:title" content="Quantum Error Mitigation"/>
+<meta name="twitter:description" content="Motivation IBM recently published a paper that carried out the Trotterized time evolution of a transverse-field Ising model Hamiltonian \(H = -J \sum_{&lt;i,j&gt;}Z_{i}Z_{j} &#43; h \sum_{i}X_{i}\) on 127 qubits. The quantum circuit used for time evolution consisted of &#34;up to 60 layers of two-qubit gates, a total of 2880 CNOT gates&#34; [1]. This is a significant experiment due to the relatively low quality of CNOT gates across all currently available quantum computing platforms."/>
+<meta name="application-name" content="A Commonplace Book">
+<meta name="apple-mobile-web-app-title" content="A Commonplace Book"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://exAClior.github.io/posts/ibmquantumutil/" /><link rel="prev" href="https://exAClior.github.io/posts/adt/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Quantum Error Mitigation",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/exAClior.github.io\/posts\/ibmquantumutil\/"
+        },"genre": "posts","wordcount":  2310 ,
+        "url": "https:\/\/exAClior.github.io\/posts\/ibmquantumutil\/","datePublished": "2023-07-08T00:00:00+00:00","dateModified": "2023-07-08T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Yusheng Zhao"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('dark' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'dark' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="A Commonplace Book"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="16" height="16" />A Commonplace Book</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="All posts"> Posts </a><a class="menu-item" href="/projs/" title="Open-source Projects"> Projects </a><a class="menu-item" href="/hackathons/" title="Hackathons"> Hackathons </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="/resources/"> Resources </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="A Commonplace Book"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="16" height="16" />A Commonplace Book</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="All posts">Posts</a><a class="menu-item" href="/projs/" title="Open-source Projects">Projects</a><a class="menu-item" href="/hackathons/" title="Hackathons">Hackathons</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="/resources/" title="">Resources</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Quantum Error Mitigation</h1><h2 class="single-subtitle">Zero Noise Extrapolation and Improvement based on Pauli-Lindblad Noise Model</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="github.com/exAClior" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Yusheng Zhao</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-07-08">2023-07-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;2310 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;11 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#headline-1">Motivation</a>
+</li>
+<li><a href="#headline-2">Achilles Heel of Quantum Computer: Noise</a>
+</li>
+<li><a href="#headline-3">Zero Noise Extrapolation</a>
+<ul>
+<li><a href="#headline-4">Two level Defect</a>
+</li>
+</ul>
+</li>
+<li><a href="#headline-5">Pauli-Lindblad Noise Model</a>
+</li>
+<li><a href="#headline-6">Conclusion</a>
+</li>
+<li><a href="#headline-7">Disclaimer</a>
+</li>
+<li><a href="#headline-8">Reference</a>
+</li>
+</ul>
+</nav></div>
+            </div><div class="content" id="content">
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Motivation
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>IBM recently published a paper that carried out the Trotterized time evolution
+of a transverse-field Ising model Hamiltonian \(H = -J \sum_{&lt;i,j&gt;}Z_{i}Z_{j} +
+h \sum_{i}X_{i}\) on 127 qubits. The quantum circuit used for time evolution
+consisted of &#34;up to 60 layers of two-qubit gates, a total of 2880 CNOT gates&#34;
+[1]. This is a significant experiment due to the relatively low quality of CNOT
+gates across all currently available quantum computing platforms. The number and
+layers of CNOT gates involved generally can lead to meaningless results due to
+noise. A brute-force classical simulation of such a quantum circuit is
+definitely out of reach for even the most powerful supercomputers.</p>
+<p>
+The wording of their title, suggesting that their experiment demonstrates
+quantum utility (a weaker version of quantum advantage), received mixed reviews
+within the Quantum Computing community on Twitter. However, some positive
+results emerged from the discussions between proponents of this paper and
+others. For instance, Sels and colleagues [2] demonstrated a method to exploit
+the heavy-hexagon topology of IBM&#39;s superconducting quantum chip to speed up
+classical simulation of the quantum circuit in IBM&#39;s paper with belief
+propagation tensor networks. This, although contradicting IBM&#39;s claim of
+demonstrating quantum utility, helps extend our understanding of classical
+simulation of quantum circuits. Unfortunately, an in-depth analysis of this
+topic is beyond the scope of this blog. Interested readers are encouraged to
+consult the reference below and investigate further on their own.</p>
+<p>
+Conversely, IBM clarifies that the essence of this paper is not quantum utility
+but two other crucial aspects. First, it demonstrates &#34;advances in the coherence
+and calibration of a superconducting processor at this scale&#34;, with 127 qubits
+[1]. More importantly, it showcases &#34;the ability to characterize and
+controllably manipulate noise across such a large device&#34; [1], which will be the
+primary focus of this post.</p>
+<p>
+This post will proceed as follows: First, I will discuss the importance of
+Quantum Error Mitigation by examining the effect of noise on quantum computers
+and why Quantum Error Correction is not a viable solution at present. Then, I
+will delve into one of the Quantum Error Mitigation techniques used in IBM&#39;s
+paper - Zero Noise Extrapolation. Finally, I will conclude with how IBM improved
+upon the basic Zero Noise Extrapolation with the Pauli-Lindblad noise model to
+achieve promising experimental results on 127 qubits.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Achilles Heel of Quantum Computer: Noise
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>
+One of the most formidable challenges faced by quantum computers is noise. It&#39;s
+widely recognized that quantum algorithms can outperform their classical
+counterparts in solving a few critical problems. For instance, our daily
+communication, web browsing, and bank transactions are safeguarded by public-key
+encryption schemes such as RSA and Diffie-Hellman schemes. These methods
+hinge on the difficulty of period finding [3]. Shor&#39;s algorithm solves the
+period finding problem exponentially faster than classical methods. However,
+noise renders the results of Shor&#39;s algorithm useless on real quantum computers.
+Since Shor&#39;s algorithm was used to factor 15 on an NMR quantum computer in 2012
+[4], only one other experiment has successfully pushed this limit to 21 using
+Shor&#39;s algorithm [5]. Noise has made it impossible to scale Shor&#39;s algorithm
+further.</p>
+<p>
+Of course, solutions have been proposed to tackle the noise problem on quantum
+computers. Quantum Error Correction—an algorithm that shields information from
+noise and decoherence—has been considered. This algorithm accomplishes its goal
+using Quantum Error Correction codes, which encode one qubit&#39;s worth of
+information onto multiple, physically separated qubits. As noise and decoherence
+result from undesirable physical interactions, information encoded onto
+physically separated qubits is safeguarded from noise. This protection is based
+on the fact that our world predominantly supports local physical interactions.
+To interfere with information that is physically separated, one would need
+non-local interaction, which is typically unlikely.</p>
+<p>
+However, a significant challenge with implementing Quantum Error Correction
+codes is posed by the threshold theorem. This theorem proposes that &#34;a quantum
+computer with a physical error rate below a certain threshold can reduce the
+logical error rate to arbitrarily low levels&#34; through the application of Quantum
+Error Correction schemes [6]. Today&#39;s most advanced physical qubits can barely
+achieve parity in terms of logical error rate when implementing a Quantum Error
+Correction code as compared to a basic repetition code [7]. Consequently, with
+current engineering techniques, Quantum Error Correction cannot eliminate the
+noise in quantum computers to arbitrary level.</p>
+<p>
+Given the inherent noise accompanying all quantum computer operations and the
+restrictions on the number of a physical quantum computer&#39;s qubits, we find
+ourselves in the Noisy Intermediate Scale Quantum Era, a term coined by John
+Preskill [8]. Various methods have been proposed to enhance the usability of
+quantum computers in the face of noise. These methods, collectively known as
+Quantum Error Mitigation methods, each focus on a specific type of noise. With a
+particular type of noise in mind, quantum circuits are modified to amplify or
+cancel the effect the noise has on their results, and post-processing of results
+is executed on quantum circuit outputs to mitigate the noise&#39;s impact on these
+results. Notable Quantum Error Mitigation techniques include Dynamical
+Decoupling, Measurement Mitigation, Pauli Twirling, and Zero Noise
+Extrapolation. The combined application of these techniques made it possible to
+obtain sensible quantum dynamics simulation results in IBM&#39;s paper [1]. The
+remainder of this blog will be dedicated to explaining Zero Noise Extrapolation,
+given its straightforward nature and its simplistic assumptions about the
+underlying noise model of a quantum computer.</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+Zero Noise Extrapolation
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>
+Zero Noise Extrapolation refers to an &#34;algorithmic scheme(s) that reduce the
+noise-induced bias in the expectation value by post-processing outputs from an
+ensemble of circuit runs, using circuits at the same noise level as the original
+unmitigated circuit or above&#34; [9]. This technique was initially introduced by Li
+et al [11] and Temme et al [12] and later popularized by Kandala et al [10] to
+perform the variational optimization of molecular Hamiltonian of Hydrogen and
+Lithium hydride. One notable feature of Zero Noise Extrapolation is that it
+meets the requirement for a &#34;reliable error mitigation method&#34; as proposed by
+Cai et al [9]. Specifically, Zero Noise Extrapolation &#34;requires few assumptions
+(or no assumptions) about the final state prepared by the computation&#34; [9].
+Additionally, it places a simple constraint on the noise model and the effect
+ZNE could mitigate. Hence, Zero Noise Extrapolation stands as a broadly
+applicable and straightforward-to-implement technique in Quantum Error
+Mitigation.</p>
+<p>
+To comprehend the simplified noise model and its implication on how it
+influences the expectation value of an operator for the state prepared by a
+quantum circuit, we need to introduce a few notations. First, denote locations
+marked by indices \(i\), ranging from \(0\) to \(n\), in a quantum circuit where
+<strong>independent</strong> Pauli errors could occur. At each location \(i\), the probability
+of a Pauli error occurring is \(p_{i}\). The sum of all probabilities is
+\(\lambda \equiv \sum_{i=0}^{n}p_i\). This can be understood as a noise
+parameter characterizing how noisy the circuit is. When \(n\) is large and
+\(\lambda\) is moderately sized, Le Cam&#39;s inequality suggests that the
+probability of \(k\) errors occurring in a noisy circuit is \(P_k \approx
+e^{-\lambda}\lambda^{k}/k!\) [11], i.e., it is approximated by a Poisson
+distribution. We then model the erroneous expectation value, \(\left\langle
+O_\lambda\right\rangle\) as the weighted sum of operator expectation values with
+\(k\) number of errors occurring during the quantum circuit, \(\left\langle
+O_{|\mathbb{L}|=k}\right\rangle\). Specifically, \( \left\langle
+O_\lambda\right\rangle=\sum_{k=0}^{\infty} P_k\left\langle
+O_{|\mathbb{L}|=k}\right\rangle=e^{-\lambda} \sum_{k=0}^{\infty}
+\frac{\lambda^k}{k !}\left\langle O_{|\mathbb{L}|=k}\right\rangle \).</p>
+<p>
+By focusing on the noise parameter \( \lambda \), we observe that the
+expectation value of the operator follows an exponential decay. Methods like
+pulse-stretching or unitary-folding [10] could be employed to manually increase
+the noise level, \(\lambda\), and obtain a noisier expectation value for the
+operator \( \hat{O} \). After obtaining a set of \( \hat{O_{\lambda}} \), we
+could use an exponential fitting to achieve the noiseless estimation of \(
+\hat{O} \).&#34;</p>
+<p>
+It&#39;s remarkable that such a straightforward technique can eliminate the effect
+of noise from a simple noise model on quantum circuit results. However, it&#39;s
+crucial not to overlook the costs and constraints associated with this
+technique. Firstly, we are performing an exponential extrapolation, so the
+accuracy of \(\left \langle O_{\lambda} \right \rangle\) for each \(\lambda\)
+needs to be precise, necessitating a small variance. The variance of the
+estimation of \(\left \langle O_{\lambda} \right \rangle\) is essentially an
+expectation value over the \(N_{sample}\) of quantum circuit evaluations. This
+requires large number of sampling points which naturally leads to increased
+experimental time. Secondly, another challenge arises. Zero Noise Extrapolation
+essentially requires the noise model affecting the device to remain constant,
+and the only one who can adjust the noise level is the experimenter. This
+requirement is suggested to be violated in relation to a physical phenomenon
+known as Two-Level Defect.</p>
+<div id="outline-container-headline-4" class="outline-3">
+<h3 id="headline-4">
+Two level Defect
+</h3>
+<div id="outline-text-headline-4" class="outline-text-3">
+<p>The Josephson Junction in the superconducting transmon requires an amorphous \(
+AlO_x\) layer between the aluminium electrodes. At low temperatures, Two-Level
+Defects form in this amorphous layer. These defects can include tunneling atoms,
+dangling bonds, and trapped charges. As a result, it&#39;s proposed that the
+coupling of Two-Level Defects and qubits induces noise parameter fluctuations on
+an hourly scale [1].</p>
+<p>
+In IBM&#39;s paper, they demonstrated such correlation between the coupling of
+Two-Level Defects with qubits and device fluctuation [1]. In Figure S4 (b) and
+(c) of the supplementary information from IBM&#39;s Paper [1], a clear drop in the
+single qubit \(X\) operator&#39;s expectation value is observed around the \(99\) to
+\(103\) hour mark during the experiment. Around the same time, the \(T_{1}\)
+time for the same qubit is observed to fluctuate, indicating a variation in the
+underlying noise model.</p>
+<p>
+This inference is further supported by the extrapolation of the expectation
+value of a single qubit X operator on a simulatable quantum circuit. When the
+data points observed during the fluctuation period are discarded, the
+extrapolation results align well with the ideal circuit simulation results
+performed on a classical computer, as reported in Figure S4 (d), (e), (f) of
+IBM&#39;s paper [1].</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
+<h2 id="headline-5">
+Pauli-Lindblad Noise Model
+</h2>
+<div id="outline-text-headline-5" class="outline-text-2">
+<p>
+While the previous method successfully mitigates the effect of fluctuating noise
+parameters, it has a significant drawback. It requires discarding experimental
+data, which implies an algorithmic overhead. In larger or more unstable devices,
+this could eliminate the quantum algorithm&#39;s speed advantage.</p>
+<p>
+To address this problem, we recognize that the essence of Zero Noise
+Extrapolation is to amplify the noise level to a desired amount and perform
+extrapolation. Device quality fluctuation will cause the underlying noise
+parameter to change from \(\lambda\) to \(\alpha \lambda\) with \(\alpha &gt; 1\).
+When we naively amplify the noise with a target of \(2 \lambda\), we end up
+reaching \(2 \alpha \lambda\), hence misplacing the data point on the x-axis for
+extrapolation.</p>
+<p>
+To alleviate this without discarding experimental results, a solution is to
+efficiently characterize the device&#39;s noise parameter and then amplify
+accordingly. In IBM&#39;s paper, they employ the Pauli-Lindblad Noise Model [1]. The
+Pauli-Lindblad Noise model is a &#34;noise channel \(\Lambda\) that arises from a
+sparse set of local interactions by a Lindblad generator,&#34; which yields
+\(\mathcal{L}(\rho)=\sum_{k \in \mathcal{K}} \lambda_k\left(P_k \rho
+P_k^{\dagger}-\rho\right)\) [15]. Note that \(\mathcal{K}\) is a
+\(poly(n)\)-sized subset of \(4^n\) Pauli operators on \(n\) qubits. You only
+need to consider a polynomial subset of all possible Pauli operators because of
+the topology of IBM&#39;s quantum computer. Weight two Pauli operators on
+non-neighboring qubits and higher weight Pauli operators will have no support.
+Their corresponding noise parameters will be zero. The noise channel is then
+modeled as \(\Lambda(\rho)=\exp \mathcal{L}\). It can be computed as
+\(\Lambda(\rho)=\underset{k \in \mathcal{K}}{\bigcirc}\left(w_k
+\cdot+\left(1-w_k\right) P_k \cdot P_k^{\dagger}\right) \rho\) where
+\(w_k=2^{-1}\left(1+\mathrm{e}^{-2 \lambda_k}\right)\)[15].</p>
+<p>
+To characterize the noise parameters \(\lambda_{b}\), we measure \(f_b\), the
+fidelity of Pauli operators \(P_b\) with increasing layers of two-qubit gates.
+Since \(f_{b} = \frac{1}{2^{n}}Tr(P_{b}^{\dagger} \Lambda(P_{b})\), we expect
+\(log(f_{b}) \propto \lambda_{b} * d\) with \(d\) being the number of two-qubit
+gate layers. Since the supported Pauli operators have a \(poly(n)\) number, we
+can efficiently characterize them.</p>
+<p>
+To amplify the noise, experimentalists can manually insert Pauli operators on
+the two-qubit gate layer of the quantum circuit to mimic the noise modeled in
+the Pauli-Lindblad noise model. A schematic sense of such amplification can be
+obtained by examining Fig 1 (d) of IBM&#39;s paper [1]. IBM&#39;s team compared the
+extrapolated result using such scheme to classical simulation result and
+confirmed the correctness of this method.</p>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
+<h2 id="headline-6">
+Conclusion
+</h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<p>Quantum error mitigation is fascinating in the sense that, by presenting a
+physically motivated and reasonable noise model and probing the experimental
+platform to parameterize it, we can obtain results from non-error corrected
+circuits.</p>
+<p>
+However, it remains unclear to me whether the overhead of noise model probing
+will be scalable. In other words, will such a technique maintain its
+effectiveness when applied to industrial applications involving thousands of
+qubits?</p>
+<p>
+Regardless, a successful quantum error mitigation experiment does indicate the
+validity and accuracy of the target noise model&#39;s efficient characterization. In
+this regard, quantum error mitigation experiments serve as a touchstone for
+understanding the noise in current NISQ devices.</p>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-2">
+<h2 id="headline-7">
+Disclaimer
+</h2>
+<div id="outline-text-headline-7" class="outline-text-2">
+<p>I have also done some <a href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.5.013183">work</a> in quantum error mitigation. I found the idea of
+using quantum error mitigation results to verify the noise model occurred in the
+actual device interesting.</p>
+<p>
+This blog is written with love using Emacs and Org Mode.</p>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-2">
+<h2 id="headline-8">
+Reference
+</h2>
+<div id="outline-text-headline-8" class="outline-text-2">
+<ol>
+<li><a href="https://www.nature.com/articles/s41586-023-06096-3">Evidence for the utility of quantum computing before fault tolerance</a></li>
+<li><a href="https://arxiv.org/abs/2306.14887">Efficient tensor network simulation of IBM&#39;s kicked Ising experiment</a></li>
+<li><a href="https://www.scottaaronson.com/qclec/19.pdf">Scot Aaronson&#39;s Lecture notes</a></li>
+<li><a href="https://www.nature.com/articles/414883a">Experimental realization of Shor&#39;s quantum factoring algorithm using nuclear magnetic resonance</a></li>
+<li><a href="https://arxiv.org/abs/1111.4147">Experimental realisation of Shor&#39;s quantum factoring algorithm using qubit recycling</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Threshold_theorem">Threshold Theorem Wikipedia</a></li>
+<li><a href="https://www.nature.com/articles/s41586-022-05434-1">Suppressing quantum errors by scaling a surface code logical qubit</a></li>
+<li><a href="https://arxiv.org/abs/1801.00862">Quantum Computing in the NISQ era and beyond</a></li>
+<li><a href="https://arxiv.org/pdf/2210.00921.pdf">Quantum Error Mitigation</a></li>
+<li><a href="https://www.nature.com/articles/s41586-019-1040-7">Error mitigation extends the computational reach of a noisy quantum processor</a></li>
+<li><a href="http://www-stat.wharton.upenn.edu/~steele/Papers/PDF/LIaPA.pdf">Le Cam&#39;s Inequality and Poisson Approximations</a></li>
+<li><a href="https://journals.aps.org/prx/abstract/10.1103/PhysRevX.7.021050">Efficient Variational Quantum Simulator Incorporating Active Error Minimization</a></li>
+<li><a href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.119.180509">Error Mitigation for Short-Depth Quantum Circuits</a></li>
+<li><a href="https://arxiv.org/abs/1705.01108">Towards understanding two-level-systems in amorphous solids – Insights from quantum circuits</a></li>
+<li><a href="https://www.nature.com/articles/s41567-023-02042-2">Probabilistic error cancellation with sparse Pauli–Lindblad models on noisy quantum processors</a></li>
+</ol>
+</div>
+</div>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-07-08</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://exAClior.github.io/posts/ibmquantumutil/" data-title="Quantum Error Mitigation" data-via="rpfzpp"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://exAClior.github.io/posts/ibmquantumutil/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://exAClior.github.io/posts/ibmquantumutil/" data-title="Quantum Error Mitigation"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://exAClior.github.io/posts/ibmquantumutil/" data-title="Quantum Error Mitigation"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://exAClior.github.io/posts/ibmquantumutil/" data-title="Quantum Error Mitigation"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/adt/" class="prev" rel="prev" title="Algebraic Data Type"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Algebraic Data Type</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="github.com/exAClior" target="_blank">Yusheng Zhao</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

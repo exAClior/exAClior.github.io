@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Algebraic Data Type - A Commonplace Book</title><meta name="Description" content="Yusheng Zhao&#39;s Commonplace Book"><meta property="og:title" content="Algebraic Data Type" />
+<meta property="og:description" content="Motivation In my ongoing project on ZX Calculus, I found myself needing an elegant and efficient way to handle objects of specific types and perform operations on their values. Enter Algebraic Data Types (ADTs) - a powerful concept from functional programming. ADTs, coupled with pattern matching, provide a solution that is not only efficient but also expressive, allowing for cleaner, more readable code when dealing with complex data structures." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://exAClior.github.io/posts/adt/" /><meta property="og:image" content="https://exAClior.github.io/assets/images/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-04T00:00:00+00:00" /><meta property="og:site_name" content="A Commonplace Book" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://exAClior.github.io/assets/images/logo.png"/>
+
+<meta name="twitter:title" content="Algebraic Data Type"/>
+<meta name="twitter:description" content="Motivation In my ongoing project on ZX Calculus, I found myself needing an elegant and efficient way to handle objects of specific types and perform operations on their values. Enter Algebraic Data Types (ADTs) - a powerful concept from functional programming. ADTs, coupled with pattern matching, provide a solution that is not only efficient but also expressive, allowing for cleaner, more readable code when dealing with complex data structures."/>
+<meta name="application-name" content="A Commonplace Book">
+<meta name="apple-mobile-web-app-title" content="A Commonplace Book"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://exAClior.github.io/posts/adt/" /><link rel="prev" href="https://exAClior.github.io/posts/adt2/" /><link rel="next" href="https://exAClior.github.io/posts/ibmquantumutil/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css"></noscript><link rel="preload" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Algebraic Data Type",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/exAClior.github.io\/posts\/adt\/"
+        },"genre": "posts","wordcount":  580 ,
+        "url": "https:\/\/exAClior.github.io\/posts\/adt\/","datePublished": "2023-07-04T00:00:00+00:00","dateModified": "2023-07-04T00:00:00+00:00","publisher": {
+            "@type": "Organization",
+            "name": ""},"author": {
+                "@type": "Person",
+                "name": "Yusheng Zhao"
+            },"description": ""
+    }
+    </script></head>
+    <body data-header-desktop="fixed" data-header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('dark' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'dark' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="A Commonplace Book"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="16" height="16" />A Commonplace Book</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/" title="All posts"> Posts </a><a class="menu-item" href="/projs/" title="Open-source Projects"> Projects </a><a class="menu-item" href="/hackathons/" title="Hackathons"> Hackathons </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="/resources/"> Resources </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="A Commonplace Book"><img
+        class="lazyload logo"
+        src="/svg/loading.min.svg"
+        data-src="/images/logo.png"
+        data-srcset="/images/logo.png, /images/logo.png 1.5x, /images/logo.png 2x"
+        data-sizes="auto"
+        alt="/images/logo.png"
+        title="/images/logo.png" width="16" height="16" />A Commonplace Book</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw" aria-hidden="true"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="All posts">Posts</a><a class="menu-item" href="/projs/" title="Open-source Projects">Projects</a><a class="menu-item" href="/hackathons/" title="Hackathons">Hackathons</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="/resources/" title="">Resources</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+        <div id="search-dropdown-desktop"></div>
+    </div>
+    <div class="search-dropdown mobile">
+        <div id="search-dropdown-mobile"></div>
+    </div><main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Algebraic Data Type</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="github.com/exAClior" title="Author" rel="author" class="author"><i class="fas fa-user-circle fa-fw" aria-hidden="true"></i>Yusheng Zhao</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2023-07-04">2023-07-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>&nbsp;580 words&nbsp;
+                <i class="far fa-clock fa-fw" aria-hidden="true"></i>&nbsp;3 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  data-kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+<ul>
+<li><a href="#headline-1">Motivation</a>
+</li>
+<li><a href="#headline-2">Algebraic Data Types</a>
+</li>
+<li><a href="#headline-3">Pattern Matching</a>
+</li>
+<li><a href="#headline-4">Performance Analysis</a>
+</li>
+<li><a href="#headline-5">Disclaimer</a>
+</li>
+<li><a href="#headline-6">References</a>
+</li>
+</ul>
+</nav></div>
+            </div><div class="content" id="content">
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Motivation
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>In my ongoing project on <a href="https://github.com/QuantumBFS/ZXCalculus.jl">ZX Calculus</a>, I found myself needing an elegant and
+efficient way to handle objects of specific types and perform operations on
+their values. Enter Algebraic Data Types (ADTs) - a powerful concept from
+functional programming. ADTs, coupled with pattern matching, provide a solution
+that is not only efficient but also expressive, allowing for cleaner, more
+readable code when dealing with complex data structures.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Algebraic Data Types
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>Most programming languages provide types to represent primitive data. For
+instance, digit numbers are typically represented in <code>Int</code>, and alphabets in
+<code>char</code>. However, these data types alone might not always convey significant
+meaning. It&#39;s through their composition that we can represent more complex
+concepts. This is where Algebraic Data Types, first introduced in functional
+programming, come into play. An Algebraic Data Type (ADT) is a type formulated
+by composing other types. The algebra in its name encapsulates the operations
+you may execute on these composed types. You can perform addition on types to
+create a <strong>Sum Type</strong>. As an example, in Julia we can define:</p>
+<div class="src src-julia">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#a6e22e">@enum</span> Shape Circle<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> Rectangle<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> Square<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> RightTriangle<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span></span></span></code></pre></div>
+</div>
+<p>
+This is a sum type because the total number of possible instances of the ADT
+<code>Shape</code> is the sum of its <code>variants</code>, i.e., <code>Circle</code>, <code>Rectangle</code>, etc. You can
+also perform multiplication on types to form a <strong>Product Type</strong>.</p>
+<div class="src src-julia">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Rectangle</span>
+</span></span><span style="display:flex;"><span>length<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span>width<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+This is a product type because the total number of potential instances of
+<code>Rectangle</code> is the product of the possible values for <code>length</code> and <code>width</code>.
+Consequently, you can further compose Sum Types and Product Types to create more
+intricate Algebraic Data Types. Here is an example of defining a Product Type
+using Expronicon.jl:</p>
+<div class="src src-julia">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> Expronicon<span style="color:#f92672">.</span>ADT<span style="color:#f92672">:</span> <span style="color:#a6e22e">@adt</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@adt</span> public Shape <span style="color:#66d9ef">begin</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Circle</span>
+</span></span><span style="display:flex;"><span>        radius<span style="color:#f92672">::</span><span style="color:#66d9ef">Float32</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Rectangle</span>
+</span></span><span style="display:flex;"><span>        length<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span>        width<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">Square</span>
+</span></span><span style="display:flex;"><span>        side<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> <span style="color:#66d9ef">RightTriangle</span>
+</span></span><span style="display:flex;"><span>        side1<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span>        side2<span style="color:#f92672">::</span><span style="color:#66d9ef">Int32</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+Note the usage of the keyword <code>public</code>; this implies we can use <code>Circle</code> instead
+of <code>Shape.Circle</code>, making our code more readable and easier to manage.</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+Pattern Matching
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>While representing complex concepts through grouped data is beneficial,
+manipulating this data is equally critical. The first step to handling data is
+through extraction, which is achieved by <strong>destructuring</strong> an Algebraic Data Type.
+This can be generalized into the concept of <strong>pattern matching</strong>, defined as &#39;the
+act of examining a given sequence of tokens for the presence of the constituents
+of some pattern&#39; <a href="https://en.wikipedia.org/wiki/Pattern_matching">[1]​</a>. A comprehensive list of pattern matching rules can be
+found in MlStyle.jl&#39;s documentation. For the sake of brevity and relevance, I&#39;ll
+provide examples of pattern matching using the ADT defined with Expronicon and
+the pattern matching feature provided by MLStyle.jl. This choice was made
+because the ADT in MLStyle.jl supports generic types, so it won&#39;t be type
+stable. For performance reasons, I&#39;ll use the ADT from Expronicon. Both packages
+interact well.</p>
+<div class="src src-julia">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-julia" data-lang="julia"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> enlarge_shape(s<span style="color:#f92672">::</span><span style="color:#66d9ef">Shape</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@match</span> s <span style="color:#66d9ef">begin</span>
+</span></span><span style="display:flex;"><span>        Circle(r) <span style="color:#f92672">=&gt;</span> Circle(<span style="color:#ae81ff">2</span>r)
+</span></span><span style="display:flex;"><span>        Rectangle(l,w) <span style="color:#f92672">=&gt;</span> Rectangle(<span style="color:#ae81ff">2</span>l,<span style="color:#ae81ff">3</span>w)
+</span></span><span style="display:flex;"><span>        Square(s) <span style="color:#f92672">=&gt;</span> Square(s<span style="color:#f92672">^</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        RightTriangle(a,b) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">=&gt;</span> RightTriangle(<span style="color:#ae81ff">2</span>a,<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>b)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+This code accepts an instance of the Algebraic Data Type <code>Shape</code> and enlarges
+the figure according to the specific type of each passed instance.</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+Performance Analysis
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>Roger, author of Expronicon.jl, has made a <a href="https://expronicon.rogerluo.dev/intro/adts/intro">comparison</a> between using ADT and
+naive <code>isa :</code> ternary operator. It has clear performance gain. For the sake of
+time, I will not try to reproduce them here.</p>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
+<h2 id="headline-5">
+Disclaimer
+</h2>
+<div id="outline-text-headline-5" class="outline-text-2">
+<p>This post has been lovingly crafted using <a href="https://orgmode.org/worg/org-contrib/babel/">Org Babel</a>, a literal programming
+support application in Emacs.</p>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
+<h2 id="headline-6">
+References
+</h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<ul>
+<li><a href="https://qr.ae/pybRzN">What&#39;s the point of having Algebraic Data Types?</a></li>
+<li><a href="https://jnkr.tech/blog/introduction-to-algebraic-data-types">Introduction to ADT</a></li>
+<li><a href="https://github.com/thautwarm/MLStyle.jl">MLStyle.jl</a></li>
+<li><a href="https://github.com/Roger-luo/Expronicon.jl">Expronicon.jl</a></li>
+</ul>
+</div>
+</div>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2023-07-04</span>
+            </div></div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://exAClior.github.io/posts/adt/" data-title="Algebraic Data Type" data-via="rpfzpp"><i class="fab fa-twitter fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://exAClior.github.io/posts/adt/"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Hacker News" data-sharer="hackernews" data-url="https://exAClior.github.io/posts/adt/" data-title="Algebraic Data Type"><i class="fab fa-hacker-news fa-fw" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://exAClior.github.io/posts/adt/" data-title="Algebraic Data Type"><i data-svg-src="https://cdn.jsdelivr.net/npm/simple-icons@7.3.0/icons/line.svg" aria-hidden="true"></i></a><a href="javascript:void(0);" title="Share on 微博" data-sharer="weibo" data-url="https://exAClior.github.io/posts/adt/" data-title="Algebraic Data Type"><i class="fab fa-weibo fa-fw" aria-hidden="true"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/adt2/" class="prev" rel="prev" title="Algebraic Data Type Again"><i class="fas fa-angle-left fa-fw" aria-hidden="true"></i>Algebraic Data Type Again</a>
+            <a href="/posts/ibmquantumutil/" class="next" rel="next" title="Quantum Error Mitigation">Quantum Error Mitigation<i class="fas fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="github.com/exAClior" target="_blank">Yusheng Zhao</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw" aria-hidden="true"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sharer.js@0.5.1/sharer.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"algoliaAppID":"","algoliaIndex":"","algoliaSearchKey":"","highlightTag":"em","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"algolia"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

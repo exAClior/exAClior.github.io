@@ -1,8 +1,11 @@
----
-title: "Juliabeginner"
-date: 2023-06-07T21:43:39+08:00
-draft: false 
----
++++
+title = "Juliabeginner"
+author = "Yusheng Zhao"
+date = 2023-06-07T21:43:39+08:00
+tags = ["Julia"]
+draft =  false 
++++
+
 # Purpose
 In this blog, I have collected some tutorials that I found useful while learning
 Julia. I will also provide a tool-chain that I like to use while coding in
