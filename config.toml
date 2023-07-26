@@ -1,6 +1,7 @@
 # site title
 title = "A Commonplace Book"
 # https://en.wikipedia.org/wiki/Commonplace_book
+
 baseURL = "https://exAClior.github.io/"
 
 # Change the default theme to be use when building the site with Hugo
@@ -82,7 +83,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     pre = ""
     post = ""
     name = "Tags"
-    pageRef = "/tags/"
+    url = "/tags/"
     title = ""
 
   # let's not have categories

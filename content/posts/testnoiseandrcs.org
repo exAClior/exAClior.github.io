@@ -1,8 +1,8 @@
-#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
-#+HUGO_SECTION: posts
+#+TAGS: RCS
 #+TITLE: Noise on Random Circuit Sampling
 #+AUTHOR: Yusheng Zhao
-#+DATE: today
+#+DRAFT: true
+
 
 * What is the importance of random circuit sampling
 Quantum supermacy, the quest for looking for a task that can be proven to be

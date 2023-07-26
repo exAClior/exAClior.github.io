@@ -1,7 +1,5 @@
-#+HUGO_BASE_DIR: ~/projects/exAClior.github.io/
-#+HUGO_SECTION: posts
-#+filetags: Programming
 #+TITLE: Algebraic Data Type
+#+TAGS: ADT
 #+AUTHOR: Yusheng Zhao
 #+DATE: <2023-07-04 Tue>
 

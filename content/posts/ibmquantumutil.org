@@ -1,5 +1,4 @@
-#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
-#+HUGO_SECTION: posts
+#+TAGS: QEM
 #+TITLE: Quantum Error Mitigation
 #+SUBTITLE: Zero Noise Extrapolation and Improvement based on Pauli-Lindblad Noise Model
 #+AUTHOR: Yusheng Zhao

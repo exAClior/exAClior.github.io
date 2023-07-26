@@ -1,8 +1,8 @@
-#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
-#+HUGO_SECTION: posts
+#+TAGS: ADT
 #+TITLE: Algebraic Data Type Again
 #+AUTHOR: Yusheng Zhao
 #+DATE: <2023-07-04 Tue>
+#+DRAFT: true
 
 * Motivation
 Last time, I went over the basics of Algebraic Data Types. In this short post, I

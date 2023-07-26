@@ -1,3 +1,7 @@
+#+TITLE: Collatz Conjecture
+#+AUTHOR: Yusheng Zhao
+#+TAGS: Math
+#+DRAFT: true
 
 * Statement
 Remember one of the problems in HW denoted as `3n+1` problem. It has another

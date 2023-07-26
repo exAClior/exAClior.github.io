@@ -1,8 +1,8 @@
-#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
-#+HUGO_SECTION: projs
 #+TITLE: ZXW Calculus
 #+AUTHOR: Yusheng Zhao
+#+TAGS: ZX Calculus
 #+DATE: <2023-07-04 Tue>
+#+DRAFT: true
 
 
 * Why do we need W state?
