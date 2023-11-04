@@ -1,0 +1,11 @@
+#+TAGS: Information
+#+TITLE: Szliard Engine
+#+SUBTITLE:
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2023-11-04 Sat>
+
+* Definition
+Szliard is a thought experiment proposed by [[https://en.wikipedia.org/wiki/Le%C3%B3_Szil%C3%A1rd][Leo Szilard]].
+
+
+- What defined isothermal?
