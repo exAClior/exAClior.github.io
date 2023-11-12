@@ -1,0 +1,60 @@
+#+TITLE: DAMO Academy QEC Lecture Notes Day 1
+#+TAGS: QEC
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2023-11-12 Sun>
+
+* Introduction
+This is a series of much belated lecture notes for DAMO Academy QEC lecture
+series. In my opinion, this lecture series has both amazing breadth and depth.
+The purpose of this series is to keep a copy of the contents of the lecture
+series and augment the content with code to make some glanced over details
+clearer.
+
+* Lecture 1: Why, When and How of Quantum Error Correction
+In this lecture given by [[https://scholar.google.com/citations?user=V7Ye1uQAAAAJ&hl=en][Dr. Jianxin Chen]], we are going to have a brief
+introduction to the basics of quantum error correction. Due to my own limitation
+in understanding, I will omit the architecture level part of quantum chip given
+in the lecture and directly jump to the motivation of the quantum error
+correction.
+
+** Why
+Computational results are useful when there's no error. Error could happen at
+all sorts of locations. For example, they could happen at CPU cores, storage
+drives, memories or even network connections. The type of error that happen also
+varies. It could be either hard errors like manufracturing defects or vibrations
+and shocks to hardware. Alternatively, it could also be soft errors like
+improper I/O or cosmic rays.
+
+Although the sources of error may be complicated, we could adopt for a simple
+model that represents the process of an error corrupting our precious data.
+Given a data bit in state $a$, with probability $p$ we will have an error that
+flips data bit.
+
+#+begin_src julia-vterm :results both
+using Luxor
+
+
+draw_error_model(0.6)
+#+end_src
+
+#+RESULTS:
+: Executing... a9d3fcc1
+
+Classical error correction code relies on the copying of information to protect
+data from corruption.
+
+** Theoretical Background
+Naively, one will say that you have all the math you need to do quantum error
+correction if you know linear algebra. However, this is far from being true. QEC
+is a theoretically dense subject. For example, you need to have a good grasp of
+topology, topological order and topological phase to understand and appreciate
+the ingeniousness of toric code. A bit of topological quantum field theory
+should help to truly understand topological quantum computing. Category theory
+and ZX-Calculus is needed if you want to truly understand surface code.
+
+* References
+Here is a set of references which I found useful during my study on the topic of
+Quantum Error Correction and preparation of lecture notes. Some of them are
+taken from the lecture notes.
+- [[https://www2.physics.ox.ac.uk/sites/default/files/ErrorCorrectionSteane06.pdf][Tutorial by Steane]]
+- [[https://arxiv.org/abs/quant-ph/9604034][A Theory of Quantum Error-Correcting Codes by Knill and Laflamme]]
