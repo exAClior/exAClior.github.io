@@ -1,0 +1,39 @@
+#+TITLE: Notes on Mathematics
+#+AUTHOR: Yusheng Zhao
+#+DATE:  <2023-11-12 Sun>
+#+DRAFT: true
+
+* Introduction
+** What is Mathematics About
+On the level of first approximation, any problem in mathematics can be
+categorized as belonging to one of the following three types: algebra, geometry,
+or analysis. An algebraic problem concerns with equations and unknown variables.
+Meanwhile, geometrical problems concerns with properties of shapes and is often
+more visual. A problem of analysis often contains *limiting process*. However,
+the boundary between types of problems are not always so clear. A geometrical
+view of a problem may be more useful than an algebraic one for some people. Vice
+versa.
+** Branches of Mathematics
+A more rigorous division of branches of mathematics is given.
+
+*** Algrbra
+A study that are concerned with number system, polynomials and abstract
+structures like groups, fields, vector spaces and rings.
+
+*** Number Theory
+Focus on certain properties of a set of numbers. The process of finding numbers
+with some properties in mind is the subject of algebra.
+
+*** Geometry
+A study of manifolds which is a higher-dimensional generalization of shapes.
+
+*** Algebraic Geometry
+Also studies manifold. But these manifolds are defined using polynomials.
+
+*** Analysis
+Either be the study of partial differential equations. Or infinite dimensional
+structures, hence where the idea of limiting comes in. Such structures include
+*Banach Space*, *Hilbert Space*, *C-star algrbra*, *Von Neumann Algebra*. The
+last two are called algebra because multiplication of elements in them, adding
+elements, and multiplication of element by scalar are defined. Finally, dynamics
+also falls into this category.
