@@ -37,3 +37,68 @@ structures, hence where the idea of limiting comes in. Such structures include
 last two are called algebra because multiplication of elements in them, adding
 elements, and multiplication of element by scalar are defined. Finally, dynamics
 also falls into this category.
+
+*** Logic
+Studies fundamental questions about mathematics. Includes *Set Theory*,
+*Category Theory*, and *Model Theory*.
+
+*** Combinatorics
+A naive definition is it's about counting things.
+
+*** Theoretical Computer Science
+
+*** Probability
+
+*** Mathematical Physics
+
+** The Language and Grammar of Mathematics
+This section introduces terminologies and grammar of how mathematicians
+communicate in a precise language. It starts with and often goes back to the
+initial example it gives. I.e "two plus two is four". It does so by analyzing
+the type of each word / phrase in that sentene. For example, "plus" is a verb
+and "two plus two" is a noun etc.
+
+*** Four Basic Concepts
+These are four basic concepts that are used throughout the language of
+mathematics.
+
+**** Sets
+It's a collection of objects. Members of a set are called *elements*. The symbol
+to denote membership is \(\in\). There are three ways to define a set. The first
+is listing them all out. I.e \([1,2,3,4,5]\) The second omits some of them and
+replaces the omitted elements with \(...\). I.e \([1,...,5]\). The third defines
+them with a property. I.e \(\{x: mod(x,2) = 0\}\)
+
+Sets are useful when you want to describe somethings succiently. I.e when
+translating a description of a geometrical shape into formal language.
+\(\{(x,y) : x^{2} + y^{2} = 1\}\) for a unit circle. Another example is that it
+could be useful in defining new mathematical objects.
+
+**** Functions
+It's roughly a transformation. A function has *domain* and *range* which is the
+set of objects the function transform from and to, respectively. The *image* of
+a function is the set of all possible value it could transform to.
+
+Another important concept about a function is *invertibility*. A function is
+invertible when it's a *bijection*. Meaning it has the following two properties.
+Firstly, it has *injection*. I.e $f(x) \neq f(x')$ guarantees \(x \neq x'\).
+Secondly, it has *surjection*. I.e for all $y$ in the *image* of the function,
+we could always find such a value of $x$ such that $y = f(x)$.
+
+**** Relations
+They are things like *equal*, *greater than*, *similar to*, *congruent with*.
+They are useful in defining *equivalence class*, which divides a set into
+multiple classes. This is important when you want to define notion of
+*Quotient*. Such equivalence relations has the following three properties:
+1) *reflexivity*, \( x ~ x \) for all $x$ in a set.
+2) *symmetry*, \(x ~ y\) means \(y ~ x\).
+3) *transitivity*, \(x ~ y\) and \(y ~ z\) means \(x ~ z\).
+
+**** Binary operations
+It's things like *multiply*, *add*, and *divided by*, etc. It may have the
+following four properties which are fundamental to structure of abstract
+algebra.
+1) *commutativity*: \(x * y = y * x\)
+2) *associativity*: \(x * (y * z) = (x * y) * z\)
+3) *identity*: there exists an element *e* such that \(e * x = x\) for all $x$.
+4) *inverse*: for all $x$, there exists a $y$ such that \(x * y = e\)
