@@ -14,3 +14,6 @@ we would like to contract it and convert everything to a single number.
 
 Normally, you could add up the contraction result of different ? Is this saving
 time? Yes, if you are adding up large number of ZX Diagrams.
+
+** My Slides and Juliacn 2023 winter meetup
+- [[https://github.com/exAClior/presentations/blob/master/juliacn2023/juliacn2023.jl]]
