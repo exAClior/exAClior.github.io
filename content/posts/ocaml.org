@@ -1,0 +1,34 @@
+#+TITLE: OCaml Learning
+#+AUTHOR: Yusheng Zhao
+#+DATE: \today
+
+* What's OCaml
+OCaml is a functional programming language. I intend to use it for recreating
+the ~Pie~ system in the book *the Little Typer*.
+
+
+* How to manage environment in OCaml
+The tool that is needed to manage environment in OCaml is called ~opam~. The
+environments in OCamel are termed as switches. To create a new switch, use
+#+BEGIN_SRC bash
+opam switch create <switch-name> <compiler-version>
+#+END_SRC
+
+** Resources
+- [[https://ocaml.org/docs/opam-switch-introduction][OCaml Official Guide]]
+
+* How to create a Project in OCaml
+The tool that is needed to create a project in OCaml is called ~dune~. It is
+** Modules in OCaml
+Modules in OCaml are similar to namespaces in C++. They are used to organize
+functions and types. Each module is defined in a file with the same name as the
+module. For example, the module ~List~ is defined in the file ~List.ml~. The
+
+~lib/ModuleName.ml~ is the file that defines the module ~Module~. The
+~lib/ModuleName.mli~ is the file where you decide which functions and types to
+make public.
+**  Install Modules
+~opam isntall packageName~
+
+** Resources
+- [[https://ocaml.org/docs/your-first-program][OCaml Official Guide]]
