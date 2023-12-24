@@ -4,14 +4,53 @@
 
 * What's OCaml
 OCaml is a functional programming language. I intend to use it for recreating
-the ~Pie~ system in the book *the Little Typer*.
+the ~Pie~ programming in the book *the Little Typer*.
 
+* Why OCaml
+- Immutability of "variables" means easier debugging
+- More abstraction?
+- Better type system?
+- More explosure to theory and implementation of programming languages.
+
+* History
+At the very beginning, there was a language called ~ML~. It was created by Robin
+Milner and others in the 1970s. It was created as a language for writing proof
+assistants. OCaml is a dialect of ML created by the French computer scientist
+Xavier Leroy and others.
+
+* What is a functional programming language
+Computation is expressed as mathematical functions. It avoids mutable state. The
+other end of the spectrum is imperative programming languages, which breaks
+*referential transparency*. Meaning, assignment has different meaning than
+equality. For example, if at time $t$, you execute ~y = f(x)~, it does not mean
+you could substitue for all later or previous times the appearance of ~y~ with
+~f(x)~.
+
+Continue on 1.2.1
 
 * How to manage environment in OCaml
-The tool that is needed to manage environment in OCaml is called ~opam~. The
-environments in OCamel are termed as switches. To create a new switch, use
+No language is of any use without good libraries. The libraries in OCaml are
+managed by a tool called ~opam~. The environments in OCamel are termed as
+switches. To create a new switch, use the following command:
+
 #+BEGIN_SRC bash
 opam switch create <switch-name> <compiler-version>
+#+END_SRC
+
+For example, to create a switch named ~ocaml-4.10.0~, use the following
+command:
+#+BEGIN_SRC bash
+opam switch create ocaml-4.10.0 ocaml-base-compiler.4.10.0
+#+END_SRC
+
+To list all the switches, use the following command:
+#+BEGIN_SRC bash
+opam switch list
+#+END_SRC
+
+To switch to a different switch, use the following command:
+#+BEGIN_SRC bash
+opam switch set <switch-name>
 #+END_SRC
 
 ** Resources
