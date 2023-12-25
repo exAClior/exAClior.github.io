@@ -145,6 +145,36 @@ There's a recommended workflow in ~utop~ for development.
 Unfortunately, the third step cannot be skipped. Reminds us how great [[https://github.com/timholy/Revise.jl][Revise.jl]]
 was.
 
+*** Chained let expression
+We could chain ~let~ expressions, this is like saying we have a large expression
+and we gradually substitute values into identifiers in the expression. Note,
+OCaml likes ~snake_case~ naming style not the ~camelCase~.
+
+#+BEGIN_SRC ocaml :results verbatim
+let a = "hello" in
+let b = "world" in a^ b;;
+#+END_SRC
+
+#+RESULTS:
+: - : string = "helloworld"
+
+*** Scope defined by let
+~let~ tells the program what *value* to substitute for a certain *identifier*.
+The scope of validity of this substitution is defined to be at the inner most
+~let~ where we have
+#+begin_src ocaml :results verbatim
+let x = 1 in
+let x = 2 in
+x;;
+#+end_src
+
+#+RESULTS:
+: Line 1, characters 4-5:
+: 1 | let x = 1 in
+:         ^
+: Warning 26 [unused-var]: unused variable x.
+: - : int = 2
+
 ** Compiling
 The format was somewhat similar to that of C. Say you have a file ~hello.ml~ and
 you want to compile it, you could do
@@ -238,6 +268,48 @@ if "batman" > "superman" then "joker!" else 1
 : Error: This expression has type int but an expression was expected of type
 :          string
 
+Nesting of the ~if else if~ is possible
+
+#+BEGIN_SRC ocaml :results verbatim
+if "batman" > "joker" then "Earthling survives!"
+else if "superman" > "Luther" then "Earthling survives"
+else "We are doomed!"
+#+END_SRC
+
+#+RESULTS:
+: - : string = "Earthling survives"
+
+*** Connect to Dynamics and Static Sematic
+To connect back to previous definition of dynamic and static sematics, we examin
+the following ~if e1:t1 then e2:t23 else e3:t23~. we say at compile time the
+type of this entire expression is ~t23~, it's inferred as a static sematics. At
+the same time, dynamic sematics evaluates the value of this expression to either
+the value of ~e2~ or ~e3~ depending on the runtime value of ~e1~ being true or
+false.
+
+** Functions
+There are two ways to define a function in OCaml, they are syntactically
+different but semantically the same.
+#+BEGIN_SRC ocaml :results verbatim
+let inc = fun x -> x + 1;;
+let inc x = x + 1;;
+(* the later is syntactic sugar of the previous  *)
+#+END_SRC
+
+#+RESULTS:
+: val inc : int -> int = <fun>
+
+*** Recursive function
+You need to explicitly indicate this function is recursive by the ~rec~ keyword.
+#+BEGIN_SRC ocaml :results verbatim
+let rec fact n =
+  if n = 0 then 1
+    else n * fact (n-1);;
+fact 10
+#+END_SRC
+
+#+RESULTS:
+: - : int = 3628800
 
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
