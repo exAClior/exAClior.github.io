@@ -386,6 +386,65 @@ let first_int : int -> 'b -> int = first;;
 
 Note, the ~bad_first~ doesn't work because the type are inconsistent.
 
+** Labeled and Optional Arguments
+It looks like keyword and optional arguments
+
+#+BEGIN_SRC ocaml :results verbatim
+let f ~name1:(arg1 : int) ~name2:(arg2 : int) = arg1 + arg2;;
+let f ?name:(arg1=8) arg2 = arg1 + arg2;;
+#+END_SRC
+
+#+RESULTS:
+: val f : ?name:int -> int -> int = <fun>
+
+** Partial Application
+All multi-argument functions in OCaml are just partial application functions
+applied in chain.
+
+#+BEGIN_SRC ocaml :results verbatim
+let addx x = fun y -> x + y;;
+addx 2 @@ 3 ;;
+#+END_SRC
+
+#+RESULTS:
+: - : int = 5
+
+** Operators as function
+You could define your own infix operators.
+
+#+BEGIN_SRC ocaml :results verbatim
+let (<^>) x y = max x y;;
+10 <^> 20;;
+#+END_SRC
+
+#+RESULTS:
+: - : int = 20
+
+** Tail Recursion
+Recursive call eats up your stack memory. It achieves so by reusing the stack
+memory of the previous caller. But the programmer needs to rewrite the program
+such that the compiler knows nothing needs to be done in the caller anymore but
+return the returned value of next level function.
+
+#+BEGIN_SRC ocaml :results verbatim
+let rec count n =
+  if n = 0 then 0 else 1 + count (n - 1);;
+
+let rec count_aux n acc =
+  if n = 0 then acc else count_aux (n - 1) (acc + 1);;
+
+let count_tr n = count_aux n 0;;
+
+(* this will explode your stack  *)
+(* count 100000;; *)
+
+(* the following will not *)
+count_tr 10000000;;
+#+END_SRC
+
+#+RESULTS:
+: - : int = 10000000
+
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
 managed by a tool called ~opam~. The environments in OCamel are termed as
