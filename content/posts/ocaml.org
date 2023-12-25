@@ -145,6 +145,100 @@ There's a recommended workflow in ~utop~ for development.
 Unfortunately, the third step cannot be skipped. Reminds us how great [[https://github.com/timholy/Revise.jl][Revise.jl]]
 was.
 
+** Compiling
+The format was somewhat similar to that of C. Say you have a file ~hello.ml~ and
+you want to compile it, you could do
+#+begin_src sh
+ocamlc -o hello.byte hello.ml
+#+end_src
+
+If you would like to automate these, you could use ~dune~, ~OCaml~'s own build
+system like ~Makefile~. You will need a ~dune~ file in your project's toplevel
+directory.
+
+Your build will be in folder ~_build~.
+** Expressions
+Some reference are
+1. [[https://v2.ocaml.org/manual/expr.html][OCaml Expressions]]
+2. [[https://v2.ocaml.org/manual/values.html][OCaml Values]]
+*** Int
+OCaml ~int~ are always $64$ bit in memory but I lacks $1$ bit due to OCaml
+implementation. This is due to the other types usually have ~header~ plus ~data~
+implementation. The ~header~ is a $64$ bit number. That is word-aligned (the
+details of which I still don't understand but it's guaranteed to have last few
+bits being zero). For ~int~ type value, it's no longer stored as ~header~ and
+~data~. An int ~x~ is stored as ~(x << 1) | 1~. Meaning the last bit of an int
+will always be $1$. Therefore, there's an easy way to tell the type of data by
+simply checking the last bit of the ~header~ of a value.(We are treating the
+actual data of int like its header now). See [[https://blog.janestreet.com/what-is-gained-and-lost-with-63-bit-integers/][this]] Jane stree blog for details.
+
+*** Float
+As spoken before you need special operator for operating on ~floats~. OCaml does
+not support operator overloading.
+
+To convert between ~float~ and ~int~, use function ~float_of_int~.
+#+BEGIN_SRC ocaml :results verbatim
+let x = 2;;
+3.14 *. (float_of_int x);;
+#+END_SRC
+
+#+RESULTS:
+: - : float = 6.28
+*** bool
+#+BEGIN_SRC ocaml :results verbatim
+let x = true;;
+let y = false;;
+x || y;;
+x && y;;
+#+END_SRC
+
+
+#+RESULTS:
+: - : bool = false
+
+*** char
+Represented as $8$ -bit integers. Conversion available by functions
+~char_of_int~ and ~int_of_char~.
+
+
+*** string
+Concatenation via ~"abc"^"def"~. Conversion available by ~string_of_int~ and
+~string_of_bool~. Need ~String.make 1 'z'~ to convert char to string. Indexing
+is possible. It's $0$ based.
+
+** TODO Equality Operators
+Explain the difference between ~<>~ vs ~!=~ and ~=~ vs ~==~.
+
+** Assertions
+#+BEGIN_SRC ocaml :results verbatim
+assert (1 = 2);;
+#+END_SRC
+
+#+RESULTS:
+: Exception: Assert_failure ("//toplevel//", 1, 0).
+
+** If else
+#+BEGIN_SRC ocaml :results verbatim
+if "batman" > "superman" then "joker!" else "Luther!"
+#+END_SRC
+
+#+RESULTS:
+: - : string = "Luther!"
+
+Note the returned expression needs to have the same type
+
+#+BEGIN_SRC ocaml :results verbatim
+if "batman" > "superman" then "joker!" else 1
+#+END_SRC
+
+#+RESULTS:
+: Line 1, characters 44-45:
+: 1 | if "batman" > "superman" then "joker!" else 1;;
+:                                                 ^
+: Error: This expression has type int but an expression was expected of type
+:          string
+
+
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
 managed by a tool called ~opam~. The environments in OCamel are termed as
@@ -174,7 +268,13 @@ opam switch set <switch-name>
 - [[https://ocaml.org/docs/opam-switch-introduction][OCaml Official Guide]]
 
 * How to create a Project in OCaml
-The tool that is needed to create a project in OCaml is called ~dune~. It is
+The tool that is needed to create a project in OCaml is called ~dune~. To create
+a new project, you could do
+
+#+begin_src
+dune init proj hello
+#+end_src
+
 ** Modules in OCaml
 Modules in OCaml are similar to namespaces in C++. They are used to organize
 functions and types. Each module is defined in a file with the same name as the
