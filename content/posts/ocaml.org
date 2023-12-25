@@ -311,6 +311,81 @@ fact 10
 #+RESULTS:
 : - : int = 3628800
 
+Note, you could also denote mutually recursive function with ~and~ keyword
+
+#+BEGIN_SRC ocaml :results verbatim
+(** [even n] is whether [n] is even.
+    Requires: [n >= 0]. *)
+let rec even n =
+  n = 0 || odd (n - 1)
+
+(** [odd n] is whether [n] is odd.
+    Requires: [n >= 0]. *)
+and odd n =
+  n <> 0 && even (n - 1);;
+
+even 10;;
+#+END_SRC
+
+#+RESULTS:
+: - : bool = true
+
+*** Lambda Expression: anonymous functions
+Note, lambda expression by itself in its definition is already a value, no
+computation needs to be done.
+#+BEGIN_SRC ocaml :results verbatim
+(fun x -> x + 1) 2;;
+#+END_SRC
+
+#+RESULTS:
+: - : int = 3
+
+*** Pipeline
+There's ~@@~ which treats the entire right side of it as an expression and pipes
+it to the left hand side function. This avoids the need to write ugly parenthesis.
+#+BEGIN_SRC ocaml :results verbatim
+let square x = x * x;;
+square @@ inc 5;;
+#+END_SRC
+
+#+RESULTS:
+: - : int = 36
+
+There's also the pipleline operator we know and love in Julia ~|>~. This creates
+a convinent way of chaining multiple application of functions.
+#+BEGIN_SRC ocaml :results verbatim
+5 |> inc |> square;;
+#+END_SRC
+
+#+RESULTS:
+: - : int = 36
+
+** Polymorphic
+In OCaml, you denote an type variable, a variable holding the type of a variable
+with ~'~ and a name. I.e ~'a~.
+
+#+BEGIN_SRC ocaml :results verbatim
+let id x = x;;
+#+END_SRC
+
+#+RESULTS:
+: val id : 'a -> 'a = <fun>
+
+Notice, we could instantiate a specific type version of the polymorphic function
+by explicitly specifying the type information.
+
+#+BEGIN_SRC ocaml :results verbatim
+let first x y = x;;
+let first_int : int -> 'b -> int = first;;
+(* first_int 10 20;; *)
+(* let bad_first : int -> 'b -> string = first;; *)
+#+END_SRC
+
+#+RESULTS:
+: - : int = 10
+
+Note, the ~bad_first~ doesn't work because the type are inconsistent.
+
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
 managed by a tool called ~opam~. The environments in OCamel are termed as
