@@ -541,6 +541,29 @@ let random_int bound =
 - [[http://www.pl-enthusiast.net/2014/07/21/memory-safety/][What is memory safety]]
 - [[http://www.pl-enthusiast.net/2014/08/05/type-safety/][What is type safety]]
 
+* Data and Types
+There are a few familiar types in OCaml. In particular, there's ~list~ and
+~tuple~. There's also ~record~ and ~variant~. They correspond to ~struct~ and
+~enum~.
+
+** Lists
+- Singly-linked
+- Immutable
+
+* Compiler vs Interpreter
+A compiler is a program that takes in a program written in a programming
+language and outputs a program in another programming language. Neither the
+input code or the compiler is needed to run the output program. The primiary job
+of a compiler is to do *translation* so they are more performant.
+
+On the other hand, an interpreter takes the code of a source program as input
+and prepares itself to take input and give output. In this sense, the
+interpreter is easier to implement.
+
+** Just-in-time compilation
+When an interpreter sees some code is being run over and over again, it can
+improve performance by compiling this piece of code to byte code to improve
+performance.
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
 managed by a tool called ~opam~. The environments in OCamel are termed as
