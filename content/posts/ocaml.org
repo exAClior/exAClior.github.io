@@ -445,6 +445,102 @@ count_tr 10000000;;
 #+RESULTS:
 : - : int = 10000000
 
+** The None
+The usual ~None~ return value is denoted as ~()~ in OCaml, you will see it being
+displayed as ~unit~ which only has one value.
+
+#+BEGIN_SRC ocaml :results verbatim
+let () = print_endline "Camels" in
+let () = print_endline "Horses" in
+print_endline "Donkeys";;
+#+END_SRC
+
+#+RESULTS:
+: Camels
+: Horses
+: Donkeys
+: - : unit = ()
+
+** Semicolon
+Notice in the above statement, it's a hassel to have to write ~let _ in~ each
+time. We are *not* binding any value to an expression, so we could replace it
+with ~;~ like below
+
+#+BEGIN_SRC ocaml :results verbatim
+print_endline "Camels";
+print_endline "Horses";
+print_endline "Donkeys"
+#+END_SRC
+
+#+RESULTS:
+: Camels
+: Horses
+: Donkeys
+: - : unit = ()
+
+** Ignoring output
+Due to type safety requirements, if we truly want to output a ~unit~ type no
+matter the output type of our computation, we could use the ignore function.
+
+#+BEGIN_SRC ocaml :results verbatim
+ignore @@ 2 + 3;;
+#+END_SRC
+
+#+RESULTS:
+: - : unit = ()
+
+** Debugging
+You could either employ printing or tracing for debugging. To enable tracing use
+directive ~#trace~.
+
+#+BEGIN_SRC ocaml :results verbatim
+let rec fib x = if x <= 1 then 1 else fib (x - 1) + fib (x - 2);;
+#trace fib;;
+fib 3;;
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+fib <-- 3
+fib <-- 1
+fib --> 1
+fib <-- 2
+fib <-- 0
+fib --> 1
+fib <-- 1
+fib --> 1
+fib --> 2
+fib --> 3
+- : int = 3
+#+end_example
+
+** Defensive Programming
+Don't assume users know the range of arguments, give tests to make sure they
+input correct range of arguments.
+
+#+BEGIN_SRC ocaml :results verbatim
+(* possibility 1 *)
+let random_int bound =
+  assert (bound > 0 && bound < 1 lsl 30);
+  (* proceed with the implementation of the function *)
+
+(* possibility 2 *)
+let random_int bound =
+  if not (bound > 0 && bound < 1 lsl 30);
+  then invalid_arg "bound";
+  (* proceed with the implementation of the function *)
+
+(* possibility 3 *)
+let random_int bound =
+  if not (bound > 0 && bound < 1 lsl 30)
+  then failwith "bound";
+  (* proceed with the implementation of the function *)
+#+END_SRC
+
+*** Type safety and Memory safety
+- [[http://www.pl-enthusiast.net/2014/07/21/memory-safety/][What is memory safety]]
+- [[http://www.pl-enthusiast.net/2014/08/05/type-safety/][What is type safety]]
+
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
 managed by a tool called ~opam~. The environments in OCamel are termed as
