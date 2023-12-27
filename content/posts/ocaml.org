@@ -564,6 +564,159 @@ interpreter is easier to implement.
 When an interpreter sees some code is being run over and over again, it can
 improve performance by compiling this piece of code to byte code to improve
 performance.
+
+** Architecture
+A compiler has two parts, a front end and a backend. The frontend is responsible
+for translating the source code into *Abstract Syntax Tree* and then into
+*Intermediate Representation*. The backend is then responsible for translating
+the IR into machine code. The interpreter on the other hand does not have
+backend. It executes *AST* or *IR* directly. (But how?)
+
+The frontend of them follows three steps
+1. Lexer: it parses the source code characters into word streams, known as
+   *tokens*.
+2. Parser: it constructs an *Abstract Syntax Tree* out of the word steam. These
+   nodes are known as *AST nodes*.
+3. Sematics analysis: it analyzes the sematics of the AST, checking for type
+   errors etc.
+
+** Parsers and Lexers
+You don't have to write your own parse and lexers as OCaml has those [[https://v2.ocaml.org/manual/lexyacc.html][included.]]
+
+*** Lexers
+A lexer is built as *deterministic finite automata*. Upon specifying the
+*regular expression* that describes the *regular language* it expects, the lexer
+will output a program that implements the automaton. This automaton then accepts
+"source code" and lexizes them.
+
+An OCaml lexer generator, ~ocamllex~, generates ~.ml~ file from a ~.mll~ file.
+
+**** Header
+The header of a ~.mll~ file we need to specify the type of the tokens. This is
+done by loading the ~Parser~ module, generate by our ~.mly~ file.
+#+begin_src text
+{
+open Parser
+}
+#+end_src
+
+**** Identifier
+The *regular expressions* are denoted as *identifiers*. They are defined by the
+following
+
+#+begin_src text
+let white = [' ' '\t']+
+let digit = ['0'-'9']
+let int = '-'? digit+
+let letter = ['a'-'z' 'A'-'Z']
+let id = letter+
+#+end_src
+
+**** Rules
+When we have defined the *identifiers*, we could then define the *rules* that
+specify the *regular language* the lexer expects and tell you what to do after.
+
+#+begin_src text
+rule read =
+  parse
+  | white { read lexbuf }
+  | "true" { TRUE }
+  | "false" { FALSE }
+  | "<=" { LEQ }
+  | "*" { TIMES }
+  | "+" { PLUS }
+  | "(" { LPAREN }
+  | ")" { RPAREN }
+  | "let" { LET }
+  | "=" { EQUALS }
+  | "in" { IN }
+  | "if" { IF }
+  | "then" { THEN }
+  | "else" { ELSE }
+  | id { ID (Lexing.lexeme lexbuf) }
+  | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
+  | eof { EOF }
+#+end_src
+
+*** Parser
+A parser is built as *push-down automata*. Upon specifying the *context-free
+language* it expects, the parser will output a program that implements the
+automaton. This automaton then accepts "source code" and parses them according
+to the *context-free grammer* into the *Backus-Naur Form*.
+
+An OCaml parser generator ~ocamlyacc~ or ~Menhir~ that generates ~.ml~ file from a ~.mly~
+file. The ~.mly~ file consist of the following parts
+
+**** Header
+The header of a ~.mll~ file looks like this. It's necessary to avoid having to
+write things like ~Ast.Int i~. Instead, you could do ~Int i~.
+#+begin_src text
+%{
+  open Ast
+%}
+#+end_src
+
+**** Declaration
+#+begin_src text
+%token <int> INT
+%token <string> ID
+%token TRUE
+%token FALSE
+%token LEQ
+%token TIMES
+%token PLUS
+%token LPAREN
+%token RPAREN
+%token LET
+%token EQUALS
+%token IN
+%token IF
+%token THEN
+%token ELSE
+%token EOF
+#+end_src
+
+The associativity of operators is specified by the following. The precedence is
+from low to high.
+
+#+begin_src text
+%nonassoc IN
+%nonassoc ELSE
+%left LEQ
+%left PLUS
+%left TIMES
+#+end_src
+
+**** Rules
+The rules are specified by the following. They resemble the BNF form of the
+language.
+#+begin_src text
+%start <Ast.expr> prog
+expr:
+  | production  { action }
+  | i = INT { Int i }
+  | x = ID { Var x }
+  | TRUE { Bool true }
+  | FALSE { Bool false }
+  | e1 = expr; LEQ; e2 = expr { Binop (Leq, e1, e2) }
+  | e1 = expr; TIMES; e2 = expr { Binop (Mult, e1, e2) }
+  | e1 = expr; PLUS; e2 = expr { Binop (Add, e1, e2) }
+  | LET; x = ID; EQUALS; e1 = expr; IN; e2 = expr { Let (x, e1, e2) }
+  | IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }
+  | LPAREN; e=expr; RPAREN {e}
+  ;
+%%
+#+end_src
+*** BNF
+BNF stands for *Backus-Naur Form*. It's a way to describe the syntax of a
+language it has the following form
+
+#+BEGIN_SRC text
+meta-variable ::= expression | ... | expression
+#+END_SRC
+*** Code Generation
+We could use the ~dune~ build system to compile the ~.mll~ and ~.mly~ files into
+~.ml~ files.
 * How to manage environment in OCaml
 No language is of any use without good libraries. The libraries in OCaml are
 managed by a tool called ~opam~. The environments in OCamel are termed as
