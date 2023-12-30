@@ -8,9 +8,63 @@
 #+filetags: OCaml PackageManagement
 
 * Why
-This brief note serves to record project management tools and precedures for creating ~OCaml~ projects.
+This brief note serves to record project management tools and precedures for
+creating ~OCaml~ projects.
 
-** Tools
+* How
+** Package Management
+The most important aspect of open-source development is for your code to be
+published and utilized by other users. In order to do that, it is essential to
+have a *replicable* environment and *clean* project structure. The
+~PkgTemplates.jl~ is a ~Julia~ package for creating new ~Julia~ packages. It has
+spoiled me for being *easy* to use, having *clean* project generation, having
+*no extra dependency* on other tools, and has *good synergy* with github. In
+~OCaml~ ecosystem, there are few options like ~PkgTemplates.jl~ such as ~spin~
+and ~pesy~. However, ~drom~, a wrapper over opam and dune, resembles
+~PkgTemplates.jl~ the most. Therefore, I will adopt to use it. It should be
+noted however the other two tools has their own strengths. For example, ~spin~
+has more templates than ~drom~. Underthe hood, ~drom~ uses ~opam~ for
+environment management and ~dune~ for project management and project building.
+
+*** Drom Installation
+~drom~ is a ~OCaml~ package. Therefore, it can be installed using ~opam~. To do
+so, use the following command:
+
+#+begin_src bash
+opam install drom
+#+end_src
+
+
+*** Drom Usage
+In order to create a project skeleton, we could use the following code
+
+#+begin_src sh
+drom new PKG-NAME --skeleton SKELETON-NAME
+#+end_src
+
+There are six possible ~SKELETON-NAME~:
+1. ~virtual~
+2. ~library~
+3. ~program~
+4. ~mini-lib~
+5. ~mini-prg~
+6. ~ppx_deriver~
+
+The details of each skeleton is beyond the scope of this note. Interested reader
+will find their [[https://ocamlpro.github.io/drom/sphinx/reference.html#skeletons][documentation]] helpful. We will continue this note with ~program~
+skeleton.
+
+**** Customization
+There are a few things we would like to change based on the skeleton. We could
+do that by first editing the ~drom.toml~ file and them run ~drom project~ to
+update the project structure.
+
+
+**** Build Project
+You may build the project with ~drom build -y~ and then run it with ~drom run~.
+There are other convinent options like building the documentation and installing
+the written package into a global ~opam~ environment. You may find details in
+[[https://ocamlpro.github.io/drom/sphinx/quickstart.html#installing-the-project][drom's documentation]] helpful.
 
 
 * How to manage environment in OCaml
