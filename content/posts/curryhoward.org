@@ -1,0 +1,5 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Curry Howard Correspondence
+#+AUTHOR: Yusheng Zhao
+#+DATE:  <2023-12-28 Thu>

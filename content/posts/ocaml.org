@@ -1,6 +1,11 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
 #+TITLE: OCaml Learning
+#+SUBTITLE: Basics
 #+AUTHOR: Yusheng Zhao
-#+DATE: \today
+#+DATE: <2023-12-30 Sat>
+#+EXPORT_HUGO_TAGS: true
+#+filetags: PL
 
 * What's OCaml
 OCaml is a functional programming language. I intend to use it for recreating
