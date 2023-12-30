@@ -4,7 +4,7 @@
 #+SUBTITLE: Basics
 #+AUTHOR: Yusheng Zhao
 #+DATE: <2023-12-30 Sat>
-#+EXPORT_HUGO_TAGS: true
+#+EXPORT_HUGO_TAGS: t
 #+filetags: PL OCaml
 
 * What's OCaml
@@ -737,52 +737,3 @@ meta-variable ::= expression | ... | expression
 *** Code Generation
 We could use the ~dune~ build system to compile the ~.mll~ and ~.mly~ files into
 ~.ml~ files.
-* How to manage environment in OCaml
-No language is of any use without good libraries. The libraries in OCaml are
-managed by a tool called ~opam~. The environments in OCamel are termed as
-switches. To create a new switch, use the following command:
-
-#+BEGIN_SRC bash
-opam switch create <switch-name> <compiler-version>
-#+END_SRC
-
-For example, to create a switch named ~ocaml-4.10.0~, use the following
-command:
-#+BEGIN_SRC bash
-opam switch create ocaml-4.10.0 ocaml-base-compiler.4.10.0
-#+END_SRC
-
-To list all the switches, use the following command:
-#+BEGIN_SRC bash
-opam switch list
-#+END_SRC
-
-To switch to a different switch, use the following command:
-#+BEGIN_SRC bash
-opam switch set <switch-name>
-#+END_SRC
-
-** Resources
-- [[https://ocaml.org/docs/opam-switch-introduction][OCaml Official Guide]]
-
-* How to create a Project in OCaml
-The tool that is needed to create a project in OCaml is called ~dune~. To create
-a new project, you could do
-
-#+begin_src
-dune init proj hello
-#+end_src
-
-** Modules in OCaml
-Modules in OCaml are similar to namespaces in C++. They are used to organize
-functions and types. Each module is defined in a file with the same name as the
-module. For example, the module ~List~ is defined in the file ~List.ml~. The
-
-~lib/ModuleName.ml~ is the file that defines the module ~Module~. The
-~lib/ModuleName.mli~ is the file where you decide which functions and types to
-make public.
-**  Install Modules
-~opam isntall packageName~
-
-** Resources
-- [[https://ocaml.org/docs/your-first-program][OCaml Official Guide]]
