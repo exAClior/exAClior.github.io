@@ -5,50 +5,64 @@
 #+AUTHOR: Yusheng Zhao
 #+DATE: <2023-12-30 Sat>
 #+EXPORT_HUGO_TAGS: true
-#+filetags: PL
+#+filetags: PL OCaml
 
 * What's OCaml
-OCaml is a functional programming language. I intend to use it for recreating
-the ~Pie~ programming in the book *the Little Typer*.
+OCaml is a *functional programming language*. I intend to use it for recreating
+the ~Pie~ programming language in the book *the Little Typer*. This post will
+serve as a learning note for OCaml based on the course [[https://www.cs.cornell.edu/courses/cs3110/2020sp/textbook/][CS3110]].
+
 ** Meaning of Name
-It means *Objective categorical abstract machine learning*. ML part originates
-from the famous Meta Language which is used for proof assistant.
+It means *Objective categorical abstract machine langauge*. ML part in the name
+originates from the famous ~Meta Language~ which is created for making a proof
+assistant.
 
 * Why OCaml
-- Immutability of "variables" means easier debugging
+- Immutability of ~variables~ means easier debugging
 - More abstraction?
 - Better type system?
-- More explosure to theory and implementation of programming languages.
+- More exposure to theory and implementation of programming languages.
 
-Good mix of functional and imperative feature. This provides a smooth transition
-into the functional side of programming while still giving you some new
-materials to chew onto.
+Compare to Haskell, OCaml has a good mix of functional and imperative
+programming feature. This provides a smooth transition into the functional side
+of programming from an imperative programming perspective while still giving you
+some new materials to chew onto.
 
 Functional programming has brought many features into imperative programming
-like garbage collection, generics, type inferences etc.
+like garbage collection, generics, type inferences etc. Therefore, it's
+desriable to have some concepts in functional programming in order to improve
+your programming capabilities in general.
 
 * History
+
 At the very beginning, there was a language called ~ML~. It was created by Robin
 Milner and others in the 1970s. It was created as a language for writing proof
-assistants. OCaml is a dialect of ML created by the French computer scientist
-Xavier Leroy and others.
+assistants. ~OCaml~ is a dialect of ~ML~ created by the French computer
+scientist Xavier Leroy and collaborators.
 
 * What is a functional programming language
-Computation is expressed as mathematical functions. It avoids mutable state. The
-other end of the spectrum is imperative programming languages, which breaks
-*referential transparency*. Meaning, assignment has different meaning than
-equality. For example, if at time $t$, you execute ~y = f(x)~, it does not mean
-you could substitue for all later or previous times the appearance of ~y~ with
-~f(x)~.
+
+In a functional programming language, a computation is expressed as mathematical
+functions. It avoids mutable state. The other end of the spectrum is imperative
+programming languages, which breaks *referential transparency*. Meaning,
+assignment has different meaning than equality. For example, if at time $t$ in
+your program, you execute ~y = f(x)~, it does not mean you could substitue for
+all later the appearance of ~y~ with ~f(x)~. The value of ~x~ or even ~f(x)~ may
+change and cause your entire program to give different result.
 
 * Features of OCaml
+
 ** Types
-Ocaml is a statically-typed and type-safe programming language. Type errors are
-detected at compile time. Such guards against type errors means the language is
-type safe. This reduces the possibility of a buffer overflow error and related
-exploitation.
+
+Ocaml is a *statically-typed* and *type-safe* programming language. Type errors
+are detected at compile time. Such guards against type errors means the language
+is type safe. This reduces the possibility of a buffer overflow error and
+related exploitation. (?)
 
 * What to learn for a new language
+When approaching a new language, there are a few concepts that you should learn
+about it.
+
 - Syntax: how you write language, mostly facts. For example, keywords, white
   spaces (python), operators and formattings.
 - Sematics: What do programs mean? Includes dynamics sematics and static
@@ -61,6 +75,7 @@ exploitation.
 - Tools: repls, debuggers, or GUI editors
 
 * Basics
+
 OCaml comes with a repl called ~utop~. To start it, simply type ~utop~ in the
 terminal. To exit, type ~#quit~.
 
