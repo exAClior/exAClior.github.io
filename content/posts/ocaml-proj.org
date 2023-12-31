@@ -1,6 +1,6 @@
 #+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
 #+HUGO_SECTION: posts
-#+TITLE: OCaml Learning
+#+TITLE: OCaml Learning-II
 #+SUBTITLE: Project Creation and Package Management
 #+AUTHOR: Yusheng Zhao
 #+DATE: <2023-12-30 Sat>
@@ -34,7 +34,6 @@ so, use the following command:
 opam install drom
 #+end_src
 
-
 *** Drom Usage
 In order to create a project skeleton, we could use the following code
 
@@ -52,14 +51,25 @@ There are six possible ~SKELETON-NAME~:
 
 The details of each skeleton is beyond the scope of this note. Interested reader
 will find their [[https://ocamlpro.github.io/drom/sphinx/reference.html#skeletons][documentation]] helpful. We will continue this note with ~program~
-skeleton.
+skeleton. Within the ~program~ project structure, there are two sub-structure in
+the ~src~ folder. They are known as the *driver*, it has the same name as the
+library, and the *library*, it has the name appended with the ~_lib~ postfix.
+The driver contains all executable functions of the project. It may call
+functions in the *library* or outer libraries. The *library* serves as a place
+for providing helper or general features that can potentially be used in other
+libraries and the current project but is not implement anywhere else. As of
+writing this note, it is not clear how to add other ~library~ to an existing
+package. A possible way will be to manually add ~[package]~ section to the main
+project ~drom.toml~ file.
 
 **** Customization
 There are a few things we would like to change based on the skeleton. We could
 do that by first editing the ~drom.toml~ file and them run ~drom project~ to
-update the project structure.
+update the project structure. More specifically, we could also change the
+configuration for the package content or the package library content.
 
-
+***** Menhir
+For more details, please refer to [[https://ocamlpro.github.io/drom/sphinx/usecases.html][drom documentation]].
 **** Build Project
 You may build the project with ~drom build -y~ and then run it with ~drom run~.
 There are other convinent options like building the documentation and installing
