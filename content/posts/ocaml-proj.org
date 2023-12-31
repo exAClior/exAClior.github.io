@@ -70,6 +70,7 @@ configuration for the package content or the package library content.
 
 ***** Menhir
 For more details, please refer to [[https://ocamlpro.github.io/drom/sphinx/usecases.html][drom documentation]].
+
 **** Build Project
 You may build the project with ~drom build -y~ and then run it with ~drom run~.
 There are other convinent options like building the documentation and installing
@@ -106,6 +107,7 @@ opam switch set <switch-name>
 - [[https://ocaml.org/docs/opam-switch-introduction][OCaml Official Guide]]
 
 * How to create a Project in OCaml
+
 The tool that is needed to create a project in OCaml is called ~dune~. To create
 a new project, you could do
 
