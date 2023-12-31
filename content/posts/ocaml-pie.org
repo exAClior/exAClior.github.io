@@ -1,0 +1,10 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: OCaml Learning-III
+#+SUBTITLE: Implement your own Lisp
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2023-12-31 Sun>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: OCaml Lisp DependentTypes
+
+* Why
