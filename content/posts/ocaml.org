@@ -737,3 +737,9 @@ meta-variable ::= expression | ... | expression
 *** Code Generation
 We could use the ~dune~ build system to compile the ~.mll~ and ~.mly~ files into
 ~.ml~ files.
+
+* Mics
+** Formatting
+To format your code, you could use ~ocamlformat~. It's a tool that formats your
+code. It's doable with ~dune build @fmt~ and then ~dune promote~ to accept the
+formatting.
