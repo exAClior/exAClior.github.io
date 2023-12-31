@@ -17,7 +17,20 @@ draft: false
 - [Introductory C Programming
   Specialization](https://www.coursera.org/specializations/c-programming) is
   great for learning / reviewing C.
+  
+- [Learn X in Y minutes](https://learnxinyminutes.com/) supercharges you for
+  learning a concept quickly.
 
+- [Hyperpolyglot](https://hyperpolyglot.org/) is cheat-sheets for the polyglots.
+
+- [Rosetta Code](https://rosettacode.org/wiki/Rosetta_Code) is a collection of
+  tasks implemented across different languages.
+  
+- [Customs across
+  languages](https://rigaux.org/language-study/syntax-across-languages/) ever
+  wonder what's the custom of doing various things in different languages, look
+  no further.
+  
 # List of Yt Channels
 * [Mike Zamansky](https://www.youtube.com/user/mzamansky/featured) taught me a
   lot about using Emacs.
