@@ -237,6 +237,159 @@ to install ~extra-dev~ packages. They include more topics than ~released~
 packages ableit being less stable.
 
 * Project Creation
+Now that ~Coq~ has been installed, let's talk about how to initialize a ~Coq~
+project. There are three ways to generate a project skeleton. Firstly, you could
+use ~dune~, ~OCaml~'s build system, to generate the skeleton for a ~Coq~
+project. However, as [[https://coq.inria.fr/refman/practical-tools/utilities.html#building-a-coq-project-with-dune][this guide]] points out, this is still experimental.
+Furthermore, I have found the ~dune-project~ file a bit cryptic, we will not
+cover it here. But interested reader should read the [[https://coq.inria.fr/refman/practical-tools/utilities.html#building-a-coq-project-with-dune][previous]] referred guide and
+[[https://dune.readthedocs.io/en/stable/coq.html][dune's documentation]]. The second method is to use ~coq_makefile~. It's a tool
+included with Coq which relies on ~makefile~ to generate a project skeleton.
+Although it's widely used within the community, I have found it to be
+restrictive in the templates it supports and others found the dependency on
+~makefile~ system too [[https://coq.discourse.group/t/proposal-a-custom-build-tool-for-coq-projects/239][complicated]]. Interested reader should find [[https://coq.inria.fr/refman/practical-tools/utilities.html#coq-makefile][this guide]]
+helpful.
+
+We will focus on the third method, the use of [[https://github.com/coq-community/templates][template]] created by the
+~coq-community~.
+
+** Install Mustache
+[[https://mustache.github.io/][Mustache]] is a tool that allows you to generate text from a template. It is
+used by the ~coq-community~ to generate the project skeleton. To install it, run
+
+#+begin_src shell
+sudo gem install mustache
+#+end_src
+
+** Write meta.yml file
+The ~coq-community~ template uses a ~meta.yml~ file to generate the project
+skeleton. The file is written in [[https://yaml.org/][YAML]] format. The following is an example of
+~meta.yml~ file.
+
+#+begin_src yaml
+---
+fullname: Huffman
+shortname: huffman
+organization: coq-community
+community: true
+action: true
+coqdoc: true
+coqdoc_index: 'docs/latest/coqdoc/toc.html'
+
+synopsis: Coq proof of the correctness of the Huffman coding algorithm
+
+description: |-
+  This projects contains a Coq proof of the correctness of the Huffman coding algorithm,
+  as described in David A. Huffman's paper A Method for the Construction of Minimum-Redundancy
+  Codes, Proc. IRE, pp. 1098-1101, September 1952.
+
+publications:
+- pub_url: https://hal.archives-ouvertes.fr/hal-02149909
+  pub_title: Formalising Huffman's algorithm
+- pub_url: http://compression.ru/download/articles/huff/huffman_1952_minimum-redundancy-codes.pdf
+  pub_title: A Method for the Construction of Minimum-Redundancy Codes
+  pub_doi: 10.1109/JRPROC.1952.273898
+
+authors:
+- name: Laurent Théry
+  initial: true
+- name: Karl Palmskog
+  orcid: 0000-0003-0228-1240
+
+maintainers:
+- name: Karl Palmskog
+  nickname: palmskog
+
+opam-file-maintainer: palmskog@gmail.com
+
+opam-file-version: dev
+
+license:
+  fullname: GNU Lesser General Public License v2.1 or later
+  identifier: LGPL-2.1-or-later
+
+supported_coq_versions:
+  text: 8.12 or later
+  opam: '{(>= "8.12" & < "8.20~") | (= "dev")}'
+
+tested_coq_opam_versions:
+- version: 'dev'
+- version: '8.19'
+- version: '8.18'
+- version: '8.17'
+- version: '8.16'
+- version: '8.15'
+- version: '8.14'
+- version: '8.13'
+- version: '8.12'
+
+ci_cron_schedule: '10 1 * * 0'
+
+namespace: Huffman
+
+keywords:
+- name: data compression
+- name: code
+- name: huffman tree
+
+categories:
+- name: Computer Science/Decision Procedures and Certified Algorithms/Correctness proofs of algorithms
+- name: Miscellaneous/Extracted Programs/Combinatorics
+
+documentation: |-
+  ## Documentation
+
+  For more information about the project, see the [technical report][techreport]
+  describing the formalization. See also the [coqdoc presentation][coqdoc] of the
+  Coq source files from the latest release.
+
+  ### Running extracted code
+
+  To extract code and obtain the program, run
+  ```shell
+  make run_huffman.ml
+  ```
+
+  Next, open an OCaml toplevel (e.g., `ocaml`) and do
+  ```ocaml
+  #use "run_huffman.ml";;
+  ```
+
+  To get the code that gives the frequency string:
+  ```ocaml
+  let code = huffman "abbcccddddeeeee";;
+  ```
+
+  To code a string:
+  ```ocaml
+  let c = encode code "abcde";;
+  ```
+
+  To decode a string:
+  ```ocaml
+  decode code c;;
+  ```
+
+  [techreport]: https://hal.archives-ouvertes.fr/hal-02149909
+  [coqdoc]: https://coq-community.org/huffman/docs/latest/coqdoc/toc.html
+---
+#+end_src
+
+The detailed explaination of each field can be found in this [[https://github.com/coq-community/templates/blob/master/ref.yml][file]].
+
+To see more examples, please refer to [[https://github.com/coq-community/templates][The meta.yml file]] section of the
+~coq-community~ template's README.
+
+** Generate Project
+Now that we have the ~meta.yml~ file, we could generate the project skeleton
+using the following command.
+
+#+begin_src shell
+cd <your-project>
+TMP=$(mktemp -d); git clone https://github.com/coq-community/templates.git $TMP
+$TMP/generate.sh # nix users can do instead: nix-shell -p mustache-go --run $TMP/generate.sh
+git add <the_generated_files>
+#+end_src
 * Resource
 - [[https://coq.discourse.group/t/official-place-to-learn-how-to-setup-coq-make-files-for-beginner/1682][Coq Discourse]]
 - [[https://github.com/tchajed/coq-project-template][Coq Project Template Github page]]
