@@ -1,0 +1,398 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Coq Project Setup
+#+SUBTITLE: Tutorial for setting up your own Coq Project
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-01-02 Tue>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: Setup Coq
+
+* Why
+Proof assistants like Coq and Lean4 are becoming more and more popular. However,
+there is a lack of tutorials on how to set up a Coq project. As useful a tool as
+they are to mathematicians in the 21st century, they are almost useless if not
+configured to include other's libraries. This tutorial aims to fill this gap.
+
+* Installation Guide
+The first step in setting up a Coq Project is to install Coq. For the users who
+merely want to try out Coq, please refer to [[https://github.com/coq/platform/releases/tag/2023.03.0][this guide]] or simply use your
+favourite package management system like [[https://formulae.brew.sh/formula/coq][homebrew]] or [[https://archlinux.org/packages/extra/x86_64/coq/][paru]].
+
+The more advanced users may need to use libraries that's not included in the
+above mentioned distributions of Coq. The Coq [[https://coq.inria.fr/download][homepage]] mentioned multiple ways
+to install Coq with extendability. I will follow the method using [[https://opam.ocaml.org/][opam]], the
+package manager for ~OCaml~. ~OCaml~ is the language used to write ~Coq~,
+therefore ~Coq~ related libraries should remain "native" to ~OCaml~. Using
+~opam~ has the advantage of keeping the toolchain in the ecosystem of ~OCaml~.
+
+** Opam Preparation
+You could visit the [[https://opam.ocaml.org/][homepage]] of ~opam~ to install it. To verify ~opam~ is
+correctly installed, run the following command.
+
+#+begin_src shell :results raw
+opam --version
+#+end_src
+
+#+RESULTS:
+2.1.5
+
+By default, ~opam~ will install a global ~OCaml~ compiler. ~OCaml~ code and
+packages will conform to that version by default. We will create an
+"environment" with a version of ~OCaml~ specifically for ~Coq~. The
+"environment" where our ~OCaml~ compiler lives is called a *switch* in ~OCaml~.
+To create the switch run the following code.
+
+#+begin_src shell :results raw
+opam switch create my-coq 4.10.2
+#+end_src
+
+#+RESULTS:
+
+<><> Installing new switch packages <><><><><><><><><><><><><><><><><><><><>  🐫
+Switch invariant: ["ocaml-base-compiler" {= "4.10.2"} | "ocaml-system" {= "4.10.2"}]
+Constructing initial basis...
+
+<><> Processing actions <><><><><><><><><><><><><><><><><><><><><><><><><><>  🐫
+∗ installed base-bigarray.base
+∗ installed base-threads.base
+∗ installed base-unix.base
+⬇ retrieved ocaml-base-compiler.4.10.2  (https://opam.ocaml.org/cache)
+∗ installed ocaml-base-compiler.4.10.2
+∗ installed ocaml-config.1
+∗ installed ocaml.4.10.2
+Done.
+# Run eval $(opam env --switch=my-coq) to update the current shell environment
+
+After the creation of the ~switch~, we could change to that ~switch~ via
+
+#+begin_src shell :results raw
+opam switch my-coq
+eval $(opam env)
+#+end_src
+
+#+RESULTS:
+# Run eval $(opam env) to update the current shell environment
+
+*** Roots
+As a side note, you could also create a new ~root~ in ~OCaml~. A ~root~ is a
+higher level of "environment" than ~switch~. It contains several ~switches~.
+Packages installed in a ~root~ is sharable amongst ~switches~ under that same
+root. We will not use them here.
+
+** Install Coq
+Now that ~opam~ is all installed and configured, we could go ahead and install
+~Coq~. If you just want to install ~Coq~ you could run the following code
+
+#+begin_src shell :results raw
+# don't run this just yet
+opam add coq $VERSION_NUMBER
+#+end_src
+
+#+RESULTS:
+
+However, as [[https://www.cs.cornell.edu/courses/cs4160/2020sp/install_coq.html][this guide]] points out, ~Coq~ is highly sensitive to version number,
+we would also like to fix the ~Coq~ version. We could achieve this using ~pin~
+keyword like this
+
+#+begin_src shell :results raw
+# version 8.18.0 is most upto date version as of 2024/01/01
+opam pin add coq 8.18.0
+#+end_src
+
+** Verification
+Assuming you have following the guide til now, we could verify that you have
+installed ~Coq~ correctly, run the following command.
+
+#+begin_src shell :results raw
+coqc -v
+#+end_src
+
+#+RESULTS:
+The Coq Proof Assistant, version 8.18.0
+compiled with OCaml 4.10.2
+
+** Packages
+As alluded to before, ~Coq~ is not a standalone software. It is a proof
+assistant. Therefore, it is highly likely that you will need to use some
+libraries to help you with your proofs. The most common way to install packages
+is to use ~opam~. To do so, you will first need to add the ~coq-released~ repo
+to ~opam~.
+
+#+begin_src shell
+opam repo add coq-released https://coq.inria.fr/opam/released
+#+end_src
+
+Now that you have added the repository, you could install packages from it.
+Let's browse the repository first.
+
+#+begin_src shell :results raw
+opam search coq
+#+end_src
+
+#+RESULTS:
+# Packages matching: match(*coq*)
+# Name                             # Installed # Synopsis
+archsat                            --          A first-order theorem prover with formal proof output
+coq                                8.18.0      pinned to version 8.18.0
+coq-aac-tactics                    --          Coq tactics for rewriting universally quantified equations, modulo associative (and possibly commutative and idempotent) operators
+coq-abp                            --          A verification of the alternating bit protocol expressed in CBS
+coq-actuary                        --          Formalization of actuarial mathematics in Coq
+coq-addition-chains                --          Exponentiation algorithms following addition chains in Coq
+coq-additions                      --          Addition Chains
+coq-ails                           --          Proof of AILS algorithm
+coq-alea                           --          Coq library for reasoning on randomized algorithms
+coq-algebra                        --          Basics notions of algebra
+
+We could see that there are a lot of packages available. Let's take a closer
+look at one of them
+
+#+begin_src shell :results raw
+opam show coq-graph-theory
+#+end_src
+
+#+RESULTS:
+
+<><> coq-graph-theory: information on all versions ><><><><><><><><><><><><>  🐫
+name         coq-graph-theory
+all-versions 0.7  0.9  0.9.1  0.9.2  0.9.3
+
+<><> Version-specific details <><><><><><><><><><><><><><><><><><><><><><><>  🐫
+version      0.9.3
+repository   coq-released
+url.src      "https://github.com/coq-community/graph-theory/archive/v0.9.3.tar.gz"
+url.checksum "sha512=1cc5fef0c862d8a52ebf63dad547a996b57b61d2e13ec06245ba37fee1deaccd9cf9b90ad965c6c93a06d7c197810cdabb78bf2f85f803e1f8133bf93e51dc73"
+homepage     "https://github.com/coq-community/graph-theory"
+bug-reports  "https://github.com/coq-community/graph-theory/issues"
+dev-repo     "git+https://github.com/coq-community/graph-theory.git"
+authors      "Christian Doczkal" "Damien Pous"
+maintainer   "christian.doczkal@mpi-sp.org"
+license      "CECILL-B"
+tags         "category:Computer Science/Graph Theory"
+             "keyword:graph theory"
+             "keyword:minors"
+             "keyword:treewidth"
+             "keyword:algebra"
+             "logpath:GraphTheory.core"
+             "date:2023-08-21"
+depends      "dune" {>= "2.8"}
+             "coq" {>= "8.16" & < "8.19"}
+             "coq-mathcomp-ssreflect" {>= "2.0"}
+             "coq-mathcomp-algebra"
+             "coq-mathcomp-finmap"
+             "coq-hierarchy-builder" {>= "1.4.0"}
+synopsis     General graph theory definitions and results in Coq and MathComp
+description  Formalized general graph theory definitions and results using Coq and
+             the Mathematical Components library, including various standard results
+             from the literature (e.g., Menger's Theorem and Hall's Marriage Theorem).
+
+The package looks like being under active development. Let's install it.
+
+#+begin_src shell
+opam instal coq-graph-theory
+#+end_src
+
+To end things in this section, we will show you three ways to find *logical
+name* that is needed to tell ~Coq~ how to load a package. A *[[https://coq.inria.fr/refman/language/core/modules.html#term-logical-name][Logical Name]]* is
+essentially a *path* to the ~Coq~ file on your machine of which your current
+program needs to load. To get the logical name, you could either
+
+#+begin_src shell :results raw
+opam show --list-files coq-graph-theory | head -n1
+#+end_src
+
+#+RESULTS:
+/Users/yushengzhao/.opam/my-coq/doc/coq-graph-theory
+
+#+begin_src shell :results raw
+opam switch my-coq
+eval $(opam env)
+ls $(coqtop -where)/user-contrib
+#+end_src
+
+#+RESULTS:
+# Run eval $(opam env) to update the current shell environment
+GraphTheory (this is the one)
+HB
+Ltac2
+elpi
+mathcomp
+
+
+** Afterwards
+After the installation, you will want to examine what packages are installed
+relating to ~Coq~. This can be achieved with
+
+#+begin_src shell
+opam list "coq-*" --installed
+#+end_src
+
+You may also want to explore other repositories that contains user developed
+~Coq~ libraries, you may find them [[https://coq.inria.fr/coq-package-index][here]]. For example, you could run
+
+#+begin_src shell
+opam repo add coq-extra-dev https://coq.inria.fr/opam/extra-dev
+#+end_src
+
+to install ~extra-dev~ packages. They include more topics than ~released~
+packages ableit being less stable.
+
+* Project Creation
+Now that ~Coq~ has been installed, let's talk about how to initialize a ~Coq~
+project. There are three ways to generate a project skeleton. Firstly, you could
+use ~dune~, ~OCaml~'s build system, to generate the skeleton for a ~Coq~
+project. However, as [[https://coq.inria.fr/refman/practical-tools/utilities.html#building-a-coq-project-with-dune][this guide]] points out, this is still experimental.
+Furthermore, I have found the ~dune-project~ file a bit cryptic, we will not
+cover it here. But interested reader should read the [[https://coq.inria.fr/refman/practical-tools/utilities.html#building-a-coq-project-with-dune][previous]] referred guide and
+[[https://dune.readthedocs.io/en/stable/coq.html][dune's documentation]]. The second method is to use ~coq_makefile~. It's a tool
+included with Coq which relies on ~makefile~ to generate a project skeleton.
+Although it's widely used within the community, I have found it to be
+restrictive in the templates it supports and others found the dependency on
+~makefile~ system too [[https://coq.discourse.group/t/proposal-a-custom-build-tool-for-coq-projects/239][complicated]]. Interested reader should find [[https://coq.inria.fr/refman/practical-tools/utilities.html#coq-makefile][this guide]]
+helpful.
+
+We will focus on the third method, the use of [[https://github.com/coq-community/templates][template]] created by the
+~coq-community~.
+
+** Install Mustache
+[[https://mustache.github.io/][Mustache]] is a tool that allows you to generate text from a template. It is
+used by the ~coq-community~ to generate the project skeleton. To install it, run
+
+#+begin_src shell
+sudo gem install mustache
+#+end_src
+
+** Write meta.yml file
+The ~coq-community~ template uses a ~meta.yml~ file to generate the project
+skeleton. The file is written in [[https://yaml.org/][YAML]] format. The following is an example of
+~meta.yml~ file.
+
+#+begin_src yaml
+---
+fullname: Huffman
+shortname: huffman
+organization: coq-community
+community: true
+action: true
+coqdoc: true
+coqdoc_index: 'docs/latest/coqdoc/toc.html'
+
+synopsis: Coq proof of the correctness of the Huffman coding algorithm
+
+description: |-
+  This projects contains a Coq proof of the correctness of the Huffman coding algorithm,
+  as described in David A. Huffman's paper A Method for the Construction of Minimum-Redundancy
+  Codes, Proc. IRE, pp. 1098-1101, September 1952.
+
+publications:
+- pub_url: https://hal.archives-ouvertes.fr/hal-02149909
+  pub_title: Formalising Huffman's algorithm
+- pub_url: http://compression.ru/download/articles/huff/huffman_1952_minimum-redundancy-codes.pdf
+  pub_title: A Method for the Construction of Minimum-Redundancy Codes
+  pub_doi: 10.1109/JRPROC.1952.273898
+
+authors:
+- name: Laurent Théry
+  initial: true
+- name: Karl Palmskog
+  orcid: 0000-0003-0228-1240
+
+maintainers:
+- name: Karl Palmskog
+  nickname: palmskog
+
+opam-file-maintainer: palmskog@gmail.com
+
+opam-file-version: dev
+
+license:
+  fullname: GNU Lesser General Public License v2.1 or later
+  identifier: LGPL-2.1-or-later
+
+supported_coq_versions:
+  text: 8.12 or later
+  opam: '{(>= "8.12" & < "8.20~") | (= "dev")}'
+
+tested_coq_opam_versions:
+- version: 'dev'
+- version: '8.19'
+- version: '8.18'
+- version: '8.17'
+- version: '8.16'
+- version: '8.15'
+- version: '8.14'
+- version: '8.13'
+- version: '8.12'
+
+ci_cron_schedule: '10 1 * * 0'
+
+namespace: Huffman
+
+keywords:
+- name: data compression
+- name: code
+- name: huffman tree
+
+categories:
+- name: Computer Science/Decision Procedures and Certified Algorithms/Correctness proofs of algorithms
+- name: Miscellaneous/Extracted Programs/Combinatorics
+
+documentation: |-
+  ## Documentation
+
+  For more information about the project, see the [technical report][techreport]
+  describing the formalization. See also the [coqdoc presentation][coqdoc] of the
+  Coq source files from the latest release.
+
+  ### Running extracted code
+
+  To extract code and obtain the program, run
+  ```shell
+  make run_huffman.ml
+  ```
+
+  Next, open an OCaml toplevel (e.g., `ocaml`) and do
+  ```ocaml
+  #use "run_huffman.ml";;
+  ```
+
+  To get the code that gives the frequency string:
+  ```ocaml
+  let code = huffman "abbcccddddeeeee";;
+  ```
+
+  To code a string:
+  ```ocaml
+  let c = encode code "abcde";;
+  ```
+
+  To decode a string:
+  ```ocaml
+  decode code c;;
+  ```
+
+  [techreport]: https://hal.archives-ouvertes.fr/hal-02149909
+  [coqdoc]: https://coq-community.org/huffman/docs/latest/coqdoc/toc.html
+---
+#+end_src
+
+The detailed explaination of each field can be found in this [[https://github.com/coq-community/templates/blob/master/ref.yml][file]].
+
+To see more examples, please refer to [[https://github.com/coq-community/templates][The meta.yml file]] section of the
+~coq-community~ template's README.
+
+** Generate Project
+Now that we have the ~meta.yml~ file, we could generate the project skeleton
+using the following command.
+
+#+begin_src shell
+cd <your-project>
+TMP=$(mktemp -d); git clone https://github.com/coq-community/templates.git $TMP
+$TMP/generate.sh # nix users can do instead: nix-shell -p mustache-go --run $TMP/generate.sh
+git add <the_generated_files>
+#+end_src
+* Resource
+- [[https://coq.discourse.group/t/official-place-to-learn-how-to-setup-coq-make-files-for-beginner/1682][Coq Discourse]]
+- [[https://github.com/tchajed/coq-project-template][Coq Project Template Github page]]
+- [[https://coq.inria.fr/refman/practical-tools/utilities.html][Coq Documentation]]
+- [[https://www.cs.cornell.edu/courses/cs4160/2020sp/install_coq.html][Cornell CS 4169 Installation guide]]
+- [[https://www.seas.upenn.edu/~cis5000/cis5000-f22/coq.html][UPenn Course Page on Coq]]
