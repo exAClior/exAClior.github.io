@@ -1,0 +1,86 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Maxima Setup
+#+SUBTITLE: Trying Open-source Computer Algebra System
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-01-04 Thu>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: Setup CAS Maxima Lisp
+
+* Why
+As a physicist who program, one of my most wanted tool is a computer algebra
+system (CAS) plus proof assistant that would give rid of the need of pen and
+paper for proofs and derivations. With the power of such a tool, the correctness
+of your derivation or proof are automatically guaranteed. Typos and
+miscalculation are impossible. I have tried Mathematica. To be honest, I never
+liked its grammar. Furthermore, I don't like that fact that it's closed-sourced.
+I would like to have an open-sourced alternative that I can depend on and hack
+on. As the variant of the ancestor of all modern CAS, Maxima pops up. The goal
+of this post is to document how to download and start using Maxima for the
+computation of quantum operators' commulation relation.
+
+* Maxima
+Maxima is a *CAS* written in ~Lisp~. It was the descendant of ~Macsyma~, the
+*lengendary* CAS developed in MIT during 1960s. ~Macsyma~ inspired both
+~Mathematica~ and ~Maple~. ~Maxima~ was maintained by [[https://en.wikipedia.org/wiki/Bill_Schelter][William Schelter]] from 1982
+until 2001 when he passed away. If it weren't for his effort to converting the
+project to open-source and maintaining it, we would have lost a great deal in
+open-source CAS.
+
+** Installation
+To install ~maxima~, we simply rely on our favourite package system. For example, on MacOS, you can do
+
+#+begin_src shell
+brew install maxima
+#+end_src
+
+After installing ~maxima~, you will need a ~lisp~ compiler in order to run it. You can do that by
+
+#+begin_src shell
+brew install sbcl
+#+end_src
+
+I will be mainly interacting with ~maxima~ either through ~org-babel~ or the
+terminal directly. Therefore, I will not demonstrate how to install a GUI
+frontend for ~maxima~. The interested user should find [[https://themaximalist.org/about/my-mac-os-installation/][this guide]] helpful.
+
+Let's verify that we have successfully installed ~maxima~.
+
+#+begin_src maxima :results output
+programmode: false;
+eq: x**2 - 16 = 0;
+solution: solve(eq, x);
+print(solution);
+#+end_src
+
+#+RESULTS:
+: (linenum:0,
+: solve: solution:
+:                                     x = - 4
+:                                      x = 4
+: [%t1, %t2]
+
+** External libraries
+~Maxima~ is already very powerful CAS by itself. It is feature rich. It can be
+make more powerful by loading libraries written by others for more features. To
+be honest, I found the way ~maxima~ including external libraries quite ad hoc
+comparing to modern scientific computation languages like ~julia~. It is achieve
+like following assuming the external library you would like to include is in
+file ~something.mac~.
+
+#+begin_src maxima
+load("something.mac");
+#+end_src
+
+** TODO Performance
+It was said that Stephen Wolfram deemed ~lisp~ to be not performant enough
+comparing to ~C~. Hence, he chose to implement ~Mathematica~ with ~C~. But this
+does not look to be valid any more. Let's benchmark it.
+
+* References
+- [[https://home.csulb.edu/~woollett/mbe.html][Maxima by Example]]
+- [[https://maxima.sourceforge.io/ext/maxima.pdf][Maxima Manual]]
+- [[https://link.springer.com/book/10.1007/978-1-4939-3207-8][Classical Mechanics with Maxima]]
+- [[https://stackoverflow.com/questions/42002728/what-is-the-recommended-way-to-make-load-a-library][Loading External Library]]
+** Similar Programs
+ - [[https://www.gap-system.org/Doc/Examples/examples.html][GAP for Group theory related]]
