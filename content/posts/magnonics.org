@@ -1,0 +1,44 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Quantum Magnonics
+#+SUBTITLE: How to use nuclear spinwave to compute
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-01-04 Thu>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: QuantumComputation Magnon Physics
+
+* Why
+NMR is a well-established technique for quantum computation. The qubit is
+encoded in the nuclear spin state of a molecule. It has the advantage of being
+highly coherent due to the inherent weak coupling of the environment. On the
+other hand, this also limits the controllability of the NMR system. One way to
+improve NMR-based quantum computation system is to abandon the necessity for
+control. Motivated by this goal, we could like to combine the NMR system with
+scattering based quantum computation. We propose to use magnon, a quasi-particle
+representing spin-wave excitation, as computation carrying entity. But we are
+not clear how to do it exactly. We will clarify them in this post.
+
+
+* Magnons
+** What are Magnons
+Magnons are defined as quasi-particles. As with all other quasi-particles, they
+are formed due to interaction between many real particles and their properties.
+For example, here we are concerned of the magnetic spin of each atom. In the
+situation where each spin attached to an atom precesses or rotates, their tips
+can be visualized as the amplitude of a wave. Much like the wave-particle
+duality of a photon, we could conceptualize this wave as being the counterpart
+of a particle which we call magnon. They are classified as *bosons*. More
+specifically, they are *Goldstone bosons* when there's no external magnetic
+field or anisotropy.
+** How to represent them
+** Necessity of HP transformation
+In the video by Dr. Mitchell [3], he mentioned that the Holstein-Primakoff
+transformation makes the solution of Heisenberg Hamiltonian ground state easier
+because we are now representing the spin operators with bosonic creation and
+anhilation operators. The later one has a much more simplier commutation
+relation which yields only a number. The spin operators how ever gives an
+operators as the result of a commutation relation.
+* Reference
+- [[https://arxiv.org/abs/2111.14241][Main Paper]]
+- [[https://youtu.be/KHz5Cy8sVPg?si=QbAKz-sfeRZ-71X5&t=190][Spin-wave as quasi-particle video]]
+- [[https://www.youtube.com/watch?v=1MhYdiR2EdE&t=2s][Holstein-Primakoff transformation video]]
