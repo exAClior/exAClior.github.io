@@ -169,15 +169,14 @@ desired directory.
 
 * Non-commutative Algebra
 
-#+begin_src maxima
-declare([x, y], scalar)$
-dotscrules: true$
-#+end_src
+Now that we have things all setup, we could move on to the real business: having
+~maxima~ carry out the tedious operator algebra for us.
 
-#+RESULTS:
-: (linenum:0
+** Problem Statement
+The goal is simple: I would like to verify that
 
 * Outlooks
+
 There is a [[https://thingwy.blogspot.com/2015/07/maxima-versus-mathematica-should-i-go.html][blog]] written in 2015 that compares the result of some real world
 usage of ~Maxima~ vs ~Mathematica~. The conclusion is that ~Maxima~ will return
 either *incorrect* or *no* result at all for some problems.
