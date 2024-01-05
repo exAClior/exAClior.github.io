@@ -1,0 +1,3 @@
+
+* Reference
+- [[https://www.youtube.com/watch?v=0JiQoN_UD64][GPU programming in Julia]]
