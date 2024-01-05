@@ -173,7 +173,29 @@ Now that we have things all setup, we could move on to the real business: having
 ~maxima~ carry out the tedious operator algebra for us.
 
 ** Problem Statement
-The goal is simple: I would like to verify that
+In condensed matter physics, canonical transformations like Holstein-Primakoff
+transformation are used to transform into a picture where quasi-particles emerge
+and fascilate the better understanding of certain phenomenon.
+
+In the Holstein-Primakoff transformation, we define the bosonic creation and
+anhilation operator of magnons at site $i$ as \(\hat{a}^{\dagger}_{i}\) and
+\(\hat{a}_{i}\) respectively. The raising and lowering quantum spin operator are
+defined as \(\hat{S_{j}}^{+} = \sqrt{2S_{j} - \hat{n_{j}}} \hat{a_{j}}\) and
+\(\hat{S_{j}}^{-} = \hat{a_{j}}^{\dagger} \sqrt{2S_{j} - \hat{n_{j}}} \). $S_j$
+is a number representing the maximum spin at site $j$. $\hat{n}_{j}$ is the
+number operator of magnon at site $j$. We would like to verify the commutation
+relation \([\hat{S_{j}}^{+},\hat{S_{j}}^{-}] = 2 \hat{S_{j}}^{z} \delta_{ij}\)
+where \(S_{j} - \hat{n_{j}}\)
+
+** Code
+#+begin_src maxima :results raw
+#+end_src
+
+#+RESULTS:
+(linenum:0,
+/var/folders/m0/scg25fdd0xs9pwzh00xrs7wr0000gn/T/babel-FQ5eGA/maxima-0vfvCq.max:7:62:incorrect syntax: RETURN(SQRT(X)); END; is not an infix operator
+turn(sqrt(x)); end;"
+                  ^
 
 * Outlooks
 
@@ -200,3 +222,8 @@ It seems like at least this problem still remains.
 - [[https://stackoverflow.com/questions/42002728/what-is-the-recommended-way-to-make-load-a-library][Loading External Library]]
 ** Similar Programs
  - [[https://www.gap-system.org/Doc/Examples/examples.html][GAP for Group theory related]]
+** Math Reference
+- [[https://math.uchicago.edu/~may/VIGRE/VIGRE2009/REUPapers/Gleason.pdf][C*-Algebra]]
+** Maxima Implementation
+- [[https://www.lpthe.jussieu.fr/~talon/pattern.pdf][Rules and Patterns in Maxima]]
+- [[https://sourceforge.net/p/maxima/mailman/maxima-discuss/thread/020D879F-B752-4AC6-90F9-B63098428B20%40u-bourgogne.fr/#msg37240905][Non-commutative algebraic manipulation]]
