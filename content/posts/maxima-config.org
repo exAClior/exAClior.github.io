@@ -1,34 +1,43 @@
 #+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
 #+HUGO_SECTION: posts
-#+TITLE: Maxima Setup
-#+SUBTITLE: Trying Open-source Computer Algebra System
+#+TITLE: The First Computer Algebra System: Maxima
+#+SUBTITLE: Setup and Operator Algebra
+#+DESCRIPTION: Setup Maxima for Quantum Mechanics
 #+AUTHOR: Yusheng Zhao
 #+DATE: <2024-01-04 Thu>
 #+EXPORT_HUGO_TAGS: t
-#+filetags: Setup CAS Maxima Lisp
+#+filetags: Setup CAS Maxima
 
 * Why
-As a physicist who program, one of my most wanted tool is a computer algebra
-system (CAS) plus proof assistant that would give rid of the need of pen and
-paper for proofs and derivations. With the power of such a tool, the correctness
-of your derivation or proof are automatically guaranteed. Typos and
-miscalculation are impossible. I have tried Mathematica. To be honest, I never
-liked its grammar. Furthermore, I don't like that fact that it's closed-sourced.
-I would like to have an open-sourced alternative that I can depend on and hack
-on. As the variant of the ancestor of all modern CAS, Maxima pops up. The goal
-of this post is to document how to download and start using Maxima for the
-computation of quantum operators' commulation relation.
+We learned to do proofs and derivations with pen and paper. There are two
+problems with this method. Firstly, there will be errors and typos. Secondly,
+efficient preservation of handwritten materials is hard. As a programmer, a tool
+that helps to overcome such problems is a combination of computer algebra system
+(CAS) and a proof assistant. There have been mature and feature rich CAS like
+~Mathematica~ and ~Maple~. However, I have two problems with them. Firstly, I
+don't like their syntax and the steep learning curve that comes with it. Less
+personally, they are both proprietary and close-sourced. Contrary to
+open-sourced software, this means I cannot hack on them and the support and
+evolution of them ceases to exist should the company abandons them. As the
+direct descendant of the ancestor of all modern CAS, ~Maxima~ comes up as a
+promising alternative. The goal of this post is to document how to download and
+start using ~Maxima~ for the operator algebra that is used frequently in
+condensed matter physics and quantum mechanics related topics.
 
 * Maxima
-Maxima is a *CAS* written in ~Lisp~. It was the descendant of ~Macsyma~, the
-*lengendary* CAS developed in MIT during 1960s. ~Macsyma~ inspired both
-~Mathematica~ and ~Maple~. ~Maxima~ was maintained by [[https://en.wikipedia.org/wiki/Bill_Schelter][William Schelter]] from 1982
-until 2001 when he passed away. If it weren't for his effort to converting the
-project to open-source and maintaining it, we would have lost a great deal in
-open-source CAS.
+~Maxima~ is a *CAS* written in ~Lisp~. A CAS is a software that can manipulate
+symbolic and numerical expressions. Hence, it can perform the laborious manual
+computation in mathematics and physics in place of human being. ~Maxima~ was the
+descendant of ~Macsyma~, the *lengendary* CAS developed in MIT during the 1960s.
+~Macsyma~ inspired both ~Mathematica~ and ~Maple~. ~Maxima~ was maintained by
+[[https://en.wikipedia.org/wiki/Bill_Schelter][William Schelter]] from 1982 until 2001 when he passed away. If it weren't for his
+effort to converting the project to open-source and maintaining it, we would
+have lost a great tool in open-source CAS. Currently, ~Maxima~ is maintained by
+the community.
 
 ** Installation
-To install ~maxima~, we simply rely on our favourite package system. For example, on MacOS, you can do
+To install ~maxima~, we simply rely on our favourite package manager. For
+example, on a Mac, you can do
 
 #+begin_src shell
 brew install maxima
@@ -40,42 +49,150 @@ After installing ~maxima~, you will need a ~lisp~ compiler in order to run it. Y
 brew install sbcl
 #+end_src
 
+Let's verify that we have successfully installed ~maxima~.
+
+#+begin_src shell :results raw
+maxima
+#+end_src
+
+#+RESULTS:
+Maxima 5.47.0 https://maxima.sourceforge.io
+using Lisp SBCL 2.4.0
+Distributed under the GNU Public License. See the file COPYING.
+Dedicated to the memory of William Schelter.
+The function bug_report() provides bug reporting information.
+(%i1)
+
+Looks like we are able to start the ~maxima~ repl successfully.
+
+** Configuration
+
 I will be mainly interacting with ~maxima~ either through ~org-babel~ or the
 terminal directly. Therefore, I will not demonstrate how to install a GUI
 frontend for ~maxima~. The interested user should find [[https://themaximalist.org/about/my-mac-os-installation/][this guide]] helpful.
 
-Let's verify that we have successfully installed ~maxima~.
+In order to run ~maxima~ in ~org-mode~, we have to install ~Maxima.el~ package
+in ~Emacs~. You may use the following code from the [[https://github.com/emacsmirror/maxima][package repo]] in your config.
+I used ~use-package!~ because I am using ~doom emacs~.
 
-#+begin_src maxima :results output
+#+begin_src emacs-lisp
+(use-package! maxima
+  :init
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0)
+	  maxima-display-maxima-buffer nil)
+  (add-to-list 'auto-mode-alist
+		 (cons "\\.mac\\'" 'maxima-mode))
+  (add-to-list 'interpreter-mode-alist
+		 (cons "maxima" 'maxima-mode)))
+#+end_src
+
+For ~maxima~ to be available to ~org-babel~, the following configuration is
+necessary.
+
+#+begin_src emacs-lisp
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((maxima . t)))
+#+end_src
+
+Now, we can use ~maxima~ in ~org-babel~.
+
+#+begin_src maxima :results raw
 programmode: false;
-eq: x**2 - 16 = 0;
-solution: solve(eq, x);
-print(solution);
+tex(diff(exp(x)^2));
 #+end_src
 
 #+RESULTS:
-: (linenum:0,
-: solve: solution:
-:                                     x = - 4
-:                                      x = 4
-: [%t1, %t2]
+(linenum:0,
+$$2\,e^{2\,x}\,dx$$
 
 ** External libraries
-~Maxima~ is already very powerful CAS by itself. It is feature rich. It can be
-make more powerful by loading libraries written by others for more features. To
-be honest, I found the way ~maxima~ including external libraries quite ad hoc
-comparing to modern scientific computation languages like ~julia~. It is achieve
-like following assuming the external library you would like to include is in
-file ~something.mac~.
+~Maxima~ is already a feature rich CAS by itself. It can do differentiation,
+integration, solve ODE, and etc. It can be make more powerful by loading
+libraries written by others for more features.
+
+*** Search Path Expansion
+A simple way of including other's code is to include the file containing the
+code. Assuming the external library you would like to include is in file
+~something.mac~.
 
 #+begin_src maxima
 load("something.mac");
 #+end_src
 
-** TODO Performance
-It was said that Stephen Wolfram deemed ~lisp~ to be not performant enough
-comparing to ~C~. Hence, he chose to implement ~Mathematica~ with ~C~. But this
-does not look to be valid any more. Let's benchmark it.
+To include a larger library with multiple files, you could follow the
+instruction in [[https://github.com/dprodanov/clifford][Clifford]]'s repo.
+
+Firstly, clone the repo to your local machine.
+
+#+begin_src shell
+cd ~/projects/
+git clone git@github.com:dprodanov/clifford.git
+#+end_src
+
+Then, you would add the path of this repo to Maxima's search path.
+
+#+begin_src maxima :results raw
+file_search_demo: append (file_search_demo,["~/projects/clifford/$$$.{dem.wxm}"]);
+
+file_search_maxima: append (file_search_maxima,["~/projects/clifford/$$$.{mac,wxm}"]);
+
+setup_autoload ("clifford.mac", clifford);
+
+load(clifford);
+tex(clifford(dx,3));
+#+end_src
+
+#+RESULTS:
+(linenum:0,
+define: warning: redefining the built-in function clifford
+package name: clifford.mac
+author:  Dimiter Prodanov
+version: v25
+Recommended location: share/contrib
+last update: 9 May 2023
+$$\left[ 1 , 1 , 1 \right] $$
+
+Interested reader should try [[https://github.com/dprodanov/clifford/tree/master/examples][these examples]] given in the Clifford package repo.
+
+*** Alternative Method
+An alternative would be to directly add the files to the default place where
+~maxima~ looks for code. This is at ~.maxima/~ directory. Using the ~install.sh~
+script with [[https://github.com/jlapeyre/qinf][qinf package]], you can directly move the necessary files into the
+desired directory.
+
+# ** TODO Performance
+# This is a bit hard to do since I don't have a good benchmark problem and I don't have mathematica on hand.
+# It was said that Stephen Wolfram deemed ~lisp~ to be not performant enough
+# comparing to ~C~. Hence, he chose to implement ~Mathematica~ with ~C~. But this
+# does not look to be valid any more. Let's benchmark it.
+
+* Non-commutative Algebra
+
+#+begin_src maxima
+declare([x, y], scalar)$
+dotscrules: true$
+#+end_src
+
+#+RESULTS:
+: (linenum:0
+
+* Outlooks
+There is a [[https://thingwy.blogspot.com/2015/07/maxima-versus-mathematica-should-i-go.html][blog]] written in 2015 that compares the result of some real world
+usage of ~Maxima~ vs ~Mathematica~. The conclusion is that ~Maxima~ will return
+either *incorrect* or *no* result at all for some problems.
+
+Let's verify some of the problems still exist:
+
+#+begin_src maxima :results raw
+programmode: false;
+tex(integrate(1/(x^2 - x^3)^(1/3),x,0,1));
+#+end_src
+
+#+RESULTS:
+$$\int_{0}^{1}{{{1}\over{\left(x^2-x^3\right)^{{{1}\over{3}}}}}\;dx}$$
+
+It seems like at least this problem still remains.
 
 * References
 - [[https://home.csulb.edu/~woollett/mbe.html][Maxima by Example]]
