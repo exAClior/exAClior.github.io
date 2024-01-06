@@ -188,14 +188,32 @@ relation \([\hat{S_{j}}^{+},\hat{S_{j}}^{-}] = 2 \hat{S_{j}}^{z} \delta_{ij}\)
 where \(S_{j} - \hat{n_{j}}\)
 
 ** Code
-#+begin_src maxima :results raw
-#+end_src
+It does not appear to be easily doable in ~maxima~. I need to postpone this.
+# The first step is to define the raising and lowering operators. In ~maxima~, the
+# unit of computation is *expression*. An expression could be either a variable in
+# the usual sense of mathematics or a collection of variables connected by
+# operators, the *multiplication*, *addition*, and etc. We could define an exression as such
+# #+begin_src maxima :results raw
+# expr: (a+b)^^2;
+# tex(expand(expr));
+# #+end_src
 
-#+RESULTS:
-(linenum:0,
-/var/folders/m0/scg25fdd0xs9pwzh00xrs7wr0000gn/T/babel-FQ5eGA/maxima-0vfvCq.max:7:62:incorrect syntax: RETURN(SQRT(X)); END; is not an infix operator
-turn(sqrt(x)); end;"
-                  ^
+# #+RESULTS:
+# (linenum:0,
+# $$b\cdot a+b^{\langle 2\rangle}+a\cdot b+a^{\langle 2\rangle}$$
+
+
+# #+begin_src maxima :results raw
+# Splus: sqrt(2*S - adg.a).a;
+# tex(taylor(Splus,S,0,1));
+# #+end_src
+
+# #+RESULTS:
+# (linenum:0,
+# $$\sqrt{-\left({\it adg}\cdot a\right)}\cdot a-\left({{\sqrt{-\left(
+#  {\it adg}\cdot a\right)}}\over{{\it adg}\cdot a}}\right)\cdot a\,S
+#  +\cdots $$
+
 
 * Outlooks
 
@@ -213,15 +231,18 @@ tex(integrate(1/(x^2 - x^3)^(1/3),x,0,1));
 #+RESULTS:
 $$\int_{0}^{1}{{{1}\over{\left(x^2-x^3\right)^{{{1}\over{3}}}}}\;dx}$$
 
-It seems like at least this problem still remains.
+It seems like at least this problem still remains. ~Maxima~ is unable to carry
+out this integration.
 
 * References
+- [[https://maxima.sourceforge.io/docs/tutorial/en/minimal-maxima.pdf][Minimal Maxima]]
 - [[https://home.csulb.edu/~woollett/mbe.html][Maxima by Example]]
 - [[https://maxima.sourceforge.io/ext/maxima.pdf][Maxima Manual]]
 - [[https://link.springer.com/book/10.1007/978-1-4939-3207-8][Classical Mechanics with Maxima]]
 - [[https://stackoverflow.com/questions/42002728/what-is-the-recommended-way-to-make-load-a-library][Loading External Library]]
 ** Similar Programs
- - [[https://www.gap-system.org/Doc/Examples/examples.html][GAP for Group theory related]]
+- [[https://www.gap-system.org/Doc/Examples/examples.html][GAP for Group theory related]]
+- [[https://arxiv.org/abs/1709.02140]]
 ** Math Reference
 - [[https://math.uchicago.edu/~may/VIGRE/VIGRE2009/REUPapers/Gleason.pdf][C*-Algebra]]
 ** Maxima Implementation
