@@ -1,0 +1,35 @@
+#+TITLE: Quantum Walk
+#+SUBTITLE: Theory
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-01-11 Thu>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: QuantumComputation QuantumWalk Physics
+
+* Why
+Quantum walk is a way of modeling quantum computation. I would like to
+understand how it works.
+
+* Premisis
+** Computational State
+ In order to define computation, we need to define the carrier of information.
+ In quantum computation on quantum walk, information is encoded on a graph $G =
+ (V,E)$ where $V$ is the set of vertices and $E$ is the set of edges. The $m$
+ -qubit basis states are represented as $\ket{i_{1}i_{2}...i_{m}}$ for $i_{k}
+ \in V$ meaning whether vertex $i_k$ has a particle occupying it.
+** Time Evolution
+Now that we know how to encode information onto a graph, we need to understand
+what is the driving "force" that makes them evolve. In general, it is described
+by \(H_G^{(m)}=\sum_{w=1}^m \sum_{(i, j) \in
+E(G)}\left(|i\rangle\left\langle\left. j\right|_w+\mid
+j\right\rangle\left\langle\left. i\right|_w\right)+\sum_{i, j \in V(G)}
+\mathcal{U}_{i j}\left(\hat{n}_i, \hat{n}_j\right)\right.\) where $m$ denotes
+how many particles are there in the system, the first term describes how each
+particles hops to the nearest neighbor, the second term determines the
+interaction type and strength of two particles.
+
+More concretely, the particle on $i_{th}$ vertex is physically a wave packet.
+This wave packet is the eigenstate of the Hamiltonian $H_{G}^{m}$.
+** Gate
+
+* Reference
+- [[https://arxiv.org/abs/1205.3782]]
