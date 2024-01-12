@@ -1,0 +1,96 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Curry-Howard Correspondence
+#+SUBTITLE: Programs are Proofs, Proofs are Programs
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-01-12 Fri>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: Curry-Howard TypeTheory
+* Why
+?
+
+
+* Introduction
+In Chapter $4$ of *Nature of Computation*, a brief intuition was given on why is
+$P \subseteq NP$, where $P$ denotes problems with polynomial time solutions and
+$NP$ denotes problems with polynomial time verifiers. The intuition is that a
+polynomial time algorithm constructing the answer can be viewed as a verifier of
+the problem. In this sense, the correspondence between a proof and a program is
+ever so clear. As a matter of fact, a program always gives a proof. The notion
+of a program computing an ouput for with given inputs can be viewed as the
+process of getting a valid evidence of a *logical proposition*. This is the idea
+of *computing with evidence*.
+
+** Propositions as Types
+But what proof is given by a program? The answer is related to the types of the
+program. To be more concrete, let's consider the following function
+
+#+BEGIN_SRC ocaml :results verbatim
+let square x = x * x;;
+#+END_SRC
+
+#+RESULTS:
+: val square : int -> int = <fun>
+
+This function takes an integer and returns an integer. The type of the function
+is ~int -> int~. We may view the *type* as equivalent to *proposition*. The ~->~
+*function type constructor* is then equivalent to ~=>~ implication.
+
+More over a product type denoted by ~*~ can be view as *logical conjunction*
+$\Lambda$.
+
+#+BEGIN_SRC ocaml :results verbatim
+let fst (a,b) = a;;
+#+END_SRC
+
+#+RESULTS:
+: val fst : 'a * 'b -> 'a = <fun>
+
+The *logical disjunction* is denoted as below where we require the disjunction
+to be define *constructively* which means we require a certain value to be
+evaluated for propositions on two sides of the $\lor$ symbol.
+
+#+BEGIN_SRC ocaml :results verbatim
+type ('a, 'b) disj = Left of 'a | Right of 'b;;
+#+END_SRC
+
+#+RESULTS:
+: type ('a, 'b) disj = Left of 'a | Right of 'b
+
+Interestingly, there's a *type* with no concrete values. This kind of type is called *uninhabitated*.
+
+#+BEGIN_SRC ocaml :results verbatim
+type empty = |;;
+#+END_SRC
+
+#+RESULTS:
+: type empty = |
+
+We could produce result as such
+
+#+BEGIN_SRC ocaml :results verbatim
+let e : empty = failwith "";;
+#+END_SRC
+
+#+RESULTS:
+: Exception: Failure "".
+
+The above correspondence between types in programming and propositions in logic
+is known as *Curry-Howard Correspondence*.
+
+** Evaluation of Program as Simplification of Proof
+* References
+- [[https://youtu.be/GdcOy6zVFC4][Cornell Lecture]]
+- [[https://www.youtube.com/watch?v=aeRVdYN6fE8][Lecture by Prof Philip Wadler]]
+- [[https://homepages.inf.ed.ac.uk/wadler/papers/propositions-as-types/propositions-as-types.pdf][Propositions as Types paper]]
+* Exercise Solutions
+** Propositions as types
+#+BEGIN_SRC ocaml :results verbatim
+type 'unit -> 'p;;
+#+END_SRC
+
+#+RESULTS:
+: Line 1, characters 11-13:
+: 1 | type 'unit -> 'p;;;;
+:                ^^
+: Error: Syntax error
