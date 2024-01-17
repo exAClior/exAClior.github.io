@@ -4,7 +4,7 @@ date: 2022-08-08T09:22:32+08:00
 draft: false 
 ---
 
-# List of Online Course and Lecture Notes
+# List of Online Resources 
 ## Physics 
 - [David Tong](https://www.damtp.cam.ac.uk/user/tong/teaching.html) lecture
   notes are awesome for theoretical physics self-study.
@@ -30,6 +30,12 @@ draft: false
   languages](https://rigaux.org/language-study/syntax-across-languages/) ever
   wonder what's the custom of doing various things in different languages, look
   no further.
+
+# Zoos and Wildness (for Quantum Computer Scientist)
+- [Hamiltonian Jungle](https://hamiltonianjungle.xyz/) 
+- [Complexity Zoo](https://complexityzoo.net/Complexity_Zoo)
+- [Quantum Algorithm Zoo](https://quantumalgorithmzoo.org/)
+- [Error Correction Zoo](https://errorcorrectionzoo.org/)
   
 # List of Yt Channels
 * [Mike Zamansky](https://www.youtube.com/user/mzamansky/featured) taught me a
