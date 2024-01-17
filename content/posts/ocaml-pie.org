@@ -1,0 +1,33 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: OCaml Learning-III
+#+SUBTITLE: Implement your own Lisp
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2023-12-31 Sun>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: OCaml Lisp DependentTypes
+
+* Why
+The goal is to re-implement the ~Pie~ language in OCaml. The ~Pie~ language is a
+dialect of ~Lisp~ written in ~Racket~ to elucidate *dependent type theory* in
+the book *the Little Typer*.
+
+* How
+As a starter, we will following the tutorial from [[https://exaclior.github.io/posts/ocaml-learning-ii/][previous blog]] and setup the
+project structure.
+
+After setting up the project skeleton, we could use ~racket -l pie -i~ to start
+the ~Racket~ repl and interact with ~Pie~ through the REPL.
+
+** The REPL
+The next thing is to implement an REPL(Read-Evaluate-Print-Loop) to allow user
+to interact with the language
+
+** Parser
+The very first thing in a REPL is to define the grammer. We notice that ~'~ is a
+keyword in ~Pie~ language. We will implement that first.
+
+* References
+- [[https://www.craftinginterpreters.com/][Crafting Interpreters]]
+- [[https://github.com/kanaka/mal/blob/master/process/guide.md][MAI Github]]
+- [[https://bernsteinbear.com/blog/lisp/00_fundamentals/][Writing a Lisp blog]]: this one is a tad old
