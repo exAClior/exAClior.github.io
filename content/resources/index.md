@@ -30,6 +30,8 @@ draft: false
   languages](https://rigaux.org/language-study/syntax-across-languages/) ever
   wonder what's the custom of doing various things in different languages, look
   no further.
+  
+- [OCaml Scientific Computing Tutorial](https://ocaml.xyz/prologue.html)
 
 # Zoos and Wildness (for Quantum Computer Scientist)
 - [Hamiltonian Jungle](https://hamiltonianjungle.xyz/) 
