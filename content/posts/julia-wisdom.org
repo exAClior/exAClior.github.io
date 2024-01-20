@@ -1,0 +1,42 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Golden Wisdom of Julia Programming
+#+SUBTITLE: A developer's guide
+#+DESCRIPTION: Semantics and Techniques of Julia
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-01-19 Fri>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: Julia
+
+
+
+* Function Definition
+** Checking unfamiliar ones
+Use ~@edit foo(p1,p2)~. Remember to input all parameters so that ~Julia~ knows
+which one to fetch exactly.
+
+** Optional First Type
+It seems that the optional first type with a default value is achieved through
+multiple dispatch. The following is the source code.
+
+#+begin_src julia
+for (fname, felt) in ((:zeros, :zero), (:ones, :one))
+    @eval begin
+        $fname(dims::DimOrInd...) = $fname(dims)
+        $fname(::Type{T}, dims::DimOrInd...) where {T} = $fname(T, dims)
+        $fname(dims::Tuple{Vararg{DimOrInd}}) = $fname(Float64, dims)
+        $fname(::Type{T}, dims::NTuple{N, Union{Integer, OneTo}}) where {T,N} = $fname(T, map(to_dim, dims))
+        function $fname(::Type{T}, dims::NTuple{N, Integer}) where {T,N}
+            a = Array{T,N}(undef, dims)
+            fill!(a, $felt(T))
+            return a
+        end
+        function $fname(::Type{T}, dims::Tuple{}) where {T}
+            a = Array{T}(undef)
+            fill!(a, $felt(T))
+            return a
+        end
+    end
+end
+#+end_src
+
