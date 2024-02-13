@@ -1,0 +1,42 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: projects
+#+TITLE: NOCamlKit Development
+#+SUBTITLE: The Nature of Computation Companion Kit written in OCaml
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-02-13 Tue>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: NatureOfComputation OCaml
+
+* Why
+Numerical experiments provides good intuition and verifies ones' hypothesis much
+faster than a rigorous mathematical proof. During the reading of the book: The
+Nature of Computation, I found the lack of such tool in general.
+
+I choose to implement the library in OCaml for two reasons. Firstly, I would
+like to improve my functional programming techniques. What better way to achieve
+this goal other than writting an library of your own. Secondly, I would like to
+later expand the proof part of materials in the book into Coq code. OCaml is the
+natrual choice because Coq is written in OCaml.
+
+* Setup
+To setup the project, I basically follow the corresponding section in [[https://shonfeder.gitlab.io/ocaml_webapp/][blog]] on
+making a web application in OCaml.
+
+During the setting up of such project I found the process to be extremely
+painful. You would *have* to *manually* edit the files like ~dune-project~ and
+create a ~Makefile~ to install depencies and exposing them to ~bin~ and ~lib~
+codes.
+
+On a hind-sight, this [[https://ocamlverse.net/content/quickstart_ocaml_project_dune.html][tutorial]] is also very helpful.
+
+** Caveats
+*** How to include packages
+In your pacakge's ~dune~ file, there will be two fields ~name~ and
+~public_name~. ~name~ is the one you want to use when doing ~open~ statement in
+OCaml is use the package.
+*** UTop
+It is necessary to run ~#require "base";;~ in ~utop~ to be able to use ~Base~
+package.
+
+In order to avoid this, you could edit the ~.ocamlinit~ file since ~utop~ uses
+it to initialize the environment.
