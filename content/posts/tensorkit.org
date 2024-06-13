@@ -1,0 +1,283 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: TensorKit.jl
+#+SUBTITLE: Learning Computational Many-Body Physics Ecosystem
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-06-11 Tue>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: Julia Tensor
+
+* Why
+
+The [[https://quantumghent.github.io/][Quantum Group]] at University Group has developed a series of [[https://quantumghent.github.io/software/][packages]] for
+many-body physics computation using the tensor network language. As a beginner
+in both many-body physics computation and Julia, it will be useful to get
+familiarized with the suit. The first step will be to learn [[https://github.com/Jutho/TensorKit.jl][TensorKit.jl]].
+TensorKit.jl provides efficient computation on large-scale tensor computation
+with a focus on category theory.
+
+** Alternative
+There are other packages that took a simpler approach towards implementing a
+tensor network contraction engine. [[https://github.com/under-Peter/OMEinsum.jl][OMEinsum.jl]] is arguably the best one among
+them.
+
+
+* What is a Tensor?
+
+To determine how to represent a tensor with code, we need a general and
+suitable(what do you mean by suitable) definition of tensor.
+
+We can view it as either a vector in the vector space or a linear map.
+
+The first is motivated by the fact that the tensor is an element from the tensor
+product of vector spaces. And, the tensor product of vector spaces is still a vector space.
+
+The second is motivated by the operations we normally do with tensors. We want
+to contract them with each other. This corresponds to sequential application of
+linear maps. We would also want to perform linear algebra factorization on them
+(what for, give example?). To represent the tensor as a linear map, we need a
+direction. This calls for distinguishing the vector spaces that tensors to be
+the vector space that tensor lives in into two distinct ones. The first is the
+domain and the second is the codomain.
+
+
+- [ ] What is the difference between dual vector space and conjugate vector space? T
+  a. The dual vector space is formally defined as the space of functionals that
+     takes a vector in the normal space and gives a number.
+
+** Symmetry in Tensor
+Continuing the thought of representing tensors as linear maps, they represent
+transformation of physical systems. To encode the transformation of a large
+physical system, we need exponential amount of space to store the information.
+Nevertheless, they are not all necessary. We can break down the transformation
+into irreducible representations.
+
+
+* Example Usage
+
+#+begin_src julia-vterm :session
+using TensorKit
+#+end_src
+
+#+RESULTS:
+: nothing
+** Declare a Tensor
+#+begin_src julia-vterm :session
+A = Tensor(randn, ℝ^3 ⊗ ℝ^2 ⊗ ℝ^4)
+B = Tensor(randn, ℝ^3 ⊗ ℝ^2 ⊗ ℝ^4)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+TensorMap((ℝ^3 ⊗ ℝ^2 ⊗ ℝ^4) ← ProductSpace{CartesianSpace, 0}()):
+[:, :, 1] =
+ 1.5663557476255574    0.1543602316261657
+ 1.000417411825521    -0.5648950911265127
+ 0.20183471016524523  -1.0850065320165947
+
+[:, :, 2] =
+ -0.9141328286163237     -0.20997577264542625
+ -0.0026283440888401235  -0.39189489211163886
+  0.18382811693924206     0.043905793691737194
+
+[:, :, 3] =
+ -1.4073106653215053    0.07392156805943983
+ -0.06345814064330477  -0.3096602115590431
+  0.8802787538408762    0.4162015387267478
+
+[:, :, 4] =
+ -1.737430456373051    0.661974325850499
+  0.43876961998708347  0.31576326357745554
+  1.917788461101529    0.20906626888160895
+#+end_example
+
+
+Since they are vectors, you may use the functions defined on vectors.
+
+#+begin_src julia-vterm :session
+dot(A,B)
+
+norm(A)
+#+end_src
+
+#+RESULTS:
+: 5.309096699992327
+
+However, the spaces in which two tensors live in limits the possible operations
+that can be taken.
+#+begin_src julia-vterm :session
+C = Tensor(randn, ℝ^4 ⊗ ℝ^2 ⊗ ℝ^3)
+dot(B,C)
+#+end_src
+
+#+RESULTS:
+: LoadError: SpaceMismatch("(ℝ^3 ⊗ ℝ^2 ⊗ ℝ^4) ← ProductSpace{CartesianSpace, 0}() ≠ (ℝ^4 ⊗ ℝ^2 ⊗ ℝ^3) ← ProductSpace{CartesianSpace, 0}()")
+: in expression starting at /var/folders/m0/scg25fdd0xs9pwzh00xrs7wr0000gn/T/babel-mGfQqM/julia-vterm-src-mVrBqF:2
+
+But since CartesianSpace over real number field does not care about dual space, we can do the following
+#+begin_src julia-vterm :session
+D = Tensor(randn, ℝ^3' ⊗ ℝ^2 ⊗ ℝ^4)
+dot(D,B)
+#+end_src
+
+#+RESULTS:
+: 4.86654204197042
+
+#+begin_src julia-vterm :session
+A_cplx = Tensor(randn,  ℂ^3 * ℂ^2 * ℂ^4)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+TensorMap((ℂ^3 ⊗ ℂ^2 ⊗ ℂ^4) ← ProductSpace{ComplexSpace, 0}()):
+[:, :, 1] =
+  0.7508567816570102   0.21706791585944113
+ -1.2328664548592183  -0.4618596740106553
+  0.6504974956000981   0.4967918455367697
+
+[:, :, 2] =
+ -0.8257054733869357  -1.4507429524074265
+  1.2261682731925823   0.5871749337818456
+ -0.7267320062615134   1.6018695659987334
+
+[:, :, 3] =
+  2.1296480027987608   0.5555349482356642
+ -1.4049556464210697   0.5659708448240941
+  0.19471899554282626  1.1872378778961592
+
+[:, :, 4] =
+ -0.41289646411990655   0.28729991194357546
+  1.3097942004304852    0.4769741290842228
+ -1.8509671100310605   -0.9652984457342364
+#+end_example
+
+#+begin_src julia-vterm :session
+B_cplx = Tensor(randn,  (ℂ^3)' * ℂ^2 * ℂ^4)
+
+dot(A_cplx,B_cplx)
+#+end_src
+
+#+RESULTS:
+: LoadError: SpaceMismatch("(ℂ^3 ⊗ ℂ^2 ⊗ ℂ^4) ← ProductSpace{ComplexSpace, 0}() ≠ ((ℂ^3)' ⊗ ℂ^2 ⊗ ℂ^4) ← ProductSpace{ComplexSpace, 0}()")
+: in expression starting at /var/folders/m0/scg25fdd0xs9pwzh00xrs7wr0000gn/T/babel-mGfQqM/julia-vterm-src-xax4kc:3
+
+Aside from the normal operations defined on vectors, we could also do tensor contraction via einsum notation.
+
+#+begin_src julia-vterm :session
+@tensor D[a,b,c,d] := A[a,b,e] * B[d,c,e]
+#+end_src
+
+#+RESULTS:
+#+begin_example
+TensorMap((ℝ^3 ⊗ ℝ^2 ⊗ ℝ^2 ⊗ ℝ^3) ← ProductSpace{CartesianSpace, 0}()):
+[:, :, 1, 1] =
+  1.3731868814882102  1.9741816429938799
+ -5.915831054194404   1.3818598978263081
+ -0.2703553167715247  3.491866067870951
+
+[:, :, 2, 1] =
+ 0.28766336655748115  -1.2248639419246732
+ 0.3837671630703437   -0.8273737230746896
+ 0.5973083780019689   -1.690151009953806
+
+[:, :, 1, 2] =
+ 1.8288586944162497   -1.3684715676856394
+ 0.08164835836534631  -1.0884417548276633
+ 0.556492790997579    -1.0578876338264762
+
+[:, :, 2, 2] =
+ -1.5516814906277023    0.04850895587968697
+ -0.3207049730167463   -0.20940709983916328
+  0.24035228876415896  -0.5079207255570076
+
+[:, :, 1, 3] =
+ 1.2819634986252118  -3.5237822482523407
+ 3.3599049950277964  -2.2974403349208896
+ 1.2622505726779476  -4.668465750487976
+
+[:, :, 2, 3] =
+ -1.6326984958471966    0.24658608758882544
+  1.1028383449494121    0.43028162521683727
+ -0.15490680415274286  -0.5789675655652701
+#+end_example
+
+
+Another important operation you could do on tensors are factorizations. This
+could be achieved with the following API.
+
+#+begin_src julia-vterm :session
+U,S,Vd = tsvd(A, (1,3),(2,))
+#+end_src
+
+#+RESULTS:
+#+begin_example
+(TensorMap((ℝ^3 ⊗ ℝ^4) ← ℝ^2):
+[:, :, 1] =
+ -0.4098314839448571    0.03436429257362179  …  -0.2136494403855273
+  0.01119050155274663  -0.45027855026498737     -0.43258909158762326
+ -0.0928862794742551    0.30727228749112157     -0.38501960768984383
+
+[:, :, 2] =
+  0.3316038753522063    0.17182264482223325  …  -0.41221527260605906
+ -0.24951818865668407   0.48384361002264714      0.00205953100822667
+ -0.008691826766830734  0.21233523003311583     -0.32520830460005723
+, TensorMap(ℝ^2 ← ℝ^2):
+ 4.641719097228276  0.0
+ 0.0                2.577004383445191
+, TensorMap(ℝ^2 ← ℝ^2):
+ -0.6934746054384167  0.7204810695722911
+  0.7204810695722911  0.6934746054384167
+, 0.0)
+#+end_example
+
+The domain and codomain information of a ~TensorMap~ could be queried with
+
+#+begin_src julia-vterm :session
+domain(A)
+codomain(A)
+#+end_src
+
+#+RESULTS:
+: (ℝ^3 ⊗ ℝ^2 ⊗ ℝ^4)
+
+
+- [ ] Why does contraction of indices require them to be in each other's dual space?
+
+
+To create a vector space with symmetry in mind, use the following API
+
+
+#+begin_src julia-vterm :session
+V1 = Z2Space(0=>3,1=>2)
+V2 = Z2Space(0=>1,1=>1)
+
+A = Tensor(randn, V1 * V2 * V2')
+#+end_src
+
+#+RESULTS:
+#+begin_example
+TensorMap((Rep[ℤ₂](0=>3, 1=>2) ⊗ Rep[ℤ₂](0=>1, 1=>1) ⊗ Rep[ℤ₂](0=>1, 1=>1)') ← ProductSpace{GradedSpace{Z2Irrep, Tuple{Int64, Int64}}, 0}()):
+,* Data for sector (Irrep[ℤ₂](1), Irrep[ℤ₂](1), Irrep[ℤ₂](0)) ← ():
+[:, :, 1] =
+ -1.0074571176392897
+  0.06664223789166566
+,* Data for sector (Irrep[ℤ₂](0), Irrep[ℤ₂](1), Irrep[ℤ₂](1)) ← ():
+[:, :, 1] =
+  1.3831469298703203
+ -0.5034037813268686
+ -0.30379567483108344
+,* Data for sector (Irrep[ℤ₂](1), Irrep[ℤ₂](0), Irrep[ℤ₂](1)) ← ():
+[:, :, 1] =
+ -0.45907452973747404
+ -0.5384251015347347
+,* Data for sector (Irrep[ℤ₂](0), Irrep[ℤ₂](0), Irrep[ℤ₂](0)) ← ():
+[:, :, 1] =
+ -0.3554676089630667
+  0.28356111038876736
+  0.2161401216344227
+#+end_example
+
+
+
+* Example
+Extend TensorKit.jl to perform Tropical number tensor network creation and get ground state of Ising Model.
