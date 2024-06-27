@@ -8,3 +8,63 @@
 #+filetags: Haskell FunctionalProgramming
 
 * Introduction
+There will be a series of blog posts that cover each chapter of the book
+"Thinking Functionally with Haskell" by Richard Bird [[cite:&bird2015thinking]].
+This post will cover the first chapter of the book. I will avoid discussing too
+much about syntax and grammar of Haskell as it is easily available online.
+Rather, I will focus on core concepts of functional programming. I hope by the
+end of this series, these concepts will make both you and me a better
+programmer.
+
+* What is functional programming?
+There are three key points of functional programming: [[cite:&bird2015thinking]]
+
+1. "Functional programming uses simple mathematical notation that allows
+   problems to be described clearly and concisely"
+
+   For example, consider the problem of counting the most frequent $n$ elements
+   in the text. You would expect to first input the number $n$ and the text, and
+   then output will be a string of the most frequent $n$ elements each with its
+   frequency. We could formulate this as following in code
+
+   #+begin_src haskell
+ commonWords :: Int -> ([Char] -> [Char])
+   #+end_src
+
+   The first thing we see is the function name ~commonWords~. The ~::~ separates
+   function name and the map this function does. Here, the function is a map
+   between an Integer, $n$, and another function which is itself a mapping
+   between ~[Char]~ and ~[Char]~. Here ~[Char]~ is an alias for the
+
+
+1. "Functional programming is a method of program construction that emphasises
+   functions and their application rather than commands and their execution"
+
+   You break down a problem into smaller problems and solve them separately.
+   Chaining them together to solve the original problem.
+
+   For example,
+
+   #+begin_src haskell
+foo1 :: a -> b
+foo2 :: b -> c
+foo3 :: c -> d
+
+solver x  = (foo3 . foo2 . foo1)  a
+-- the same as
+solver x =  foo3 (foo2 (foo1 a))
+   #+end_src
+
+2. "Functional programming has a simple mathematical basis that supports
+   equational reasoning about the properties of programs"
+
+I could not pretend I understand them at the moment, therefore I simply write
+them down as is.
+
+
+
+
+* Reference
+** References
+   bibliographystyle:apalike
+   [[bibliography:./references/bird.bib][bibliography:./references/bird.bib]]
