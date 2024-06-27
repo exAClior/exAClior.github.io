@@ -1,0 +1,10 @@
+#+HUGO_BASE_DIR: ~/projects/exaclior.github.io/
+#+HUGO_SECTION: posts
+#+TITLE: Thinking Functionally with Haskell
+#+SUBTITLE: What is functional programming?
+#+AUTHOR: Yusheng Zhao
+#+DATE: <2024-06-27 Thu>
+#+EXPORT_HUGO_TAGS: t
+#+filetags: Haskell FunctionalProgramming
+
+* Introduction
