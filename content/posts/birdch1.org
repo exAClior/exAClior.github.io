@@ -8,15 +8,48 @@
 #+filetags: Haskell FunctionalProgramming
 
 * Introduction
-There will be a series of blog posts that cover each chapter of the book
-"Thinking Functionally with Haskell" by Richard Bird [[cite:&bird2015thinking]].
-This post will cover the first chapter of the book. I will avoid discussing too
-much about syntax and grammar of Haskell as it is easily available online.
-Rather, I will focus on core concepts of functional programming. I hope by the
-end of this series, these concepts will make both you and me a better
-programmer.
+This is the first of a series of blog posts that cover each chapter of the book
+"Thinking Functionally with Haskell" by Richard Bird [[cite:&bird2015thinking]]. The
+goal of this book, and incidentally these posts, will not be to teach you
+Haskell but to teach you ways of thinking in functional programming. I will
+assume that you have basic knowledge in at least one statically typed language
+like ~C~. I hope we will both become a better programmer at the end of this
+journey.
 
 * What is functional programming?
+So you may ask, what is functional programming? Let us answer this question
+through an example. Consider the problem of counting the most common $n$ words
+in some text.
+
+** Problem Formulation
+The first step in solving the problem is to formulate it clearly. The input is
+some text plus an integer $n$. For example, it could be an excerpt from /War and
+Peace/. The output is a list of words each followed by the number of times they
+appeared in the text. For simplicity, we could combine them into another text.
+In the format of each word followed by the number they appeared on each line.
+For example, ~(Foo,3) (Bar,2) (Hey 1)~ will be outputed as ~"Foo: 3 \n Bar 2 \n
+Hey 1 \n"~.
+
+An object that takes a string of input and outputs another string can be thought
+of as a map. In Haskell, you may express such map as
+
+#+begin_src haskell
+commonWords :: Int -> [Char] -> [Char]
+#+end_src
+
+The above is the way you denote the kind of map a function represents in
+Haskell. We know this is a function that takes in
+
+
+If you don't like using ~[Char]~ you could define *synonyms* for types.
+
+#+begin_src haskell
+type Text = [Char]
+type Word = [Char]
+#+end_src
+
+
+
 There are three key points of functional programming: [[cite:&bird2015thinking]]
 
 1. "Functional programming uses simple mathematical notation that allows
@@ -62,7 +95,11 @@ I could not pretend I understand them at the moment, therefore I simply write
 them down as is.
 
 
+* Exercises Answers Typed
 
+
+* Outro
+I hope you enjoyed this post. The accompaning code is in this [[https://github.com/exAClior/common-words][repo]].
 
 * Reference
 ** References
