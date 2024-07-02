@@ -21,7 +21,7 @@ So you may ask, what is functional programming? Let us answer this question
 through an example. Consider the problem of counting the most common $n$ words
 in some text.
 
-** Problem Formulation
+** Formulating Problem in Simple Mathematical Notation
 The first step in solving the problem is to formulate it clearly. The input is
 some text plus an integer $n$. For example, it could be an excerpt from /War and
 Peace/. The output is a list of words each followed by the number of times they
@@ -48,26 +48,12 @@ type Text = [Char]
 type Word = [Char]
 #+end_src
 
+Details on type system aside, we see that Haskell is able to state the problem
+in an elegant and abstract way.
 
+** Implementation one function at a time
 
-There are three key points of functional programming: [[cite:&bird2015thinking]]
-
-1. "Functional programming uses simple mathematical notation that allows
-   problems to be described clearly and concisely"
-
-   For example, consider the problem of counting the most frequent $n$ elements
-   in the text. You would expect to first input the number $n$ and the text, and
-   then output will be a string of the most frequent $n$ elements each with its
-   frequency. We could formulate this as following in code
-
-   #+begin_src haskell
- commonWords :: Int -> ([Char] -> [Char])
-   #+end_src
-
-   The first thing we see is the function name ~commonWords~. The ~::~ separates
-   function name and the map this function does. Here, the function is a map
-   between an Integer, $n$, and another function which is itself a mapping
-   between ~[Char]~ and ~[Char]~. Here ~[Char]~ is an alias for the
+Now it's time to think about how to
 
 
 1. "Functional programming is a method of program construction that emphasises
@@ -88,11 +74,6 @@ solver x  = (foo3 . foo2 . foo1)  a
 solver x =  foo3 (foo2 (foo1 a))
    #+end_src
 
-2. "Functional programming has a simple mathematical basis that supports
-   equational reasoning about the properties of programs"
-
-I could not pretend I understand them at the moment, therefore I simply write
-them down as is.
 
 
 * Exercises Answers Typed
@@ -100,6 +81,14 @@ them down as is.
 
 * Outro
 I hope you enjoyed this post. The accompaning code is in this [[https://github.com/exAClior/common-words][repo]].
+
+
+* Left-overs
+Here are a list of concepts mentioned in this chapter but I do not understand
+yet.
+
+1. "Functional programming has a simple mathematical basis that supports
+   equational reasoning about the properties of programs"
 
 * Reference
 ** References
