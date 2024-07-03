@@ -52,29 +52,56 @@ Details on type system aside, we see that Haskell is able to state the problem
 in an elegant and abstract way.
 
 ** Implementation one function at a time
+"Functional programming is a method of program construction that emphasises
+functions and their application rather than commands and their
+execution"[[cite:&bird2015thinking]].
 
-Now it's time to think about how to
+Now it's time to think about how to implement the function. We could break
+things down into different pieces. We need to first split the text into words.
+Then to do a fair comparison, we will need to convert all characters into lower
+ones. Then we could sort the list of words.
+
+Finally concatenation will be performed on list of word count tuples.
+
+So how can we do all these things?
+Firstly, let's convert all characters to lower form
+
+#+begin_src haskell
+import Data.Char
+map toLower "Hello, My Dear Friend"
+#+end_src
+
+#+RESULTS:
+: hello, my dear friend
+
+The commas will be problematic, let's filter them out.
+
+#+begin_src haskell
+filter (\x -> isLetter x || isSpace x) "hello, my dear friend"
+#+end_src
+
+#+RESULTS:
+: hello my dear friend
+
+#+begin_src haskell
+words "hello my dear friend"
+#+end_src
+
+#+RESULTS:
+| hello | my | dear | friend |
+
+This is in prelude. Don't worry about it.
+
+#+begin_src haskell
+sort
+
+#+end_src
 
 
-1. "Functional programming is a method of program construction that emphasises
-   functions and their application rather than commands and their execution"
 
-   You break down a problem into smaller problems and solve them separately.
-   Chaining them together to solve the original problem.
+#+begin_src
 
-   For example,
-
-   #+begin_src haskell
-foo1 :: a -> b
-foo2 :: b -> c
-foo3 :: c -> d
-
-solver x  = (foo3 . foo2 . foo1)  a
--- the same as
-solver x =  foo3 (foo2 (foo1 a))
-   #+end_src
-
-
+#+end_src
 
 * Exercises Answers Typed
 
