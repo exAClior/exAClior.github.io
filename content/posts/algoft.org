@@ -1,0 +1,9 @@
+#+TITLE: Algorithmic Fault Tolerance
+#+TAGS: QuantumComputing QEC
+#+AUTHOR: Yusheng Zhao
+#+DATE:<2024-08-11 Sun>
+
+* Syndrome Extraction
+It is large overhead
+
+Why did they focus on LDPC code.
